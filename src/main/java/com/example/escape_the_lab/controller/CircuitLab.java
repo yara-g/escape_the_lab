@@ -1,4 +1,6 @@
-package com.example.escape_the_lab;
+package com.example.escape_the_lab.controller;
+
+import com.example.escape_the_lab.model.Lab;
 
 public class CircuitLab extends Lab {
     private final String name = "Circuit Lab";
