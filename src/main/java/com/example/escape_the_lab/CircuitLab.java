@@ -1,8 +1,7 @@
 package com.example.escape_the_lab;
 
-public class CircuitLab extends Lab{
+public class CircuitLab extends Lab {
     private final String name = "Circuit Lab";
-
 
     @Override
     public void startLab() {
