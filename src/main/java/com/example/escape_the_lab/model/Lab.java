@@ -1,4 +1,4 @@
-package com.example.escape_the_lab;
+package com.example.escape_the_lab.model;
 
 public abstract class Lab {
     private String name;
