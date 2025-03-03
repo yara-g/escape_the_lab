@@ -19,4 +19,8 @@ public class CircuitLab extends Lab {
     public void failLab() {
 
     }
+
+    public void assembleCircuit() {
+
+    }
 }
