@@ -1,4 +1,4 @@
-package com.example.escape_the_lab;
+package com.example.escape_the_lab.ui;
 
 import java.util.List;
 
