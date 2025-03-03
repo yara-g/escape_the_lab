@@ -1,8 +1,12 @@
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 public class FlameLab extends Lab {
     // Flame test
@@ -45,20 +49,42 @@ public class FlameLab extends Lab {
     // Tiny paper hint on table says: "Look around you"
     // Other images needed.
     private final ImageView telescope = new ImageView(new Image("file:"));
+    private final ImageView drawerLab = new ImageView(new Image("file:"));
+    private final ImageView labSet = new ImageView(new Image("file:"));
+    private final ImageView drawerTel = new ImageView(new Image("file:"));
+    private final ImageView door = new ImageView(new Image("file:"));
     // Close up of pics: "Big chemistry fan huh..."
     private final ImageView wall = new ImageView(new Image("file:"));
+    private final ImageView frames = new ImageView(new Image("file:"));
     private final ImageView bats = new ImageView(new Image("file:"));
     private final ImageView batsFly = new ImageView(new Image("file:"));
 
     // background
-    // image view for lab, drawer or other, door, 2 random useless things.
-    // lab tools, inside drawer, changes for things (swatch eyes in image, etc.)
     // 1000/650
     // start/end
 
     @Override
     public void startLab() {
+        // Set visibility for start.
+        batsFly.setVisible(false);
+        batsFly.setMouseTransparent(true);
 
+        // Call methods.
+        scareBats();
+
+        // Set up main layout.
+        StackPane mainLayout = new StackPane();
+        mainLayout.getChildren().addAll(wall, drawerTel, telescope, drawerLab, frames, labSet, door);
+    }
+
+    private void scareBats() {
+        Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(2), event -> {batsFly.setVisible(false);}));
+        bats.setOnMouseClicked(e -> {
+            bats.setMouseTransparent(true);
+            bats.setVisible(false);
+            batsFly.setVisible(true);
+            batTime.playFromStart();
+        });
     }
 
     @Override
