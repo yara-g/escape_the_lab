@@ -8,5 +8,6 @@ public class Room1 {
         FlowPane pane = new FlowPane();
         Scene scene = new Scene(pane);
 
+        return scene;
     }
 }
