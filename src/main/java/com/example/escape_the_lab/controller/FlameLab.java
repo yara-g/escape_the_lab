@@ -3,6 +3,7 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Lab;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -96,6 +97,17 @@ public class FlameLab extends Lab {
     public void failLab() {
 
     }
+
+    @Override
+    public void setupLab() {
+
+    }
+
+    @Override
+    public Scene createScene() {
+        return null;
+    }
+
     public void changeFlameColor() {
 
     }
