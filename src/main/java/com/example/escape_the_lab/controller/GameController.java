@@ -17,20 +17,12 @@ public class GameController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        try {
-            URL imageURL = getClass().getResource("/images/start-bg.png");
-            if (imageURL == null) {
-                throw new RuntimeException("Image file not found");
-            }
-            ImageView startGame = new ImageView(new Image(imageURL.toExternalForm()));
-            StackPane main = new StackPane(startGame);
-            main.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(main, 1000, 650);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
+        StackPane main = new StackPane(startGame);
+        main.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(main, 1000, 650);
+        stage.setScene(scene);
+        stage.show();
     }
 }
 
