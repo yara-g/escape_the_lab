@@ -20,18 +20,18 @@ public class rCircuit {
         FlowPane pane = new FlowPane();
         Scene scene = new Scene(pane, 1000, 650);
 
-        ImageView drawer = new ImageView(new Image("cat.png"));
+        ImageView drawer = new ImageView(new Image("images/cat.png"));
         drawer.setPreserveRatio(true);
         drawer.setFitHeight(300);
         drawer.setTranslateY(300);
 
-        ImageView metalBox = new ImageView(new Image("cat.png"));
+        ImageView metalBox = new ImageView(new Image("images/cat.png"));
         metalBox.setPreserveRatio(true);
         metalBox.setFitHeight(300);
         metalBox.setTranslateY(200);
         metalBox.setTranslateX(200);
 
-        ImageView door = new ImageView(new Image("cat.png"));
+        ImageView door = new ImageView(new Image("images/cat.png"));
         door.setFitHeight(600);
         door.setFitWidth(200);
         door.setTranslateY(300);
