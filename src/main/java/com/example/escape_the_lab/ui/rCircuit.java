@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class rCircuit extends Application {
@@ -27,28 +27,24 @@ public class rCircuit extends Application {
         actually im gonna make the electrical problem some other day bc idk how electricity works
          */
 
-        FlowPane pane = new FlowPane();
+        HBox pane = new HBox(100);
         Scene scene = new Scene(pane, 1000, 650);
 
-        ImageView drawer = new ImageView(new Image("images/cat.png"));
+        ImageView drawer = new ImageView(new Image(getClass().getResource("/images/cat.png").toExternalForm()));
         drawer.setPreserveRatio(true);
         drawer.setFitHeight(300);
-        drawer.setTranslateY(300);
+        drawer.setTranslateY(200);
 
-        ImageView metalBox = new ImageView(new Image("images/cat.png"));
+        ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/cat.png").toExternalForm()));
         metalBox.setPreserveRatio(true);
+        metalBox.setTranslateY(150);
         metalBox.setFitHeight(300);
-        metalBox.setTranslateY(200);
-        metalBox.setTranslateX(200);
 
-        ImageView door = new ImageView(new Image("images/cat.png"));
-        door.setFitHeight(600);
+        ImageView door = new ImageView(new Image(getClass().getResource("/images/cat.png").toExternalForm()));
+        door.setFitHeight(500);
         door.setFitWidth(200);
-        door.setTranslateY(300);
-        door.setTranslateX(300);
 
         pane.getChildren().addAll(drawer, metalBox, door);
-
 
         return scene;
     }
