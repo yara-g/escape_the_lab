@@ -1,11 +1,21 @@
 package com.example.escape_the_lab.ui;
 
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 
-public class rCircuit {
+public class rCircuit extends Application {
+    public void start(Stage stage) throws Exception {
+        rCircuit room = new rCircuit();
+        Scene scene = room.makeScene();
+        stage.setScene(scene);
+
+        stage.show();
+    }
+
     public Scene makeScene() {
         /*
         left: drawer
