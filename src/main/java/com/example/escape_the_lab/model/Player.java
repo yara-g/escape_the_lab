@@ -12,4 +12,8 @@ public class Player {
     public void useItem() {
 
     }
+
+    public int getLives() {
+        return 0;
+    }
 }
