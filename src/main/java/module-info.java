@@ -3,7 +3,8 @@ module com.example.escape_the_lab {
     requires javafx.fxml;
 
 
-    // opens com.example.escape_the_lab to javafx.fxml;
+    opens com.example.escape_the_lab to javafx.fxml;
+    exports com.example.escape_the_lab;
     exports com.example.escape_the_lab.controller;
     opens com.example.escape_the_lab.controller to javafx.fxml;
     exports com.example.escape_the_lab.ui;
