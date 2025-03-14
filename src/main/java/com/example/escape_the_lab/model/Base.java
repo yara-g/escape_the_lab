@@ -1,5 +1,7 @@
 package com.example.escape_the_lab.model;
 
+import javafx.scene.image.ImageView;
+
 public class Base extends Substance {
     public Base (String name, double pH, ImageView imageView) {
         super(name, pH, imageView);
