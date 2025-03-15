@@ -62,6 +62,9 @@ public class GameController extends Application {
             currentLab = new FlameLab();
         } else if (currentLab instanceof FlameLab) {
             currentLab = new SpringLab();
+        } else if (currentLab instanceof AcidNeutralizationLab) {
+            loadAcidNeutralization();
+            currentLab = new AcidNeutralizationLab();
         }
         currentLab.setupLab();
         transitionToLabScene(currentLab);

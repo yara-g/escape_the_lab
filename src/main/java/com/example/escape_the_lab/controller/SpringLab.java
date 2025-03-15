@@ -11,7 +11,7 @@ public class SpringLab extends Lab {
     }
 
     @Override
-    public boolean checkSolution() {
+    public boolean checkSolution() { 
         return false;
     }
 
