@@ -9,7 +9,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class Substance {
+public abstract class Substance {
         private String name;
         private double pH;
         private ImageView imageView;
@@ -83,10 +83,9 @@ public class Substance {
             home.setOpacity(1);
         }
     }
-
-    public int acidNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+public abstract int acidNumber();  
+public abstract int baseNumber(); 
+  
     }
 
 
