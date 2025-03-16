@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Lab;
@@ -29,10 +29,14 @@ public class GameController extends Application {
         // Initialize player and labs
         player = new Player();
         currentLab = new FlameLab();
-        ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
+
+        BackgroundImage background = new BackgroundImage(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                new BackgroundSize(1000, 650, true, true, true, true));
 
         // Set up initial UI
-        StackPane root = new StackPane(startGame);
+        StackPane root = new StackPane();
+        root.setBackground(new Background(background));
         root.setAlignment(Pos.CENTER);
         Button startButton = new Button("Start Lab");
         startButton.setOnAction(e -> startLab());
@@ -55,7 +59,7 @@ public class GameController extends Application {
             // Handle game over logic
         }
     }
-   
+
 
     private void transitionToNextLab() {
         if (currentLab instanceof CircuitLab) {
@@ -74,24 +78,24 @@ public class GameController extends Application {
         Scene labScene = lab.createScene();
         primaryStage.setScene(labScene); // Use the stored primaryStage
     }
-    
+
     public void loadAcidNeutralization() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
-        Parent labRoot = loader.load(); 
-        
+        Parent labRoot = loader.load();
+
         AcidNeutralizationLab labController = loader.getController();
 
         labController.initializeLab(currentLab);
-        
+
         Scene labScene = new Scene(labRoot, 1000, 650);
         primaryStage.setScene(labScene);
         primaryStage.show();
-        
+
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
-  
+
 }
 
