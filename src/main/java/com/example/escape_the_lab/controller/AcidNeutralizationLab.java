@@ -2,6 +2,7 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Substance;
+import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -15,13 +16,16 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 public class AcidNeutralizationLab extends Lab {
+
     private String acid;
     private String base;
     public ArrayList<Substance> activeSubstances = new ArrayList<>();
     @FXML
-    ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1,BaseImage2, BaseImage3, BaseImage4, BaseImage5;
+    ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1, BaseImage2, BaseImage3, BaseImage4, BaseImage5, AcidSprite1, AcidSprite2, AcidSprite3, AcidSprite4, AcidSprite5, BaseSprite1, BaseSprite5, BaseSprite2, BaseSprite3, BaseSprite4;
     @FXML
     StackPane AcidHome1, AcidHome2, AcidHome3, AcidHome4, AcidHome5, AcidDisplay1, AcidDisplay2, AcidDisplay3, AcidDisplay4, AcidDisplay5;
     @FXML
@@ -32,10 +36,9 @@ public class AcidNeutralizationLab extends Lab {
     VBox acidBank, baseBank;
     private Lab lab;
 
-
     @Override
     public void startLab() {
-
+        setupLab();
     }
 
     @Override
@@ -45,22 +48,43 @@ public class AcidNeutralizationLab extends Lab {
 
     @Override
     public void failLab() {
-
+    resetSubstances();
     }
 
     @Override
     public void setupLab() {
-
+        AcidSprite1.setOpacity(0);
+        AcidSprite2.setOpacity(0);
+        AcidSprite3.setOpacity(0);
+        AcidSprite4.setOpacity(0);
+        AcidSprite5.setOpacity(0);
+        BaseSprite1.setOpacity(0);
+        BaseSprite2.setOpacity(0);
+        BaseSprite3.setOpacity(0);
+        BaseSprite4.setOpacity(0);
+        BaseSprite5.setOpacity(0);
+        setupDrag();
+        setTarget();
     }
 
     @Override
     public Scene createScene() {
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root, 1000, 650);
+        return scene;
+    } catch (IOException e) {
+        e.printStackTrace();
         return null;
     }
-     public void initializeLab(Lab lab) {
+    }
+
+    public void initializeLab(Lab lab) {
         this.lab = lab;
     }
-     
+
     /**
      * Set up draggable substances from the VBox
      */
@@ -111,6 +135,7 @@ public class AcidNeutralizationLab extends Lab {
 //    /**
 //     * Set up the arena to accept dropped subtances
 //     */
+
     private void setTarget() {
         arenaPane.setOnDragOver(event -> {
             if (event.getGestureSource() != arenaPane && event.getDragboard().hasImage()) {
@@ -127,6 +152,7 @@ public class AcidNeutralizationLab extends Lab {
 //     * @param event The DragEvent from the drag and drop action of the user
 //     * moving the substance
 //     */
+
     private void addSubstanceToArena(DragEvent event) {
         Dragboard db = event.getDragboard();//container
         if (db.hasImage()) {
@@ -144,8 +170,6 @@ public class AcidNeutralizationLab extends Lab {
                 // Set the position of the substance to where it was dropped
                 currentSubstance.display.setLayoutX(event.getX() - 50);
                 currentSubstance.display.setLayoutY(event.getY() - 50);
-
-               
 
                 // Add the substance to the arena if it's not already there
                 if (!arenaPane.getChildren().contains(currentSubstance.display)) {
@@ -166,7 +190,6 @@ public class AcidNeutralizationLab extends Lab {
             event.setDropCompleted(false);
         }
     }
-
 
 //    /**
 //     * Sets up the substance and substance bank to handle the substance being dragged back to
@@ -224,6 +247,7 @@ public class AcidNeutralizationLab extends Lab {
 //     *
 //     * @param substance selected substance
 //     */
+
     private void removeSubstance(Substance substance) {
         // Remove the dragged substance from its current parent
         arenaPane.getChildren().remove(substance.display);
@@ -233,15 +257,15 @@ public class AcidNeutralizationLab extends Lab {
 
         switch (substance.acidNumber()) {
             case 1 ->
-                    AcidHome1.getChildren().addLast(substance.display);
+                AcidHome1.getChildren().addLast(substance.display);
             case 2 ->
-                    AcidHome2.getChildren().addLast(substance.display);
+                AcidHome2.getChildren().addLast(substance.display);
             case 3 ->
-                    AcidHome3.getChildren().addLast(substance.display);
+                AcidHome3.getChildren().addLast(substance.display);
             case 4 ->
-                    AcidHome4.getChildren().addLast(substance.display);
+                AcidHome4.getChildren().addLast(substance.display);
             case 5 ->
-                    AcidHome5.getChildren().addLast(substance.display);
+                AcidHome5.getChildren().addLast(substance.display);
         }
         switch (substance.baseNumber()) {
             case 1 ->
@@ -258,7 +282,7 @@ public class AcidNeutralizationLab extends Lab {
 
         Draggable(substance);
         activeSubstances.remove(substance);
-       // substance.setActive(false);
+        // substance.setActive(false);
 
     }
 //    /**
@@ -267,6 +291,7 @@ public class AcidNeutralizationLab extends Lab {
 //     * @param substanceDisplay the StackPane to be assigned to the new Substance
 //     * @return the new Substance object
 //     */
+
     private Substance createNewSubstance(StackPane substanceDisplay) {
         return null;
 //        Substance currentSubstance = null;
@@ -327,9 +352,17 @@ public class AcidNeutralizationLab extends Lab {
 //    }
 //
 //    return currentSubstance;
-}
+    }
 
     public void mixSolutions() {
 
+    }
+    private void resetSubstances() {
+    // Example: Remove substances from arenaPane and return them to bank
+    for (Substance substance : activeSubstances) {
+        arenaPane.getChildren().remove(substance.display);
+        // Reset to original position in VBox
+        baseBank.getChildren().add(substance.display);
+    }
     }
 }
