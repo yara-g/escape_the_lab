@@ -10,6 +10,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Lab;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 public class GameController extends Application {
     private Player player;
@@ -52,12 +55,16 @@ public class GameController extends Application {
             // Handle game over logic
         }
     }
+   
 
     private void transitionToNextLab() {
         if (currentLab instanceof CircuitLab) {
             currentLab = new FlameLab();
         } else if (currentLab instanceof FlameLab) {
             currentLab = new SpringLab();
+        } else if (currentLab instanceof AcidNeutralizationLab) {
+            loadAcidNeutralization();
+            currentLab = new AcidNeutralizationLab();
         }
         currentLab.setupLab();
         transitionToLabScene(currentLab);
@@ -67,4 +74,24 @@ public class GameController extends Application {
         Scene labScene = lab.createScene();
         primaryStage.setScene(labScene); // Use the stored primaryStage
     }
+    
+    public void loadAcidNeutralization() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
+        Parent labRoot = loader.load(); 
+        
+        AcidNeutralizationLab labController = loader.getController();
+
+        labController.initializeLab(currentLab);
+        
+        Scene labScene = new Scene(labRoot, 1000, 650);
+        primaryStage.setScene(labScene);
+        primaryStage.show();
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 }
+  
+}
+

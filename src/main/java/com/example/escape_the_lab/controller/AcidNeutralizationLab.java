@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class AcidNeutralizationLab extends Lab {
     Pane arenaPane;
     @FXML
     VBox acidBank, baseBank;
+    private Lab lab;
 
 
     @Override
@@ -55,6 +57,10 @@ public class AcidNeutralizationLab extends Lab {
     public Scene createScene() {
         return null;
     }
+     public void initializeLab(Lab lab) {
+        this.lab = lab;
+    }
+     
     /**
      * Set up draggable substances from the VBox
      */
@@ -70,7 +76,7 @@ public class AcidNeutralizationLab extends Lab {
             }
             // make each substance draggable
             Image finalImage = img.getImage();
-            substance.setOnDragDetected(_-> {
+            substance.setOnDragDetected(event -> {
                 Dragboard db = substance.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();//stores data
                 content.putImage(finalImage);
@@ -83,9 +89,9 @@ public class AcidNeutralizationLab extends Lab {
         }
     }
 
-    /**
-     * make the substance draggable within the arena after it's dropped
-     */
+//    /**
+//     * make the substance draggable within the arena after it's dropped
+//     */
     private void Draggable(Substance substance) {
         substance.display.setOnMousePressed(event -> substance.display.setUserData(new double[]{event.getSceneX(), event.getSceneY()}));
 
@@ -101,10 +107,10 @@ public class AcidNeutralizationLab extends Lab {
             }
         });
     }
-
-    /**
-     * Set up the arena to accept dropped subtances
-     */
+//
+//    /**
+//     * Set up the arena to accept dropped subtances
+//     */
     private void setTarget() {
         arenaPane.setOnDragOver(event -> {
             if (event.getGestureSource() != arenaPane && event.getDragboard().hasImage()) {
@@ -114,13 +120,13 @@ public class AcidNeutralizationLab extends Lab {
 
         arenaPane.setOnDragDropped(this::addSubstanceToArena);
     }
-
-    /**
-     * Add the substance display to the arena Pane
-     *
-     * @param event The DragEvent from the drag and drop action of the user
-     * moving the substance
-     */
+//
+//    /**
+//     * Add the substance display to the arena Pane
+//     *
+//     * @param event The DragEvent from the drag and drop action of the user
+//     * moving the substance
+//     */
     private void addSubstanceToArena(DragEvent event) {
         Dragboard db = event.getDragboard();//container
         if (db.hasImage()) {
@@ -162,14 +168,14 @@ public class AcidNeutralizationLab extends Lab {
     }
 
 
-    /**
-     * Sets up the substance and substance bank to handle the substance being dragged back to
-     * the substance bank
-     *
-     * @param substance the Substance that is being dragged
-     */
+//    /**
+//     * Sets up the substance and substance bank to handle the substance being dragged back to
+//     * the substance bank
+//     *
+//     * @param substance the Substance that is being dragged
+//     */
     private void makeSubstanceRemovable(Substance substance) {
-        substance.display.setOnDragDetected(_ -> {
+        substance.display.setOnDragDetected(event -> {
             Dragboard db = substance.display.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
             content.putImage(substance.sprite.getImage());
@@ -212,12 +218,12 @@ public class AcidNeutralizationLab extends Lab {
             }
         });
     }
-
-    /**
-     * removes the subsatnce from the arena
-     *
-     * @param substance selected substance
-     */
+//
+//    /**
+//     * removes the subsatnce from the arena
+//     *
+//     * @param substance selected substance
+//     */
     private void removeSubstance(Substance substance) {
         // Remove the dragged substance from its current parent
         arenaPane.getChildren().remove(substance.display);
@@ -255,71 +261,71 @@ public class AcidNeutralizationLab extends Lab {
        // substance.setActive(false);
 
     }
-    /**
-     * Create a new instance of the Substance class 
-     *
-     * @param substanceDisplay the StackPane to be assigned to the new Substance
-     * @return the new Substance object
-     */
+//    /**
+//     * Create a new instance of the Substance class 
+//     *
+//     * @param substanceDisplay the StackPane to be assigned to the new Substance
+//     * @return the new Substance object
+//     */
     private Substance createNewSubstance(StackPane substanceDisplay) {
-        Substance currentSubstance = null;
-        ImageView substanceImage = new ImageView();
-        for (Node node : substanceDisplay.getChildren()) {
-            if (node instanceof ImageView) {
-                substanceImage = (ImageView) node;
-            }
-        }
-
-        // Only create a new instance if the substance is new to the arena
-    if (substanceImage != null && !Substance.existsIn(activeSubstances, substanceImage)) {
-        Substance newSubstance = new Substance(
-               
-        );
-
-        System.out.println("In createNewSubstance()");
-
-        switch (newSubstance.acidNumber()) {
-            case 1 -> newSubstance.setHome(AcidHome1);
-            case 2 -> newSubstance.setHome(AcidHome2);
-            case 3 -> newSubstance.setHome(AcidHome3);
-            case 4 -> newSubstance.setHome(AcidHome4);
-            case 5 -> newSubstance.setHome(AcidHome5);
-        }
-        switch (newSubstance.baseNumber()) {
-            case 1 -> newSubstance.setHome(BaseHome1);
-            case 2 -> newSubstance.setHome(BaseHome2);
-            case 3 -> newSubstance.setHome(BaseHome3);
-            case 4 -> newSubstance.setHome(BaseHome4);
-            case 5 -> newSubstance.setHome(BaseHome5);
-        }
-
-        for (Substance other : activeSubstances) {
-            other.setFocused(false);
-        }
-
-        newSubstance.setFocused(true);
-
-        // Handle focus of substances
-        newSubstance.display.setOnMousePressed(event -> {
-            for (Substance other : activeSubstances) {
-                other.setFocused(false);
-            }
-
-            newSubstance.setFocused(true);
-        });
-
-        activeSubstances.add(newSubstance);
-
-        currentSubstance = newSubstance;
-    } else {
-        for (Substance substance : activeSubstances) {
-            if (substance.sprite.equals(substanceImage)) {
-                currentSubstance = substance;
-            }
-        }
-    }
-
-    return currentSubstance;
+//        Substance currentSubstance = null;
+//        ImageView substanceImage = new ImageView();
+//        for (Node node : substanceDisplay.getChildren()) {
+//            if (node instanceof ImageView) {
+//                substanceImage = (ImageView) node;
+//            }
+//        }
+//
+//        // Only create a new instance if the substance is new to the arena
+//    if (substanceImage != null && !Substance.existsIn(activeSubstances, substanceImage)) {
+//        Substance newSubstance = new Substance(
+//               
+//        );
+//
+//        System.out.println("In createNewSubstance()");
+//
+//        switch (newSubstance.acidNumber()) {
+//            case 1 -> newSubstance.setHome(AcidHome1);
+//            case 2 -> newSubstance.setHome(AcidHome2);
+//            case 3 -> newSubstance.setHome(AcidHome3);
+//            case 4 -> newSubstance.setHome(AcidHome4);
+//            case 5 -> newSubstance.setHome(AcidHome5);
+//        }
+//        switch (newSubstance.baseNumber()) {
+//            case 1 -> newSubstance.setHome(BaseHome1);
+//            case 2 -> newSubstance.setHome(BaseHome2);
+//            case 3 -> newSubstance.setHome(BaseHome3);
+//            case 4 -> newSubstance.setHome(BaseHome4);
+//            case 5 -> newSubstance.setHome(BaseHome5);
+//        }
+//
+//        for (Substance other : activeSubstances) {
+//            other.setFocused(false);
+//        }
+//
+//        newSubstance.setFocused(true);
+//
+//        // Handle focus of substances
+//        newSubstance.display.setOnMousePressed(event -> {
+//            for (Substance other : activeSubstances) {
+//                other.setFocused(false);
+//            }
+//
+//            newSubstance.setFocused(true);
+//        });
+//
+//        activeSubstances.add(newSubstance);
+//
+//        currentSubstance = newSubstance;
+//    } else {
+//        for (Substance substance : activeSubstances) {
+//            if (substance.sprite.equals(substanceImage)) {
+//                currentSubstance = substance;
+//            }
+//        }
+//    }
+//
+//    return currentSubstance;
 }
 
     public void mixSolutions() {
