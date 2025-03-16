@@ -268,6 +268,7 @@ public class AcidNeutralizationLab extends Lab {
 //     * @return the new Substance object
 //     */
     private Substance createNewSubstance(StackPane substanceDisplay) {
+        return null;
 //        Substance currentSubstance = null;
 //        ImageView substanceImage = new ImageView();
 //        for (Node node : substanceDisplay.getChildren()) {
