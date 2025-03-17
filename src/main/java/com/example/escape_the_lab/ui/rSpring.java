@@ -2,6 +2,7 @@ package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.SpringLab;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -83,6 +84,14 @@ public class rSpring {
         ImageView spring2 = createSpringImage("/images/spring2.png", 50, 270, 390);  // Correct choice
         ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
 
+        Button goBack = new Button("Go back");
+        root.getChildren().add(goBack);
+
+        goBack.setOnAction(e -> {
+            showMainScene();
+        });
+
+
         root.getChildren().addAll(bedSprings, spring1, spring2, spring3);
         stage.setScene(new Scene(root, 1000, 650));
     }
@@ -124,6 +133,13 @@ public class rSpring {
 
         root.getChildren().addAll(drawer, mass1, mass2, mass3);
         stage.setScene(new Scene(root, 1000, 650));
+
+        Button goBack = new Button("Go back");
+        root.getChildren().add(goBack);
+
+        goBack.setOnAction(e -> {
+            showMainScene();
+        });
     }
 
     private ImageView createMassImage(String imagePath, double mass, double x, double y) {
