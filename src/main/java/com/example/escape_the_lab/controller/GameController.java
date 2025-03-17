@@ -35,8 +35,7 @@ public class GameController extends Application {
         // Initialize player and labs
         player = new Player();
         inventory = new Inventory();
-        //currentLab = new SpringLab(stage);
-        currentLab = new AcidNeutralizationLab(stage);
+        currentLab = new SpringLab(stage);
         
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
@@ -115,13 +114,14 @@ public class GameController extends Application {
     }
 
     public void transitionToNextLab() {
+        
         if (currentLab instanceof CircuitLab) {
             currentLab = new FlameLab();
         } else if (currentLab instanceof FlameLab) {
             currentLab = new SpringLab(primaryStage);
         } else if (currentLab instanceof AcidNeutralizationLab) {
           //  loadAcidNeutralizationFXML();
-           // currentLab = new AcidNeutralizationLab(stage);
+           currentLab = new AcidNeutralizationLab(primaryStage);
         }
         currentLab.setupLab();
         transitionToLabScene(currentLab);
