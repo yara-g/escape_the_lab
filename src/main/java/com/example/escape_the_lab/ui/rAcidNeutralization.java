@@ -1,6 +1,8 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.AcidNeutralizationLab;
+import com.example.escape_the_lab.controller.FlameLab;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
@@ -26,6 +28,15 @@ private Stage stage;
         ImageView acid2 = createSubstance("/images/substance.png", 50, 200);
         ImageView base1 = createSubstance("/images/substance.png", 50, 300);
 
+        /**
+         * FOR OLIVIAS LAB TEMPORARY
+         */
+        Button b = new Button("Skip");
+        FlameLab flameLab = new FlameLab();
+        b.setOnAction(e -> {
+            flameLab.startLab(stage);
+        });
+
         arenaPane = new Pane();
         arenaPane.setStyle("-fx-border-color: black; -fx-border-width: 2;");
         arenaPane.setPrefSize(500, 400);
@@ -35,7 +46,7 @@ private Stage stage;
         List<ImageView> substances = Arrays.asList(acid1, acid2, base1);
 acidNeutralizationLab.registerSubstances(substances);
 
-        root.getChildren().addAll(acid1, acid2, base1, arenaPane);
+        root.getChildren().addAll(b, acid1, acid2, base1, arenaPane);
         return new Scene(root, 1000, 650);
     }
 

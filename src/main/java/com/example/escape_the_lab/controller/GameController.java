@@ -3,7 +3,6 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,13 +15,20 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+// HOW TO ACCESS THE LANGUAGE SYSTEM:
+// IN YOUR OWN LAB, CREATE A GAME CONTROLLER.
+// WRITE boolean l = controller.language;
+// DEPENDING ON THE BOOLEAN, USE LISTS OF DIFFERENT LANGUAGE IMAGES.
+
 public class GameController extends Application {
 
+    public static boolean language = true; // True English False French.
     private LifeManager lifeManager;
     private Player player;
     private Lab currentLab;
     private Stage primaryStage;
     private Inventory inventory;
+    private StackPane root;
 
     public static void main(String[] args) {
         launch(args);
@@ -36,7 +42,7 @@ public class GameController extends Application {
         player = new Player();
         inventory = new Inventory();
         currentLab = new SpringLab(stage);
-        
+
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
 
@@ -53,16 +59,40 @@ public class GameController extends Application {
 
         //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
-
+        ImageView startGameFr = new ImageView(new Image(getClass().getResource("/images/start-bg-fr.png").toExternalForm()));
+        ImageView enButton = new ImageView(new Image(getClass().getResource("/images/en.png").toExternalForm()));
+        ImageView frButton = new ImageView(new Image(getClass().getResource("/images/fr.png").toExternalForm()));
         // Set up initial UI
-        StackPane root = new StackPane(startGame);
-        root.setAlignment(Pos.CENTER);
+        root = new StackPane(startGame);
+        root.getChildren().add(enButton);
+        root.getChildren().add(frButton);
 
-        Button startButton = new Button("Start Lab");
-        startButton.setOnAction(e -> startLab());
-
+        ImageView startButton = new ImageView(new Image(getClass().getResource("/images/start.png").toExternalForm()));
+        ImageView startButtonFr = new ImageView(new Image(getClass().getResource("/images/reveiller.png").toExternalForm()));
+        startButton.setOnMouseClicked(e -> startLab());
+        startButtonFr.setOnMouseClicked(e -> startLab());
         root.getChildren().add(startButton);
+
         Scene scene = new Scene(root, 1000, 650);
+
+        // Set up language system.
+        frButton.setOnMouseClicked(e -> {
+            root = new StackPane(startGameFr);
+            root.getChildren().add(enButton);
+            root.getChildren().add(frButton);
+            root.getChildren().add(startButtonFr);
+            scene.setRoot(root);
+            GameController.language = false;
+        });
+        enButton.setOnMouseClicked(e -> {
+            root = new StackPane(startGame);
+            root.getChildren().add(enButton);
+            root.getChildren().add(frButton);
+            root.getChildren().add(startButton);
+            scene.setRoot(root);
+            GameController.language = true;
+        });
+
         stage.setScene(scene);
         stage.show();
     }
@@ -112,14 +142,12 @@ public class GameController extends Application {
     }
 
     public void transitionToNextLab() {
-        
         if (currentLab instanceof CircuitLab) {
-            currentLab = new FlameLab();
-        } else if (currentLab instanceof FlameLab) {
-            currentLab = new SpringLab(primaryStage);
+//        } else if (currentLab instanceof FlameLab) {
+//            currentLab = new SpringLab(primaryStage);
         } else if (currentLab instanceof AcidNeutralizationLab) {
-          //  loadAcidNeutralizationFXML();
-           currentLab = new AcidNeutralizationLab(primaryStage);
+            //loadAcidNeutralization();
+            currentLab = new AcidNeutralizationLab(primaryStage);
         }
         currentLab.setupLab();
         transitionToLabScene(currentLab);
