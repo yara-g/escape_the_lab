@@ -69,13 +69,13 @@ public class FlameLab {
     private final ImageView batsFly = new ImageView(new Image(getClass().getResource("/images/batFlyF.png").toExternalForm()));
     private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
 
-    // Zooms
+    // Zooms.
     private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/zoomDoorF.png").toExternalForm()));
     private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/zoomFlameF.png").toExternalForm()));
     // background
     // start/end
 
-    // Sounds
+    // Sounds.
     String batPath = getClass().getResource("/sounds/bat.mp3").toExternalForm();
     Media batMedia = new Media(batPath);
     MediaPlayer batPlayer = new MediaPlayer(batMedia);
@@ -136,25 +136,5 @@ public class FlameLab {
         //stackPane.getChildren().add(inventory);
         stackPane.getChildren().add(quit);
         return stackPane;
-    }
-
-    public boolean checkSolution() {
-        return false;
-    }
-
-    public void failLab() {
-
-    }
-
-    public void setupLab() {
-
-    }
-
-    public Scene createScene() {
-        return null;
-    }
-
-    public void changeFlameColor() {
-
     }
 }

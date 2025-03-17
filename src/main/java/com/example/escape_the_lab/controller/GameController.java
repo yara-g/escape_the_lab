@@ -23,6 +23,7 @@ public class GameController extends Application {
     private Lab currentLab;
     private Stage primaryStage;
     private Inventory inventory;
+    private StackPane root;
 
     public static void main(String[] args) {
         launch(args);
@@ -53,14 +54,38 @@ public class GameController extends Application {
 
         //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
+        ImageView startGameFr = new ImageView(new Image(getClass().getResource("/images/start-bg-fr.png").toExternalForm()));
+        ImageView enButton = new ImageView(new Image(getClass().getResource("/images/en.png").toExternalForm()));
+        ImageView frButton = new ImageView(new Image(getClass().getResource("/images/fr.png").toExternalForm()));
         // Set up initial UI
-        StackPane root = new StackPane(startGame);
+        root = new StackPane(startGame);
+        root.getChildren().add(enButton);
+        root.getChildren().add(frButton);
 
         ImageView startButton = new ImageView(new Image(getClass().getResource("/images/start.png").toExternalForm()));
+        ImageView startButtonFr = new ImageView(new Image(getClass().getResource("/images/reveiller.png").toExternalForm()));
         startButton.setOnMouseClicked(e -> startLab());
-
+        startButtonFr.setOnMouseClicked(e -> startLab());
         root.getChildren().add(startButton);
+
         Scene scene = new Scene(root, 1000, 650);
+
+        // Set up language system.
+        frButton.setOnMouseClicked(e -> {
+            root = new StackPane(startGameFr);
+            root.getChildren().add(enButton);
+            root.getChildren().add(frButton);
+            root.getChildren().add(startButtonFr);
+            scene.setRoot(root);
+        });
+        enButton.setOnMouseClicked(e -> {
+            root = new StackPane(startGame);
+            root.getChildren().add(enButton);
+            root.getChildren().add(frButton);
+            root.getChildren().add(startButton);
+            scene.setRoot(root);
+        });
+
         stage.setScene(scene);
         stage.show();
     }
