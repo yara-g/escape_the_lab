@@ -2,6 +2,8 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Substance;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -9,6 +11,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.fxml.FXML;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
@@ -35,7 +39,9 @@ public class AcidNeutralizationLab extends Lab {
 
     @Override
     public void startLab() {
-
+        setupDrag();
+        setTarget();
+        setupLab();
     }
 
     @Override
@@ -55,9 +61,19 @@ public class AcidNeutralizationLab extends Lab {
 
     @Override
     public Scene createScene() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
+            Parent labRoot = loader.load();
+            AcidNeutralizationLab labController = loader.getController();
+            labController.initializeLab(this); // Pass the lab to the controller
+            return new Scene(labRoot, 1000, 650);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
-     public void initializeLab(Lab lab) {
+
+    public void initializeLab(Lab lab) {
         this.lab = lab;
     }
      
@@ -68,6 +84,9 @@ public class AcidNeutralizationLab extends Lab {
         StackPane[] substances = {AcidDisplay1, AcidDisplay2, AcidDisplay3, AcidDisplay4, AcidDisplay5, BaseDisplay1, BaseDisplay2, BaseDisplay3, BaseDisplay4, BaseDisplay5};
 
         for (StackPane substance : substances) {
+            if (substance == null) {
+                continue; // Skip if the StackPane is null
+            }
             ImageView img = new ImageView();
             for (Node child : substance.getChildren()) {
                 if (child instanceof ImageView) {

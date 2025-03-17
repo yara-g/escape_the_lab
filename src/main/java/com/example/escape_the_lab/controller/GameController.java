@@ -1,5 +1,7 @@
 package com.example.escape_the_lab.controller;
 
+import com.example.escape_the_lab.model.Item;
+import com.example.escape_the_lab.ui.Inventory;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,9 +17,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public class GameController extends Application {
+    private LifeManager lifeManager;
     private Player player;
     private Lab currentLab;
     private Stage primaryStage;
+    private Inventory inventory;
 
     public static void main(String[] args) {
         launch(args);
@@ -26,14 +30,35 @@ public class GameController extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
+
         // Initialize player and labs
         player = new Player();
-        currentLab = new FlameLab();
+        inventory = new Inventory();
+        currentLab = new SpringLab(stage);
+
+        Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
+        inventory.addItem(healthPotion);
+
+        ImageView healthPotionImageView = healthPotion.getImageView();
+        healthPotionImageView.setFitWidth(50);
+        healthPotionImageView.setFitHeight(50);
+
+        healthPotionImageView.setOnMouseDragged(e -> {
+            // Logic to handle dragging
+        });
+
+        //initialize lifeManager
+        lifeManager = LifeManager.getInstance();
+
+        //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
+        startGame.setFitWidth(800);
+        startGame.setFitHeight(500);
 
         // Set up initial UI
         StackPane root = new StackPane(startGame);
         root.setAlignment(Pos.CENTER);
+
         Button startButton = new Button("Start Lab");
         startButton.setOnAction(e -> startLab());
 
@@ -46,22 +71,54 @@ public class GameController extends Application {
     private void startLab() {
         if (currentLab != null) {
             currentLab.startLab();
+            //transitionToLabScene(currentLab);
             // Transition to lab scene
+
+            lifeManager.showLives();
+            // Update the life display based on current player's lives
+            lifeManager.updateLives(player.getLives());
+
+
         }
     }
 
     private void checkGameOver() {
         if (player.getLives() <= 0) {
             // Handle game over logic
+            showGameOverScreen();
         }
     }
-   
 
-    private void transitionToNextLab() {
+    private void showGameOverScreen() {
+        // Shows the game over screen when lives run out
+        Button restartButton = new Button("Restart");
+        Button exitButton = new Button("Exit");
+
+        restartButton.setOnAction(e -> {
+            player = new Player();
+            LifeManager.getInstance().updateLives(player.getLives());
+
+            // Transition back to the first lab scene
+            currentLab = new SpringLab(primaryStage);
+            currentLab.startLab();
+            transitionToLabScene(currentLab);
+        });
+
+        exitButton.setOnAction(e -> primaryStage.close());
+
+        StackPane gameOverLayout = new StackPane();
+        gameOverLayout.getChildren().addAll(restartButton, exitButton);
+
+        Scene gameOverScene = new Scene(gameOverLayout, 1000, 650);
+        primaryStage.setScene(gameOverScene);
+    }
+
+
+    void transitionToNextLab() {
         if (currentLab instanceof CircuitLab) {
             currentLab = new FlameLab();
         } else if (currentLab instanceof FlameLab) {
-            currentLab = new SpringLab();
+            currentLab = new SpringLab(primaryStage);
         } else if (currentLab instanceof AcidNeutralizationLab) {
             loadAcidNeutralization();
             currentLab = new AcidNeutralizationLab();
@@ -74,24 +131,23 @@ public class GameController extends Application {
         Scene labScene = lab.createScene();
         primaryStage.setScene(labScene); // Use the stored primaryStage
     }
-    
-    public void loadAcidNeutralization() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
-        Parent labRoot = loader.load(); 
-        
-        AcidNeutralizationLab labController = loader.getController();
 
-        labController.initializeLab(currentLab);
-        
-        Scene labScene = new Scene(labRoot, 1000, 650);
-        primaryStage.setScene(labScene);
-        primaryStage.show();
-        
-    } catch (IOException e) {
-        e.printStackTrace();
+    public void loadAcidNeutralization() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
+            Parent labRoot = loader.load();
+
+            AcidNeutralizationLab labController = loader.getController();
+
+            labController.initializeLab(currentLab);
+
+            Scene labScene = new Scene(labRoot, 1000, 650);
+            primaryStage.setScene(labScene);
+            primaryStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
-  
 }
 
