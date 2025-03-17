@@ -65,6 +65,8 @@ public class rCircuit extends Application {
 
         pane.getChildren().addAll(drawer, metalBox, door);
         Button temp = new Button("Skip to next");
+        temp.setTranslateX(-1200);
+        temp.setMinWidth(90);
         temp.setOnAction(e -> {
             rCircuit lab = new rCircuit();
             try {
