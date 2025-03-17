@@ -58,6 +58,25 @@ public class AcidNeutralizationLab extends Lab {
     public void setupLab() {
 
     }
+    @FXML
+private void initialize() {
+    AcidSprite1.setOpacity(0);
+        AcidSprite2.setOpacity(0);
+        AcidSprite3.setOpacity(0);
+        AcidSprite4.setOpacity(0);
+        AcidSprite5.setOpacity(0);
+        BaseSprite1.setOpacity(0);
+        BaseSprite2.setOpacity(0);
+        BaseSprite3.setOpacity(0);
+        BaseSprite4.setOpacity(0);
+        BaseSprite5.setOpacity(0);
+        setupDrag();
+        setTarget();
+    if (arenaPane == null) {
+        System.out.println("arenaPane is still null!");
+        
+    }
+}
 
     @Override
     public Scene createScene() {
