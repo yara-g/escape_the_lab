@@ -19,6 +19,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.stage.Stage;
 
 public class AcidNeutralizationLab extends Lab {
     private String acid;
@@ -34,7 +35,29 @@ ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1
     @FXML
     VBox acidBank, baseBank;
     private Lab lab;
+    Stage primaryStage;
 
+
+
+   @FXML
+private void initialize() {
+    AcidSprite1.setOpacity(0);
+        AcidSprite2.setOpacity(0);
+        AcidSprite3.setOpacity(0);
+        AcidSprite4.setOpacity(0);
+        AcidSprite5.setOpacity(0);
+        BaseSprite1.setOpacity(0);
+        BaseSprite2.setOpacity(0);
+        BaseSprite3.setOpacity(0);
+        BaseSprite4.setOpacity(0);
+        BaseSprite5.setOpacity(0);
+        setupDrag();
+        setTarget();
+    if (arenaPane == null) {
+        System.out.println("arenaPane is still null!");
+        
+    }
+}
 
     @Override
     public void startLab() {
@@ -57,33 +80,15 @@ ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1
     public void setupLab() {
 
     }
-    @FXML
-private void initialize() {
-    AcidSprite1.setOpacity(0);
-        AcidSprite2.setOpacity(0);
-        AcidSprite3.setOpacity(0);
-        AcidSprite4.setOpacity(0);
-        AcidSprite5.setOpacity(0);
-        BaseSprite1.setOpacity(0);
-        BaseSprite2.setOpacity(0);
-        BaseSprite3.setOpacity(0);
-        BaseSprite4.setOpacity(0);
-        BaseSprite5.setOpacity(0);
-        setupDrag();
-        setTarget();
-    if (arenaPane == null) {
-        System.out.println("arenaPane is still null!");
-        
-    }
-}
+ 
 
     @Override
     public Scene createScene() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
             Parent labRoot = loader.load();
-            AcidNeutralizationLab labController = loader.getController();
-            labController.initializeLab(this); // Pass the lab to the controller
+         //   AcidNeutralizationLab labController = loader.getController();
+         //   labController.initializeLab(this); 
             return new Scene(labRoot, 1000, 650);
         } catch (IOException e) {
             e.printStackTrace();
