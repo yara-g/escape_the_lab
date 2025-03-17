@@ -4,6 +4,7 @@ import com.example.escape_the_lab.model.Lab;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -88,6 +89,13 @@ public class rCircuit extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(1000, 650, true, true, true, true));
         drawerPane.setBackground(new Background(myBI));
+
+        Button goBack = new Button("Go back");
+        drawerPane.getChildren().add(goBack);
+
+        goBack.setOnAction(e -> {
+            stage.setScene(makeScene());
+        });
 
         stage.setScene(drawerScene);
     }
