@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-// get rid of id for images
 
 <BorderPane maxHeight="-Infinity" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <center>
@@ -39,7 +38,7 @@
                      <children>
                         <ImageView fx:id="AcidImage1" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/duckHome1.png" />
+                              <Image url="@../images/substance.png" />
                            </image>
                         </ImageView>
                         <StackPane fx:id="AcidDisplay1" prefHeight="150.0" prefWidth="200.0">
@@ -53,7 +52,7 @@
                      <children>
                         <ImageView fx:id="AcidImage2" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/duckHome2.png" />
+                              <Image url="@../images/substance.png" />
                            </image>
                         </ImageView>
                         <StackPane fx:id="AcidDisplay2">
@@ -67,7 +66,7 @@
                      <children>
                         <ImageView fx:id="AcidImage3" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/duckHome3.png" />
+                              <Image url="@../images/substance.png" />
                            </image>
                         </ImageView>
                         <StackPane fx:id="AcidDisplay3">
@@ -81,7 +80,7 @@
                      <children>
                         <ImageView fx:id="AcidImage4" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/duckHome4.png" />
+                              <Image url="@../images/substance.png" />
                            </image>
                         </ImageView>
                         <StackPane fx:id="AcidDisplay4">
@@ -95,7 +94,7 @@
                      <children>
                         <ImageView fx:id="AcidImage5" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/duckHome5.png" />
+                              <Image url="@../images/substance.png" />
                            </image>
                         </ImageView>
                         <StackPane fx:id="AcidDisplay5">
@@ -114,14 +113,14 @@
       </GridPane>
    </left>
    <right>
-      // chage base bank name
+
       <VBox fx:id="BaseBank" alignment="CENTER" prefHeight="606.0" prefWidth="140.0" BorderPane.alignment="CENTER">
          <children>
             <StackPane fx:id="BaseHome1" prefHeight="150.0" prefWidth="150.0">
                <children>
                   <ImageView fx:id="BaseImage1" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/duckHome1.png" />
+                        <Image url="@../images/substance.png" />
                      </image>
                   </ImageView>
                   <StackPane fx:id="BaseDisplay1" prefHeight="150.0" prefWidth="200.0">
@@ -135,7 +134,7 @@
                <children>
                   <ImageView fx:id="BaseImage2" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/duckHome2.png" />
+                        <Image url="@../images/substance.png" />
                      </image>
                   </ImageView>
                   <StackPane fx:id="BaseDisplay2">
@@ -149,7 +148,7 @@
                <children>
                   <ImageView fx:id="BaseImage3" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/duckHome3.png" />
+                        <Image url="@../images/substance.png" />
                      </image>
                   </ImageView>
                   <StackPane fx:id="BaseDisplay3">
@@ -159,12 +158,12 @@
                   </StackPane>
                </children>
             </StackPane>
-            // Base image and home 4 to rewrite in fxml and get rid of id for base image 4
+
             <StackPane fx:id="BaseHome4" layoutX="10.0" layoutY="348.0" prefHeight="150.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="BaseImage4" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/duckHome4.png" />
+                        <Image url="@../images/substance.png" />
                      </image>
                   </ImageView>
                   <StackPane fx:id="BaseDisplay4">
@@ -174,12 +173,12 @@
                   </StackPane>
                </children>
             </StackPane>
-            // Base image and home 5 to rewrite in fxml and get rid of id for base image 5
+
             <StackPane fx:id="BaseHome5" layoutX="10.0" layoutY="404.0" prefHeight="150.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="BaseImage5" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/duckHome5.png" />
+                        <Image url="@../images/substance.png" />
                      </image>
                   </ImageView>
                   <StackPane fx:id="BaseDisplay5">

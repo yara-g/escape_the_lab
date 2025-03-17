@@ -1,18 +1,22 @@
 package com.example.escape_the_lab.ui;
 
+import com.example.escape_the_lab.model.Lab;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class rCircuit extends Application {
+    private Stage stage;
+    @Override
     public void start(Stage stage) throws Exception {
-        rCircuit room = new rCircuit();
-        Scene scene = room.makeScene();
+        this.stage = stage;
+        Scene scene = makeScene();
         stage.setScene(scene);
-
         stage.show();
     }
 
@@ -23,29 +27,76 @@ public class rCircuit extends Application {
         right: blocked metal door
         if user tries to open the door, a little message tells them that its mechanically shut
         the metal box is open and it shows two disconnected wires. little paper at the bottom of the box.
-        it says:
-        actually im gonna make the electrical problem some other day bc idk how electricity works
+        it says something like: the battery has an electric potential of 5V. the forward voltage of the LED is 3.2V. and the current needed is 0.02 A.
+        find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high and even too low.
          */
 
         HBox pane = new HBox(100);
         Scene scene = new Scene(pane, 1000, 650);
 
-        ImageView drawer = new ImageView(new Image(getClass().getResource("/images/cat.png").toExternalForm()));
+        ImageView drawer = new ImageView(new Image(getClass().getResource("/images/drawers.png").toExternalForm()));
         drawer.setPreserveRatio(true);
         drawer.setFitHeight(300);
         drawer.setTranslateY(200);
 
-        ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/cat.png").toExternalForm()));
+        drawer.setOnMouseClicked(e -> {
+            showInsideDrawer();
+        });
+
+        ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/metal-box.png").toExternalForm()));
         metalBox.setPreserveRatio(true);
         metalBox.setTranslateY(150);
-        metalBox.setFitHeight(300);
+        metalBox.setFitHeight(200);
 
-        ImageView door = new ImageView(new Image(getClass().getResource("/images/cat.png").toExternalForm()));
+        metalBox.setOnMouseClicked(e -> {
+            showInsideMetalBox();
+        });
+
+        ImageView door = new ImageView(new Image(getClass().getResource("/images/door.png").toExternalForm()));
         door.setFitHeight(500);
-        door.setFitWidth(200);
+        door.setPreserveRatio(true);
+        door.setTranslateX(-200);
+        door.setTranslateY(50);
+
+        door.setOnMouseClicked(e -> {
+            showDoorMessage();
+        });
 
         pane.getChildren().addAll(drawer, metalBox, door);
 
         return scene;
+    }
+
+    private void showInsideDrawer() {
+        Pane drawerPane = new Pane();
+        Scene drawerScene = new Scene(drawerPane, 1000, 650);
+        Label res1 = new Label("resistor 1");
+        res1.setTranslateX(200);
+        res1.setTranslateY(200);
+        Label res2 = new Label("resistor 2");
+        res2.setTranslateX(400);
+        res2.setTranslateY(400);
+        Label res3 = new Label("resistor 3");
+        res3.setTranslateX(400);
+        res3.setTranslateY(300);
+        Label res4 = new Label("resistor 4");
+        res4.setTranslateX(500);
+        res4.setTranslateY(500);
+        drawerPane.getChildren().addAll(res1, res2, res3, res4);
+
+        BackgroundImage myBI= new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                new BackgroundSize(1000, 650, true, true, true, true));
+        drawerPane.setBackground(new Background(myBI));
+
+        stage.setScene(drawerScene);
+    }
+
+    private void showInsideMetalBox() {
+
+    }
+
+    private void showDoorMessage() {
+        System.out.println("the door is mechanically locked and way too heavy for you to push it.");
     }
 }
