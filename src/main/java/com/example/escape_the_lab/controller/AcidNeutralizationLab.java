@@ -2,6 +2,7 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Substance;
+import com.example.escape_the_lab.ui.rAcidNeutralization;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,31 +39,38 @@ ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1
     VBox acidBank, baseBank;
     private Lab lab;
     Stage primaryStage;
-
-
-
-   @FXML
-private void initialize() {
-    AcidSprite1.setOpacity(0);
-        AcidSprite2.setOpacity(0);
-        AcidSprite3.setOpacity(0);
-        AcidSprite4.setOpacity(0);
-        AcidSprite5.setOpacity(0);
-        BaseSprite1.setOpacity(0);
-        BaseSprite2.setOpacity(0);
-        BaseSprite3.setOpacity(0);
-        BaseSprite4.setOpacity(0);
-        BaseSprite5.setOpacity(0);
-        setupDrag();
-        setTarget();
-    if (arenaPane == null) {
-        System.out.println("arenaPane is still null!");
-        
+    rAcidNeutralization acidNeutralizationLabUI;
+    
+    public AcidNeutralizationLab(Stage stage) {
+        this.primaryStage = stage;
+        this.acidNeutralizationLabUI = new rAcidNeutralization(stage, this);
     }
-}
+
+
+
+//   @FXML
+//private void initialize() {
+//    AcidSprite1.setOpacity(0);
+//        AcidSprite2.setOpacity(0);
+//        AcidSprite3.setOpacity(0);
+//        AcidSprite4.setOpacity(0);
+//        AcidSprite5.setOpacity(0);
+//        BaseSprite1.setOpacity(0);
+//        BaseSprite2.setOpacity(0);
+//        BaseSprite3.setOpacity(0);
+//        BaseSprite4.setOpacity(0);
+//        BaseSprite5.setOpacity(0);
+//        setupDrag();
+//        setTarget();
+//    if (arenaPane == null) {
+//        System.out.println("arenaPane is still null!");
+//        
+//    }
+//}
 
     @Override
     public void startLab() {
+        acidNeutralizationLabUI.showMainScene();
         setupDrag();
         setTarget();
         setupLab();
@@ -86,16 +94,17 @@ private void initialize() {
 
     @Override
     public Scene createScene() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
-            Parent labRoot = loader.load();
-         //   AcidNeutralizationLab labController = loader.getController();
-         //   labController.initializeLab(this); 
-            return new Scene(labRoot, 1000, 650);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return acidNeutralizationLabUI.getMainScene();
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
+//            Parent labRoot = loader.load();
+//         //   AcidNeutralizationLab labController = loader.getController();
+//         //   labController.initializeLab(this); 
+//            return new Scene(labRoot, 1000, 650);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
     }
 
     public void initializeLab(Lab lab) {

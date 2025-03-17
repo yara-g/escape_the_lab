@@ -35,8 +35,9 @@ public class GameController extends Application {
         // Initialize player and labs
         player = new Player();
         inventory = new Inventory();
-        currentLab = new SpringLab(stage);
-
+        //currentLab = new SpringLab(stage);
+        currentLab = new AcidNeutralizationLab(stage);
+        
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
 
@@ -119,8 +120,8 @@ public class GameController extends Application {
         } else if (currentLab instanceof FlameLab) {
             currentLab = new SpringLab(primaryStage);
         } else if (currentLab instanceof AcidNeutralizationLab) {
-            loadAcidNeutralization();
-            currentLab = new AcidNeutralizationLab();
+          //  loadAcidNeutralizationFXML();
+           // currentLab = new AcidNeutralizationLab(stage);
         }
         currentLab.setupLab();
         transitionToLabScene(currentLab);
@@ -131,7 +132,7 @@ public class GameController extends Application {
         primaryStage.setScene(labScene); // Use the stored primaryStage
     }
 
-    public void loadAcidNeutralization() {
+    public void loadAcidNeutralizationFXML() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
             Parent labRoot = loader.load();
