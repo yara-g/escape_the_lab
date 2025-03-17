@@ -64,6 +64,17 @@ public class rCircuit extends Application {
         });
 
         pane.getChildren().addAll(drawer, metalBox, door);
+        Button temp = new Button("Skip to next");
+        temp.setOnAction(e -> {
+            rCircuit lab = new rCircuit();
+            try {
+                lab.start(stage);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        pane.getChildren().add(temp);
 
         return scene;
     }
