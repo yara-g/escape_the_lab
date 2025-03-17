@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <Pane fx:id="arenaPane" layoutX="24.0" layoutY="1.0" prefHeight="600.0" prefWidth="618.0" style="-fx-background-color: #9999;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="1.0">
+            <children>
+               <ImageView fx:id="arenaBackground" fitHeight="600.0" fitWidth="610.0" layoutX="-6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+            </children></Pane>
+      </AnchorPane>
+   </center>
+   <left>
+      <GridPane maxWidth="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="192.6666717529297" minHeight="0.0" prefHeight="60.5" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="567.3333377838135" minHeight="10.0" prefHeight="539.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox fx:id="AcidBank" alignment="CENTER" prefHeight="606.0" prefWidth="140.0" GridPane.rowIndex="1">
+               <children>
+                  <StackPane fx:id="AcidHome1" prefHeight="150.0" prefWidth="150.0">
+                     <children>
+                        <ImageView fx:id="AcidImage1" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/substance.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay1" prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="AcidSprite1" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome2" layoutX="10.0" layoutY="198.0" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="AcidImage2" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/substance.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay2">
+                           <children>
+                              <ImageView fx:id="AcidSprite2" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome3" layoutX="10.0" layoutY="273.0" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="AcidImage3" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/substance.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay3">
+                           <children>
+                              <ImageView fx:id="AcidSprite3" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome4" layoutX="10.0" layoutY="348.0" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="AcidImage4" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/substance.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay4">
+                           <children>
+                              <ImageView fx:id="AcidSprite4" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome5" layoutX="10.0" layoutY="404.0" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="AcidImage5" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/substance.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay5">
+                           <children>
+                              <ImageView fx:id="AcidSprite5" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </GridPane>
+   </left>
+   <right>
+
+      <VBox fx:id="BaseBank" alignment="CENTER" prefHeight="606.0" prefWidth="140.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane fx:id="BaseHome1" prefHeight="150.0" prefWidth="150.0">
+               <children>
+                  <ImageView fx:id="BaseImage1" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/substance.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane fx:id="BaseDisplay1" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="BaseSprite1" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+            <StackPane fx:id="BaseHome2" layoutX="10.0" layoutY="198.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="BaseImage2" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/substance.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane fx:id="BaseDisplay2">
+                     <children>
+                        <ImageView fx:id="BaseSprite2" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+            <StackPane fx:id="BaseHome3" layoutX="10.0" layoutY="273.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="BaseImage3" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/substance.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane fx:id="BaseDisplay3">
+                     <children>
+                        <ImageView fx:id="BaseSprite3" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+
+            <StackPane fx:id="BaseHome4" layoutX="10.0" layoutY="348.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="BaseImage4" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/substance.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane fx:id="BaseDisplay4">
+                     <children>
+                        <ImageView fx:id="BaseSprite4" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+
+            <StackPane fx:id="BaseHome5" layoutX="10.0" layoutY="404.0" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="BaseImage5" fitHeight="96.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/substance.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane fx:id="BaseDisplay5">
+                     <children>
+                        <ImageView fx:id="BaseSprite5" fitHeight="96.0" fitWidth="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+   </right>
+</BorderPane> 

@@ -36,7 +36,7 @@ public class GameController extends Application {
         player = new Player();
         inventory = new Inventory();
         currentLab = new SpringLab(stage);
-        
+
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
 
@@ -53,13 +53,11 @@ public class GameController extends Application {
 
         //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
-
         // Set up initial UI
         StackPane root = new StackPane(startGame);
-        root.setAlignment(Pos.CENTER);
 
-        Button startButton = new Button("Start Lab");
-        startButton.setOnAction(e -> startLab());
+        ImageView startButton = new ImageView(new Image(getClass().getResource("/images/start.png").toExternalForm()));
+        startButton.setOnMouseClicked(e -> startLab());
 
         root.getChildren().add(startButton);
         Scene scene = new Scene(root, 1000, 650);
@@ -112,14 +110,12 @@ public class GameController extends Application {
     }
 
     public void transitionToNextLab() {
-        
         if (currentLab instanceof CircuitLab) {
-            currentLab = new FlameLab();
-        } else if (currentLab instanceof FlameLab) {
-            currentLab = new SpringLab(primaryStage);
+//        } else if (currentLab instanceof FlameLab) {
+//            currentLab = new SpringLab(primaryStage);
         } else if (currentLab instanceof AcidNeutralizationLab) {
-          //  loadAcidNeutralizationFXML();
-           currentLab = new AcidNeutralizationLab(primaryStage);
+            //loadAcidNeutralization();
+            currentLab = new AcidNeutralizationLab(primaryStage);
         }
         currentLab.setupLab();
         transitionToLabScene(currentLab);
