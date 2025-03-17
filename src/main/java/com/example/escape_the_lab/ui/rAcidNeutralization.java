@@ -13,6 +13,7 @@ public class rAcidNeutralization {
 private Stage stage;
     private AcidNeutralizationLab acidNeutralizationLab;
     private Pane arenaPane;
+    
 
     public rAcidNeutralization(Stage stage, AcidNeutralizationLab acidNeutralizationLab) {
         this.stage = stage;

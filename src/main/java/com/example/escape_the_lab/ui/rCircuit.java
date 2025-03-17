@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import com.example.escape_the_lab.controller.AcidNeutralizationLab;
 
 public class rCircuit extends Application {
     private Stage stage;
@@ -66,12 +67,9 @@ public class rCircuit extends Application {
         pane.getChildren().addAll(drawer, metalBox, door);
         Button temp = new Button("Skip to next");
         temp.setOnAction(e -> {
-            rCircuit lab = new rCircuit();
-            try {
-                lab.start(stage);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+              AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage); // Create a new instance
+    rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab); // Pass both stage and lab
+    stage.setScene(lab.getMainScene());
         });
 
         pane.getChildren().add(temp);
