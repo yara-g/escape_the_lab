@@ -25,8 +25,7 @@ public class AcidNeutralizationLab extends Lab {
     private String base;
     public ArrayList<Substance> activeSubstances = new ArrayList<>();
     @FXML
-    ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1,BaseImage2, BaseImage3, BaseImage4, BaseImage5;
-    @FXML
+ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1,BaseImage2, BaseImage3, BaseImage4, BaseImage5, AcidSprite1, AcidSprite2,AcidSprite3,AcidSprite4,AcidSprite5, BaseSprite1, BaseSprite5,BaseSprite2,BaseSprite3,BaseSprite4;    @FXML
     StackPane AcidHome1, AcidHome2, AcidHome3, AcidHome4, AcidHome5, AcidDisplay1, AcidDisplay2, AcidDisplay3, AcidDisplay4, AcidDisplay5;
     @FXML
     StackPane BaseHome1, BaseHome2, BaseHome3, BaseHome4, BaseHome5, BaseDisplay1, BaseDisplay2, BaseDisplay3, BaseDisplay4, BaseDisplay5;

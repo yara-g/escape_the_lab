@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public class GameController extends Application {
+
     private LifeManager lifeManager;
     private Player player;
     private Lab currentLab;
@@ -78,7 +79,6 @@ public class GameController extends Application {
             // Update the life display based on current player's lives
             lifeManager.updateLives(player.getLives());
 
-
         }
     }
 
@@ -113,7 +113,6 @@ public class GameController extends Application {
         primaryStage.setScene(gameOverScene);
     }
 
-
     void transitionToNextLab() {
         if (currentLab instanceof CircuitLab) {
             currentLab = new FlameLab();
@@ -132,7 +131,6 @@ public class GameController extends Application {
         primaryStage.setScene(labScene); // Use the stored primaryStage
     }
 
-<<<<<<< Updated upstream
     public void loadAcidNeutralization() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
@@ -144,23 +142,13 @@ public class GameController extends Application {
 
             Scene labScene = new Scene(labRoot, 1000, 650);
             primaryStage.setScene(labScene);
+            primaryStage.setAlwaysOnTop(true);
             primaryStage.show();
+            primaryStage.setAlwaysOnTop(false);
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
-=======
-        labController.initializeLab(currentLab);
-        
-        Scene labScene = new Scene(labRoot, 1000, 650);
-        primaryStage.setScene(labScene);
-        primaryStage.setAlwaysOnTop(true);
-            primaryStage.show();
-            primaryStage.setAlwaysOnTop(false);
-        
-    } catch (IOException e) {
-        e.printStackTrace();
->>>>>>> Stashed changes
     }
 }
-
