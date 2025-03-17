@@ -20,6 +20,8 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
+import java.util.Arrays;
+import java.util.List;
 
 public class AcidNeutralizationLab extends Lab {
     private String acid;
@@ -370,7 +372,18 @@ private void initialize() {
 //
 //    return currentSubstance;
 }
-
+public void registerSubstances(List<ImageView> substances) {
+    for (ImageView substance : substances) {
+        // Existing drag logic from setupDrag()
+        substance.setOnDragDetected(event -> {
+            Dragboard db = substance.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(substance.getImage());
+            db.setContent(content);
+            event.consume();
+        });
+    }
+}
     public void mixSolutions() {
 
     }
