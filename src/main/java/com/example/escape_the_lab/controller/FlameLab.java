@@ -16,6 +16,8 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlameLab {
     Button quit;
@@ -74,6 +76,18 @@ public class FlameLab {
     private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/zoomFlameF.png").toExternalForm()));
     // background
     // start/end
+    // Monolog.
+    private final ImageView monoPass = new ImageView(new Image(getClass().getResource("/images/pass.png").toExternalForm()));
+    private final ImageView monoPassF = new ImageView(new Image(getClass().getResource("/images/passF.png").toExternalForm()));
+    private final ImageView monoFail = new ImageView(new Image(getClass().getResource("/images/fail.png").toExternalForm()));
+    private final ImageView monoFailF = new ImageView(new Image(getClass().getResource("/images/failF.png").toExternalForm()));
+    private final ImageView monoLab = new ImageView(new Image(getClass().getResource("/images/labTalk.png").toExternalForm()));
+    private final ImageView monoLabF = new ImageView(new Image(getClass().getResource("/images/labTalkF.png").toExternalForm()));
+    private final ImageView monoFind = new ImageView(new Image(getClass().getResource("/images/find.png").toExternalForm()));
+    private final ImageView monoFindF = new ImageView(new Image(getClass().getResource("/images/findF.png").toExternalForm()));
+
+    List<ImageView> monologs = new ArrayList<>();
+    List<ImageView> monologsF = new ArrayList<>();
 
     // Sounds.
     String batPath = getClass().getResource("/sounds/bat.mp3").toExternalForm();
@@ -84,6 +98,13 @@ public class FlameLab {
     MediaPlayer batFlyPlayer = new MediaPlayer(batFlyMedia);
 
     public void startLab(Stage stage) {
+        GameController controller = new GameController();
+        boolean l = controller.language;
+        System.out.println(l);
+
+        monologs.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
+        monologsF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
+
         // Set bats for start.
         batsFly.setVisible(false);
         batsFly.setMouseTransparent(true);
@@ -105,9 +126,30 @@ public class FlameLab {
         Scene scene = new Scene(mainLayout);
 
         door.setOnMouseClicked(e -> {
-            Scene zoomScene = new Scene(zoomDoor());
-            stage.setScene(zoomScene);
+            Scene zoomDScene = new Scene(zoomDoor());
+            stage.setScene(zoomDScene);
         });
+
+        drawerMic.setOnMouseClicked(e -> {
+            Scene zoomDMScene = new Scene(zoomSmall());
+            stage.setScene(zoomDMScene);
+        });
+
+        drawerLab.setOnMouseClicked(e -> {
+            Scene zoomDLScene = new Scene(zoomBig());
+            stage.setScene(zoomDLScene);
+        });
+
+        microscope.setOnMouseClicked(e -> {
+            Scene zoomMScene = new Scene(zoomMicro());
+            stage.setScene(zoomMScene);
+        });
+
+        labSet.setOnMouseClicked(e -> {
+            Scene zoomLScene = new Scene(zoomLab());
+            stage.setScene(zoomLScene);
+        });
+
         quit = new Button("back");
         quit.setOnAction(e -> {
             stage.setScene(scene);
@@ -133,7 +175,39 @@ public class FlameLab {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(flameZoom);
-        //stackPane.getChildren().add(inventory);
+        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
+        stackPane.getChildren().add(quit);
+        return stackPane;
+    }
+
+    private StackPane zoomBig() {
+        StackPane stackPane = new StackPane();
+        //stackPane.getChildren().add(doorZoom);
+        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
+        stackPane.getChildren().add(quit);
+        return stackPane;
+    }
+
+    private StackPane zoomSmall() {
+        StackPane stackPane = new StackPane();
+        //stackPane.getChildren().add(doorZoom);
+        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
+        stackPane.getChildren().add(quit);
+        return stackPane;
+    }
+
+    private StackPane zoomMicro() {
+        StackPane stackPane = new StackPane();
+        //stackPane.getChildren().add(doorZoom);
+        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
+        stackPane.getChildren().add(quit);
+        return stackPane;
+    }
+
+    private StackPane zoomLab() {
+        StackPane stackPane = new StackPane();
+        //stackPane.getChildren().add(doorZoom);
+        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
         stackPane.getChildren().add(quit);
         return stackPane;
     }

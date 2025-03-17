@@ -3,7 +3,6 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,8 +15,14 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+// HOW TO ACCESS THE LANGUAGE SYSTEM:
+// IN YOUR OWN LAB, CREATE A GAME CONTROLLER.
+// WRITE boolean l = controller.language;
+// DEPENDING ON THE BOOLEAN, USE LISTS OF DIFFERENT LANGUAGE IMAGES.
+
 public class GameController extends Application {
 
+    public static boolean language = true; // True English False French.
     private LifeManager lifeManager;
     private Player player;
     private Lab currentLab;
@@ -77,6 +82,7 @@ public class GameController extends Application {
             root.getChildren().add(frButton);
             root.getChildren().add(startButtonFr);
             scene.setRoot(root);
+            GameController.language = false;
         });
         enButton.setOnMouseClicked(e -> {
             root = new StackPane(startGame);
@@ -84,6 +90,7 @@ public class GameController extends Application {
             root.getChildren().add(frButton);
             root.getChildren().add(startButton);
             scene.setRoot(root);
+            GameController.language = true;
         });
 
         stage.setScene(scene);
