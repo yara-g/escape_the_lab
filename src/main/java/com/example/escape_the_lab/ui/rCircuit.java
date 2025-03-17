@@ -66,6 +66,8 @@ public class rCircuit extends Application {
 
         pane.getChildren().addAll(drawer, metalBox, door);
         Button temp = new Button("Skip to next");
+        temp.setTranslateX(-1200);
+        temp.setMinWidth(90);
         temp.setOnAction(e -> {
               AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage); // Create a new instance
     rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab); // Pass both stage and lab
