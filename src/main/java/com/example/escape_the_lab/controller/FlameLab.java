@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlameLab {
-    Button quit;
     // Flame test
     // Possible flames : 4 colors, right color is the wall paper.
     private final ImageView flameColorCrimsonLab = new ImageView(new Image("file:")); //
@@ -126,33 +125,28 @@ public class FlameLab {
         Scene scene = new Scene(mainLayout);
 
         door.setOnMouseClicked(e -> {
-            Scene zoomDScene = new Scene(zoomDoor());
+            Scene zoomDScene = new Scene(zoomDoor(stage, scene));
             stage.setScene(zoomDScene);
         });
 
         drawerMic.setOnMouseClicked(e -> {
-            Scene zoomDMScene = new Scene(zoomSmall());
+            Scene zoomDMScene = new Scene(zoomSmall(stage, scene));
             stage.setScene(zoomDMScene);
         });
 
         drawerLab.setOnMouseClicked(e -> {
-            Scene zoomDLScene = new Scene(zoomBig());
+            Scene zoomDLScene = new Scene(zoomBig(stage, scene));
             stage.setScene(zoomDLScene);
         });
 
         microscope.setOnMouseClicked(e -> {
-            Scene zoomMScene = new Scene(zoomMicro());
+            Scene zoomMScene = new Scene(zoomMicro(stage, scene));
             stage.setScene(zoomMScene);
         });
 
         labSet.setOnMouseClicked(e -> {
-            Scene zoomLScene = new Scene(zoomLab());
+            Scene zoomLScene = new Scene(zoomLab(stage, scene));
             stage.setScene(zoomLScene);
-        });
-
-        quit = new Button("back");
-        quit.setOnAction(e -> {
-            stage.setScene(scene);
         });
 
         stage.setScene(scene);
@@ -171,44 +165,71 @@ public class FlameLab {
         });
     }
 
-    private StackPane zoomDoor() {
+    private StackPane zoomDoor(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(flameZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        stackPane.getChildren().add(quit);
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        imageView.setOnMouseClicked(e -> {
+            stage.setScene(scene);
+        });
+        stackPane.getChildren().add(imageView);
+
+        // Button for monolog test
+        Button b = new Button();
+        stackPane.getChildren().add(b);
+        b.setOnAction(e -> {
+            stackPane.getChildren().add(monologs.get(0));
+        });
         return stackPane;
     }
 
-    private StackPane zoomBig() {
+    private StackPane zoomBig(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        stackPane.getChildren().add(quit);
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        imageView.setOnMouseClicked(e -> {
+            stage.setScene(scene);
+        });
+        stackPane.getChildren().add(imageView);
         return stackPane;
     }
 
-    private StackPane zoomSmall() {
+    private StackPane zoomSmall(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        stackPane.getChildren().add(quit);
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        imageView.setOnMouseClicked(e -> {
+            stage.setScene(scene);
+        });
+        stackPane.getChildren().add(imageView);
         return stackPane;
     }
 
-    private StackPane zoomMicro() {
+    private StackPane zoomMicro(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        stackPane.getChildren().add(quit);
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        imageView.setOnMouseClicked(e -> {
+            stage.setScene(scene);
+        });
+        stackPane.getChildren().add(imageView);
         return stackPane;
     }
 
-    private StackPane zoomLab() {
+    private StackPane zoomLab(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        stackPane.getChildren().add(quit);
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        imageView.setOnMouseClicked(e -> {
+            stage.setScene(scene);
+        });
+        stackPane.getChildren().add(imageView);
         return stackPane;
     }
 }
