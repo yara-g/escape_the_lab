@@ -1,5 +1,6 @@
 package com.example.escape_the_lab.ui;
 
+import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.SpringLab;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -65,6 +66,18 @@ public class rSpring {
 
         Pane root = new Pane();
         root.getChildren().addAll(bed, labTable, drawers);
+
+        // TEMPORARY
+        Button temp = new Button("Skip to next");
+        temp.setOnAction(e -> {
+            rCircuit lab = new rCircuit();
+            try {
+                lab.start(stage);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         stage.setScene(new Scene(root, 1000, 650));
     }
 

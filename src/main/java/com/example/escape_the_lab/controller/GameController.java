@@ -54,8 +54,6 @@ public class GameController extends Application {
 
         //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
-        startGame.setFitWidth(800);
-        startGame.setFitHeight(500);
 
         // Set up initial UI
         StackPane root = new StackPane(startGame);
