@@ -113,7 +113,7 @@ public class GameController extends Application {
         primaryStage.setScene(gameOverScene);
     }
 
-    void transitionToNextLab() {
+    public void transitionToNextLab() {
         if (currentLab instanceof CircuitLab) {
             currentLab = new FlameLab();
         } else if (currentLab instanceof FlameLab) {
