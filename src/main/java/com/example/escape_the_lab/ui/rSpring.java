@@ -78,6 +78,8 @@ public class rSpring {
             }
         });
 
+        root.getChildren().add(temp);
+
         stage.setScene(new Scene(root, 1000, 650));
     }
 
