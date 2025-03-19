@@ -1,35 +1,27 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.model.Lab;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlameLab {
     // Flame test
-    // Possible flames : 4 colors, right color is the wall paper.
+    // Possible flames : 4 colors, right color is the wall color.
     private final ImageView flameColorCrimsonLab = new ImageView(new Image("file:")); //
     private final ImageView flameColorGreenLab = new ImageView(new Image("file:")); //
     private final ImageView flameColorLilacLab = new ImageView(new Image("file:")); //
     private final ImageView flameColorYellowLab = new ImageView(new Image("file:")); //
     // Chosen flame color.
-    // Collect the flame to put on a slot on door
-    // My hand! It burns! (wrong color)
-    // Thank God I don't have to play with fire anymore... (right color)
     private ImageView flameColor;
     private final ImageView flameColorCrimsonTool = new ImageView(new Image("file:"));
     private final ImageView flameColorGreenTool = new ImageView(new Image("file:"));
@@ -46,7 +38,6 @@ public class FlameLab {
     private final ImageView kclTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView naclTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     // Bunsen burner blue flame. Found from
-    // Now let me cook.
     private final ImageView bunsenBurner = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView BunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView bunsenBurnerLab = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
@@ -55,7 +46,6 @@ public class FlameLab {
     private final ImageView wireLoopTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView wireLoopLab = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     // Test tubes: 3, be on table.
-    // If try to put in used tube: It's already filled.
     private final ImageView testTubesLab = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     // Tiny paper hint on table says: "Look around you"
     // Other images needed.
@@ -73,8 +63,11 @@ public class FlameLab {
     // Zooms.
     private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/zoomDoorF.png").toExternalForm()));
     private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/zoomFlameF.png").toExternalForm()));
-    // background
-    // start/end
+
+    ImageView zoomedMicroscope;
+
+    ImageView powder;
+
     // Monolog.
     private final ImageView monoPass = new ImageView(new Image(getClass().getResource("/images/pass.png").toExternalForm()));
     private final ImageView monoPassF = new ImageView(new Image(getClass().getResource("/images/passF.png").toExternalForm()));
@@ -85,9 +78,9 @@ public class FlameLab {
     private final ImageView monoFind = new ImageView(new Image(getClass().getResource("/images/find.png").toExternalForm()));
     private final ImageView monoFindF = new ImageView(new Image(getClass().getResource("/images/findF.png").toExternalForm()));
 
-    List<ImageView> monologs = new ArrayList<>();
-    List<ImageView> monologsF = new ArrayList<>();
-    List<ImageView> monologsL = new ArrayList<>();
+    List<ImageView> monologues = new ArrayList<>();
+    List<ImageView> monologuesF = new ArrayList<>();
+    List<ImageView> monologuesL = new ArrayList<>();
 
     // Sounds.
     String batPath = getClass().getResource("/sounds/bat.mp3").toExternalForm();
@@ -97,27 +90,44 @@ public class FlameLab {
     Media batFlyMedia = new Media(batFlyPath);
     MediaPlayer batFlyPlayer = new MediaPlayer(batFlyMedia);
 
+    // My items.
+    List<ImageView> myPossibleItems = new ArrayList<>();
+    int chosenDigit;
+    ImageView chosenItem;
+
     // Items.
     // a list for imageviews, that are what ive collected (6 max).
     // a list of max length 1, that is what is chosen atm.
     // if chosen contains xxx while clicking sth, reaction.
 
-    // if bunsen burner visible, say let me cook.
-
     public void startLab(Stage stage) {
+        // Set up language system.
         GameController controller = new GameController();
         boolean l = controller.language;
-
         if (l) {
-            monologsL.clear();
-            monologsL = monologs;
+            monologuesL.clear();
+            monologuesL = monologues;
         } else if (!l) {
-            monologsL.clear();
-            monologsL = monologsF;
+            monologuesL.clear();
+            monologuesL = monologuesF;
         }
+        monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
+        monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
 
-        monologs.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
-        monologsF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
+        // Set up items list.
+        chosenItem = myPossibleItems.get(chosenDigit);
+        zoomedMicroscope.setOnMouseClicked(e -> {
+            if (chosenItem.equals(powder)) {
+                licl.setVisible(true);
+                licl.setMouseTransparent(false);
+                bacl2.setVisible(true);
+                bacl2.setMouseTransparent(false);
+                kcl.setVisible(true);
+                kcl.setMouseTransparent(false);
+                nacl.setVisible(true);
+                nacl.setMouseTransparent(false);
+            }
+        });
 
         // Set bats for start.
         batsFly.setVisible(false);
@@ -129,36 +139,31 @@ public class FlameLab {
         batFlyPlayer.setOnEndOfMedia (() -> {
             batFlyPlayer.stop();
         });
-
-        // Call methods.
         scareBats();
 
         // Set up main layout.
         StackPane mainLayout = new StackPane();
+        flame.setMouseTransparent(true);
         mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly, inventory);
-
         Scene scene = new Scene(mainLayout);
 
+        // Set up basic mouse click actions.
         door.setOnMouseClicked(e -> {
             Scene zoomDScene = new Scene(zoomDoor(stage, scene));
             stage.setScene(zoomDScene);
         });
-
         drawerMic.setOnMouseClicked(e -> {
             Scene zoomDMScene = new Scene(zoomSmall(stage, scene));
             stage.setScene(zoomDMScene);
         });
-
         drawerLab.setOnMouseClicked(e -> {
             Scene zoomDLScene = new Scene(zoomBig(stage, scene));
             stage.setScene(zoomDLScene);
         });
-
         microscope.setOnMouseClicked(e -> {
             Scene zoomMScene = new Scene(zoomMicro(stage, scene));
             stage.setScene(zoomMScene);
         });
-
         labSet.setOnMouseClicked(e -> {
             Scene zoomLScene = new Scene(zoomLab(stage, scene));
             stage.setScene(zoomLScene);
@@ -168,7 +173,7 @@ public class FlameLab {
     }
 
     private void scareBats() {
-        Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(2), event -> {batsFly.setVisible(false);}));
+        Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(1.9), event -> {batsFly.setVisible(false);}));
         bats.setOnMouseClicked(e -> {
             bats.setMouseTransparent(true);
             batPlayer.play();
@@ -195,7 +200,7 @@ public class FlameLab {
         Button b = new Button();
         stackPane.getChildren().add(b);
         b.setOnAction(e -> {
-            stackPane.getChildren().add(monologsL.get(0));
+            stackPane.getChildren().add(monologuesL.get(0));
         });
         return stackPane;
     }
@@ -238,7 +243,7 @@ public class FlameLab {
         Button b = new Button();
         stackPane.getChildren().add(b);
         b.setOnAction(e -> {
-            stackPane.getChildren().add(monologsL.get(2));
+            stackPane.getChildren().add(monologuesL.get(2));
         });
         return stackPane;
     }

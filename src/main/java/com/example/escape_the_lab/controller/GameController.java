@@ -16,11 +16,6 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-// HOW TO ACCESS THE LANGUAGE SYSTEM:
-// IN YOUR OWN LAB, CREATE A GAME CONTROLLER.
-// WRITE boolean l = controller.language;
-// DEPENDING ON THE BOOLEAN, USE LISTS OF DIFFERENT LANGUAGE IMAGES.
-
 public class GameController extends Application {
 
     public static boolean language = true; // True English False French.
