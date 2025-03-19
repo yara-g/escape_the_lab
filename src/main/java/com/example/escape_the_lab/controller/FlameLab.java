@@ -1,35 +1,27 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.model.Lab;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlameLab {
     // Flame test
-    // Possible flames : 4 colors, right color is the wall paper.
+    // Possible flames : 4 colors, right color is the wall color.
     private final ImageView flameColorCrimsonLab = new ImageView(new Image("file:")); //
     private final ImageView flameColorGreenLab = new ImageView(new Image("file:")); //
     private final ImageView flameColorLilacLab = new ImageView(new Image("file:")); //
     private final ImageView flameColorYellowLab = new ImageView(new Image("file:")); //
     // Chosen flame color.
-    // Collect the flame to put on a slot on door
-    // My hand! It burns! (wrong color)
-    // Thank God I don't have to play with fire anymore... (right color)
     private ImageView flameColor;
     private final ImageView flameColorCrimsonTool = new ImageView(new Image("file:"));
     private final ImageView flameColorGreenTool = new ImageView(new Image("file:"));
@@ -46,7 +38,6 @@ public class FlameLab {
     private final ImageView kclTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView naclTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     // Bunsen burner blue flame. Found from
-    // Now let me cook.
     private final ImageView bunsenBurner = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView BunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView bunsenBurnerLab = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
@@ -55,7 +46,6 @@ public class FlameLab {
     private final ImageView wireLoopTool = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     private final ImageView wireLoopLab = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     // Test tubes: 3, be on table.
-    // If try to put in used tube: It's already filled.
     private final ImageView testTubesLab = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
     // Tiny paper hint on table says: "Look around you"
     // Other images needed.
@@ -73,8 +63,7 @@ public class FlameLab {
     // Zooms.
     private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/zoomDoorF.png").toExternalForm()));
     private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/zoomFlameF.png").toExternalForm()));
-    // background
-    // start/end
+
     // Monolog.
     private final ImageView monoPass = new ImageView(new Image(getClass().getResource("/images/pass.png").toExternalForm()));
     private final ImageView monoPassF = new ImageView(new Image(getClass().getResource("/images/passF.png").toExternalForm()));
@@ -85,9 +74,9 @@ public class FlameLab {
     private final ImageView monoFind = new ImageView(new Image(getClass().getResource("/images/find.png").toExternalForm()));
     private final ImageView monoFindF = new ImageView(new Image(getClass().getResource("/images/findF.png").toExternalForm()));
 
-    List<ImageView> monologs = new ArrayList<>();
-    List<ImageView> monologsF = new ArrayList<>();
-    List<ImageView> monologsL = new ArrayList<>();
+    List<ImageView> monologues = new ArrayList<>();
+    List<ImageView> monologuesF = new ArrayList<>();
+    List<ImageView> monologuesL = new ArrayList<>();
 
     // Sounds.
     String batPath = getClass().getResource("/sounds/bat.mp3").toExternalForm();
@@ -109,15 +98,15 @@ public class FlameLab {
         boolean l = controller.language;
 
         if (l) {
-            monologsL.clear();
-            monologsL = monologs;
+            monologuesL.clear();
+            monologuesL = monologues;
         } else if (!l) {
-            monologsL.clear();
-            monologsL = monologsF;
+            monologuesL.clear();
+            monologuesL = monologuesF;
         }
 
-        monologs.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
-        monologsF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
+        monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
+        monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
 
         // Set bats for start.
         batsFly.setVisible(false);
@@ -168,7 +157,7 @@ public class FlameLab {
     }
 
     private void scareBats() {
-        Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(2), event -> {batsFly.setVisible(false);}));
+        Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(1.9), event -> {batsFly.setVisible(false);}));
         bats.setOnMouseClicked(e -> {
             bats.setMouseTransparent(true);
             batPlayer.play();
@@ -195,7 +184,7 @@ public class FlameLab {
         Button b = new Button();
         stackPane.getChildren().add(b);
         b.setOnAction(e -> {
-            stackPane.getChildren().add(monologsL.get(0));
+            stackPane.getChildren().add(monologuesL.get(0));
         });
         return stackPane;
     }
@@ -238,7 +227,7 @@ public class FlameLab {
         Button b = new Button();
         stackPane.getChildren().add(b);
         b.setOnAction(e -> {
-            stackPane.getChildren().add(monologsL.get(2));
+            stackPane.getChildren().add(monologuesL.get(2));
         });
         return stackPane;
     }
