@@ -76,7 +76,7 @@ public class rCircuit extends Application {
     stage.setScene(lab.getMainScene());
         });
 
-        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, temp);
+        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, skipToNext);
 
         return scene;
     }
