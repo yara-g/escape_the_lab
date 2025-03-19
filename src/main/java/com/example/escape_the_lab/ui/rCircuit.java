@@ -1,19 +1,18 @@
 package com.example.escape_the_lab.ui;
 
-import com.example.escape_the_lab.model.Lab;
+import com.example.escape_the_lab.controller.AcidNeutralizationLab;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import com.example.escape_the_lab.controller.AcidNeutralizationLab;
 
 public class rCircuit extends Application {
     private Stage stage;
+
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -65,16 +64,16 @@ public class rCircuit extends Application {
         });
 
         pane.getChildren().addAll(drawer, metalBox, door);
-        Button temp = new Button("Skip to next");
-        temp.setTranslateX(-1200);
-        temp.setMinWidth(90);
-        temp.setOnAction(e -> {
-              AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage); // Create a new instance
-    rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab); // Pass both stage and lab
-    stage.setScene(lab.getMainScene());
+        Button skipToNext = new Button("Skip to next");
+        skipToNext.setTranslateX(-1200);
+        skipToNext.setMinWidth(90);
+        skipToNext.setOnAction(e -> {
+            AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage); // Create a new instance
+            rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab); // Pass both stage and lab
+            stage.setScene(lab.getMainScene());
         });
 
-        pane.getChildren().add(temp);
+        pane.getChildren().add(skipToNext);
 
         return scene;
     }
@@ -96,7 +95,7 @@ public class rCircuit extends Application {
         res4.setTranslateY(500);
         drawerPane.getChildren().addAll(res1, res2, res3, res4);
 
-        BackgroundImage myBI= new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
+        BackgroundImage myBI = new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(1000, 650, true, true, true, true));
         drawerPane.setBackground(new Background(myBI));
