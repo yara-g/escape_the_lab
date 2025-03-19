@@ -64,6 +64,10 @@ public class FlameLab {
     private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/zoomDoorF.png").toExternalForm()));
     private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/zoomFlameF.png").toExternalForm()));
 
+    ImageView zoomedMicroscope;
+
+    ImageView powder;
+
     // Monolog.
     private final ImageView monoPass = new ImageView(new Image(getClass().getResource("/images/pass.png").toExternalForm()));
     private final ImageView monoPassF = new ImageView(new Image(getClass().getResource("/images/passF.png").toExternalForm()));
@@ -86,17 +90,20 @@ public class FlameLab {
     Media batFlyMedia = new Media(batFlyPath);
     MediaPlayer batFlyPlayer = new MediaPlayer(batFlyMedia);
 
+    // My items.
+    List<ImageView> myPossibleItems = new ArrayList<>();
+    int chosenDigit;
+    ImageView chosenItem;
+
     // Items.
     // a list for imageviews, that are what ive collected (6 max).
     // a list of max length 1, that is what is chosen atm.
     // if chosen contains xxx while clicking sth, reaction.
 
-    // if bunsen burner visible, say let me cook.
-
     public void startLab(Stage stage) {
+        // Set up language system.
         GameController controller = new GameController();
         boolean l = controller.language;
-
         if (l) {
             monologuesL.clear();
             monologuesL = monologues;
@@ -104,9 +111,23 @@ public class FlameLab {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
-
         monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
         monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
+
+        // Set up items list.
+        chosenItem = myPossibleItems.get(chosenDigit);
+        zoomedMicroscope.setOnMouseClicked(e -> {
+            if (chosenItem.equals(powder)) {
+                licl.setVisible(true);
+                licl.setMouseTransparent(false);
+                bacl2.setVisible(true);
+                bacl2.setMouseTransparent(false);
+                kcl.setVisible(true);
+                kcl.setMouseTransparent(false);
+                nacl.setVisible(true);
+                nacl.setMouseTransparent(false);
+            }
+        });
 
         // Set bats for start.
         batsFly.setVisible(false);
@@ -118,36 +139,31 @@ public class FlameLab {
         batFlyPlayer.setOnEndOfMedia (() -> {
             batFlyPlayer.stop();
         });
-
-        // Call methods.
         scareBats();
 
         // Set up main layout.
         StackPane mainLayout = new StackPane();
+        flame.setMouseTransparent(true);
         mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly, inventory);
-
         Scene scene = new Scene(mainLayout);
 
+        // Set up basic mouse click actions.
         door.setOnMouseClicked(e -> {
             Scene zoomDScene = new Scene(zoomDoor(stage, scene));
             stage.setScene(zoomDScene);
         });
-
         drawerMic.setOnMouseClicked(e -> {
             Scene zoomDMScene = new Scene(zoomSmall(stage, scene));
             stage.setScene(zoomDMScene);
         });
-
         drawerLab.setOnMouseClicked(e -> {
             Scene zoomDLScene = new Scene(zoomBig(stage, scene));
             stage.setScene(zoomDLScene);
         });
-
         microscope.setOnMouseClicked(e -> {
             Scene zoomMScene = new Scene(zoomMicro(stage, scene));
             stage.setScene(zoomMScene);
         });
-
         labSet.setOnMouseClicked(e -> {
             Scene zoomLScene = new Scene(zoomLab(stage, scene));
             stage.setScene(zoomLScene);
