@@ -16,6 +16,7 @@ public class rSpring {
     //"To escape, you must harness the power of harmonic motion. Choose wisely,
     // or be doomed to an eternity of oscillation!"
     //private Label messageLabel;
+    ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
 
     public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
@@ -65,7 +66,7 @@ public class rSpring {
         drawers.setOnMouseClicked(event -> showDrawersScene()); // opens drawer/ mass selection
 
         Pane root = new Pane();
-        root.getChildren().addAll(bed, labTable, drawers);
+        root.getChildren().addAll(bed, labTable, drawers, inventoryImage);
 
         // TEMPORARY
         Button temp = new Button("Skip to next");
@@ -100,14 +101,12 @@ public class rSpring {
         ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
 
         Button goBack = new Button("Go back");
-        root.getChildren().add(goBack);
-
         goBack.setOnAction(e -> {
             showMainScene();
         });
 
 
-        root.getChildren().addAll(bedSprings, spring1, spring2, spring3);
+        root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack);
         stage.setScene(new Scene(root, 1000, 650));
     }
 
@@ -146,7 +145,7 @@ public class rSpring {
 //        book.setLayoutX(100);
 //        book.setLayoutY(70);
 
-        root.getChildren().addAll(drawer, mass1, mass2, mass3);
+        root.getChildren().addAll(drawer, mass1, mass2, mass3, inventoryImage);
         stage.setScene(new Scene(root, 1000, 650));
 
         Button goBack = new Button("Go back");

@@ -33,13 +33,16 @@ public class rCircuit extends Application {
         find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high and even too low.
          */
 
-        HBox pane = new HBox(100);
+        StackPane pane = new StackPane();
         Scene scene = new Scene(pane, 1000, 650);
 
         ImageView drawer = new ImageView(new Image(getClass().getResource("/images/drawers.png").toExternalForm()));
         drawer.setPreserveRatio(true);
-        drawer.setFitHeight(300);
-        drawer.setTranslateY(200);
+        drawer.setFitHeight(200);
+        drawer.setTranslateY(0);
+        drawer.setTranslateX(-300);
+
+        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
 
         drawer.setOnMouseClicked(e -> {
             showInsideDrawer();
@@ -47,26 +50,26 @@ public class rCircuit extends Application {
 
         ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/metal-box.png").toExternalForm()));
         metalBox.setPreserveRatio(true);
-        metalBox.setTranslateY(150);
-        metalBox.setFitHeight(200);
+        metalBox.setTranslateY(-50);
+        metalBox.setTranslateX(-50);
+        metalBox.setFitHeight(150);
 
         metalBox.setOnMouseClicked(e -> {
             showInsideMetalBox();
         });
 
         ImageView door = new ImageView(new Image(getClass().getResource("/images/door.png").toExternalForm()));
-        door.setFitHeight(500);
+        door.setFitHeight(300);
         door.setPreserveRatio(true);
-        door.setTranslateX(-200);
-        door.setTranslateY(50);
+        door.setTranslateX(200);
+        door.setTranslateY(0);
 
         door.setOnMouseClicked(e -> {
             showDoorMessage();
         });
 
-        pane.getChildren().addAll(drawer, metalBox, door);
         Button temp = new Button("Skip to next");
-        temp.setTranslateX(-1200);
+        temp.setTranslateX(0);
         temp.setMinWidth(90);
         temp.setOnAction(e -> {
               AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage); // Create a new instance
@@ -74,12 +77,13 @@ public class rCircuit extends Application {
     stage.setScene(lab.getMainScene());
         });
 
-        pane.getChildren().add(temp);
+        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, temp);
 
         return scene;
     }
 
     private void showInsideDrawer() {
+        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
         Pane drawerPane = new Pane();
         Scene drawerScene = new Scene(drawerPane, 1000, 650);
         Label res1 = new Label("resistor 1");
@@ -94,7 +98,7 @@ public class rCircuit extends Application {
         Label res4 = new Label("resistor 4");
         res4.setTranslateX(500);
         res4.setTranslateY(500);
-        drawerPane.getChildren().addAll(res1, res2, res3, res4);
+        drawerPane.getChildren().addAll(res1, res2, res3, res4, inventoryImage);
 
         BackgroundImage myBI= new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -116,6 +120,6 @@ public class rCircuit extends Application {
     }
 
     private void showDoorMessage() {
-        System.out.println("the door is mechanically locked and way too heavy for you to push it.");
+        System.out.println("too heavy for you.");
     }
 }

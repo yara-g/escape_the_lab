@@ -2,6 +2,7 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
+import com.example.escape_the_lab.ui.Overlay;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,6 +30,7 @@ public class GameController extends Application {
     private Stage primaryStage;
     private Inventory inventory;
     private StackPane root;
+    private Overlay overlay;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,7 +39,10 @@ public class GameController extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
+        stage.setResizable(false);
 
+        //initialize lifeManager
+        lifeManager = LifeManager.getInstance();
         // Initialize player and labs
         player = new Player();
         inventory = new Inventory();
@@ -53,9 +58,6 @@ public class GameController extends Application {
         healthPotionImageView.setOnMouseDragged(e -> {
             // Logic to handle dragging
         });
-
-        //initialize lifeManager
-        lifeManager = LifeManager.getInstance();
 
         //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
