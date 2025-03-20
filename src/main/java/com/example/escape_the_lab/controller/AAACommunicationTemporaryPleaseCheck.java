@@ -10,7 +10,7 @@ public class AAACommunicationTemporaryPleaseCheck {
     // I have added the inventory image to each of your scenes. If you add any new scene, make sure to add the image too
     // As for the Overlay, I have only done the spring lab for now, but will get to the other ones soon.
     // For now, each inventory slot is a button. I'll see how that will work out...
-    //
+
     // Olivia:
     // I added gameFail.png and gameFailF.png for when the user dies. Whoever do the lives count and death
     // put a stackpane including gameFail.png and goBack.png for English, and a stackpane gameFailF.png

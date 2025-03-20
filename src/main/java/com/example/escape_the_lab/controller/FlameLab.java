@@ -1,5 +1,6 @@
 package com.example.escape_the_lab.controller;
 
+import com.example.escape_the_lab.ui.Inventory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -39,7 +40,7 @@ public class FlameLab {
     //private final ImageView naclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
     // Bunsen burner blue flame. Found from
     //private final ImageView bunsenBurner = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    //private final ImageView BunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
+    private final ImageView BunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/batF.png").toExternalForm()));
     //private final ImageView bunsenBurnerLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
     // Wire loop. Found from
     //private final ImageView wireLoop = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
@@ -63,9 +64,12 @@ public class FlameLab {
     // Zooms.
     private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomDoorF.png").toExternalForm()));
     private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomFlameF.png").toExternalForm()));
+    private final ImageView flameZoomRight = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/flameRightF.png").toExternalForm()));
+    private final ImageView closedBig = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/closedF.png").toExternalForm()));
+    private final ImageView openBig = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/openF.png").toExternalForm()));
+    private final ImageView drawerBunsen = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/drawerBunsenF.png").toExternalForm()));
 
     ImageView zoomedMicroscope;
-
     ImageView powder;
 
     // Monologue.
@@ -89,6 +93,9 @@ public class FlameLab {
     String batFlyPath = getClass().getResource("/sounds/batFly.mp3").toExternalForm();
     Media batFlyMedia = new Media(batFlyPath);
     MediaPlayer batFlyPlayer = new MediaPlayer(batFlyMedia);
+    String doorCreak = getClass().getResource("/sounds/doorCreak.mp3").toExternalForm();
+    Media doorMedia = new Media(doorCreak);
+    MediaPlayer doorPlayer = new MediaPlayer(doorMedia);
 
     // My items.
     List<ImageView> myPossibleItems = new ArrayList<>();
@@ -141,9 +148,21 @@ public class FlameLab {
         });
         scareBats();
 
-        // Set up main layout.
+        // Set up original state of objects.
         StackPane mainLayout = new StackPane();
         flame.setMouseTransparent(true);
+        flameZoomRight.setMouseTransparent(true);
+        flameZoomRight.setVisible(false);
+        openBig.setMouseTransparent(true);
+        openBig.setVisible(false);
+        drawerBunsen.setMouseTransparent(true);
+        drawerBunsen.setVisible(false);
+        BunsenBurnerTool.setMouseTransparent(true);
+        BunsenBurnerTool.setVisible(false);
+        doorPlayer.setOnEndOfMedia (() -> {
+            doorPlayer.stop();
+        });
+
         mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly, inventory);
         Scene scene = new Scene(mainLayout);
 
@@ -189,6 +208,7 @@ public class FlameLab {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(flameZoom);
+        stackPane.getChildren().add(flameZoomRight);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
         ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         imageView.setOnMouseClicked(e -> {
@@ -207,11 +227,25 @@ public class FlameLab {
 
     private StackPane zoomBig(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
-        //stackPane.getChildren().add(doorZoom);
+        stackPane.getChildren().add(closedBig);
+        stackPane.getChildren().add(openBig);
+        stackPane.getChildren().add(drawerBunsen);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
         ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         imageView.setOnMouseClicked(e -> {
             stage.setScene(scene);
+        });
+        closedBig.setOnMouseClicked(e -> {
+            doorPlayer.play();
+            openBig.setVisible(true);
+            drawerBunsen.setVisible(true);
+            drawerBunsen.setMouseTransparent(false);
+        });
+        drawerBunsen.setOnMouseClicked(e -> {
+            drawerBunsen.setVisible(false);
+            BunsenBurnerTool.setVisible(true);
+            BunsenBurnerTool.setMouseTransparent(false);
+            myPossibleItems.add(BunsenBurnerTool);
         });
         stackPane.getChildren().add(imageView);
         return stackPane;
