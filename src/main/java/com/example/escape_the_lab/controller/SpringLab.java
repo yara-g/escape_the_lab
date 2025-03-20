@@ -2,6 +2,7 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.SpringModel;
+import com.example.escape_the_lab.ui.Overlay;
 import com.example.escape_the_lab.ui.rSpring;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,9 +17,9 @@ public class SpringLab extends Lab {
     private final double correctSpringConstant = 50; // k in N/m
     private GameController gameController;
 
-    public SpringLab(Stage stage) {
+    public SpringLab(Stage stage, Overlay overlay) {
         this.stage = stage;
-        this.springLabUI = new rSpring(stage, this);
+        this.springLabUI = new rSpring(stage, this, overlay);
         this.gameController = gameController;
         this.springModel = new SpringModel(-1, -1); // Default values
     }

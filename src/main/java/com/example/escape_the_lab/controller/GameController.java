@@ -41,7 +41,8 @@ public class GameController extends Application {
         // Initialize player and labs
         player = new Player();
         inventory = new Inventory();
-        currentLab = new SpringLab(stage);
+        overlay = new Overlay(inventory, lifeManager);
+        currentLab = new SpringLab(stage, overlay);
 
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
@@ -124,7 +125,7 @@ public class GameController extends Application {
             LifeManager.getInstance().updateLives(player.getLives());
 
             // Transition back to the first lab scene
-            currentLab = new SpringLab(primaryStage);
+            currentLab = new SpringLab(primaryStage, overlay);
             currentLab.startLab();
             transitionToLabScene(currentLab);
         });

@@ -47,7 +47,7 @@ private Stage stage;
         List<ImageView> substances = Arrays.asList(acid1, acid2, base1);
 acidNeutralizationLab.registerSubstances(substances);
 
-        root.getChildren().addAll(b, acid1, acid2, base1, arenaPane, inventoryImage);
+        root.getChildren().addAll(acid1, acid2, base1, arenaPane, inventoryImage, b);
         return new Scene(root, 1000, 650);
     }
 
