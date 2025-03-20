@@ -10,13 +10,16 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class rSpring {
-    private final Stage stage;
-    private final SpringLab springLab;
+    private Stage stage;
+    private SpringLab springLab;
+    ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    Overlay overlay;
 
     // Constructor
-    public rSpring(Stage stage, SpringLab springLab) {
+    public rSpring(Stage stage, SpringLab springLab, Overlay overlay) {
         this.stage = stage;
         this.springLab = springLab;
+        this.overlay = overlay;
     }
 
     // Main scene
@@ -55,7 +58,7 @@ public class rSpring {
         drawers.setOnMouseClicked(event -> showDrawersScene()); // Opens drawer/mass selection
 
         Pane root = new Pane();
-        root.getChildren().addAll(bed, labTable, drawers);
+        root.getChildren().addAll(bed, labTable, drawers, inventoryImage, overlay.getInventoryPane());
 
         stage.setScene(new Scene(root, 1000, 650));
 
@@ -92,13 +95,12 @@ public class rSpring {
         ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
 
         Button goBack = new Button("Go back");
-        root.getChildren().add(goBack);
-
         goBack.setOnAction(e -> {
             showMainScene();
         });
 
-        root.getChildren().addAll(bedSprings, spring1, spring2, spring3);
+
+        root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack, overlay.getInventoryPane());
         stage.setScene(new Scene(root, 1000, 650));
 
         // Start an animation timer to continuously check the solution
@@ -136,7 +138,7 @@ public class rSpring {
         ImageView mass2 = createMassImage("/images/mass2.png", 2.0, 250, 200);  // Correct choice
         ImageView mass3 = createMassImage("/images/mass3.png", 3.0, 400, 200);
 
-        root.getChildren().addAll(drawer, mass1, mass2, mass3);
+        root.getChildren().addAll(drawer, mass1, mass2, mass3, inventoryImage, overlay.getInventoryPane());
         stage.setScene(new Scene(root, 1000, 650));
 
         Button goBack = new Button("Go back");
