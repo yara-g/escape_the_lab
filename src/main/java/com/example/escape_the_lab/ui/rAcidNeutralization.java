@@ -15,7 +15,17 @@ public class rAcidNeutralization {
 private Stage stage;
     private AcidNeutralizationLab acidNeutralizationLab;
     private Pane arenaPane;
-    
+
+    // Olivia dropping images delivery :3
+    private final ImageView backGroundA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bgA.png").toExternalForm()));
+    private final ImageView treeA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/treeA.png").toExternalForm()));
+    private final ImageView houseA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/houseA.png").toExternalForm()));
+    private final ImageView doorA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/doorA.png").toExternalForm()));
+    private final ImageView bigFlowerA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bigFlowerA.png").toExternalForm()));
+    private final ImageView hintFlowerA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/hintFlowerA.png").toExternalForm()));
+    private final ImageView acidFloorA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/acidA.png").toExternalForm()));
+    private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    // Overlay order: backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory
 
     public rAcidNeutralization(Stage stage, AcidNeutralizationLab acidNeutralizationLab) {
         this.stage = stage;
@@ -44,9 +54,10 @@ private Stage stage;
         arenaPane.setLayoutY(100);
 
         List<ImageView> substances = Arrays.asList(acid1, acid2, base1);
-acidNeutralizationLab.registerSubstances(substances);
+        acidNeutralizationLab.registerSubstances(substances);
+        inventory.setMouseTransparent(true);
 
-        root.getChildren().addAll(b, acid1, acid2, base1, arenaPane);
+        root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, b, acid1, acid2, base1, arenaPane);
         return new Scene(root, 1000, 650);
     }
 
