@@ -65,9 +65,9 @@ public class rSpring {
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Skip to next");
         skipToNext.setOnAction(e -> {
-            rCircuit lab = new rCircuit();
+            rCircuit lab = new rCircuit(stage, overlay);
             try {
-                lab.start(stage);
+                lab.startLab();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -169,9 +169,9 @@ public class rSpring {
 
     // Start the rCircuit lab
     private void startRCircuitLab() {
-        rCircuit lab = new rCircuit();
+        rCircuit lab = new rCircuit(stage, overlay);
         try {
-            lab.start(stage);
+            lab.startLab();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

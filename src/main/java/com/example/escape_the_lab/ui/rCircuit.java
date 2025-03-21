@@ -10,12 +10,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class rCircuit extends Application {
+public class rCircuit {
     private Stage stage;
+    private Overlay overlay;
 
-    @Override
-    public void start(Stage stage) throws Exception {
+    public rCircuit(Stage stage, Overlay overlay) {
         this.stage = stage;
+        this.overlay = overlay;
+    }
+
+    public void startLab() throws Exception {
         Scene scene = makeScene();
         stage.setScene(scene);
         stage.show();
@@ -32,14 +36,14 @@ public class rCircuit extends Application {
         find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high and even too low.
          */
 
-        StackPane pane = new StackPane();
+        Pane pane = new Pane();
         Scene scene = new Scene(pane, 1000, 650);
 
         ImageView drawer = new ImageView(new Image(getClass().getResource("/images/drawers.png").toExternalForm()));
         drawer.setPreserveRatio(true);
         drawer.setFitHeight(200);
-        drawer.setTranslateY(0);
-        drawer.setTranslateX(-300);
+        drawer.setLayoutX(400);
+        drawer.setLayoutY(400);
 
         ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
 
@@ -49,8 +53,8 @@ public class rCircuit extends Application {
 
         ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/metal-box.png").toExternalForm()));
         metalBox.setPreserveRatio(true);
-        metalBox.setTranslateY(-50);
-        metalBox.setTranslateX(-50);
+        metalBox.setLayoutY(-50);
+        metalBox.setLayoutX(-50);
         metalBox.setFitHeight(150);
 
         metalBox.setOnMouseClicked(e -> {
@@ -60,23 +64,23 @@ public class rCircuit extends Application {
         ImageView door = new ImageView(new Image(getClass().getResource("/images/door.png").toExternalForm()));
         door.setFitHeight(300);
         door.setPreserveRatio(true);
-        door.setTranslateX(200);
-        door.setTranslateY(0);
+        door.setLayoutX(200);
 
         door.setOnMouseClicked(e -> {
             showDoorMessage();
         });
 
         Button skipToNext = new Button("Skip to next");
-        skipToNext.setTranslateX(0);
+        skipToNext.setTranslateX(300);
+        skipToNext.setTranslateY(300);
         skipToNext.setMinWidth(90);
         skipToNext.setOnAction(e -> {
-              AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage); // Create a new instance
-    rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab); // Pass both stage and lab
-    stage.setScene(lab.getMainScene());
+            AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
+            rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
+            stage.setScene(lab.getMainScene());
         });
 
-        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, skipToNext);
+        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, skipToNext, overlay.getInventoryPane());
 
         return scene;
     }
@@ -97,7 +101,6 @@ public class rCircuit extends Application {
         Label res4 = new Label("resistor 4");
         res4.setTranslateX(500);
         res4.setTranslateY(500);
-        drawerPane.getChildren().addAll(res1, res2, res3, res4, inventoryImage);
 
         BackgroundImage myBI = new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -105,12 +108,11 @@ public class rCircuit extends Application {
         drawerPane.setBackground(new Background(myBI));
 
         Button goBack = new Button("Go back");
-        drawerPane.getChildren().add(goBack);
 
         goBack.setOnAction(e -> {
             stage.setScene(makeScene());
         });
-
+        drawerPane.getChildren().addAll(res1, res2, res3, res4, inventoryImage, goBack, overlay.getInventoryPane());
         stage.setScene(drawerScene);
     }
 

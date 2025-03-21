@@ -1,12 +1,14 @@
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.ui.Inventory;
+import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlameLab {
+    Overlay overlay;
     // Flame test
     // Possible flames : 4 colors, right color is the wall color.
     private final ImageView flameColorCrimsonLab = new ImageView(new Image("file:")); //
@@ -107,7 +110,8 @@ public class FlameLab {
     // a list of max length 1, that is what is chosen atm.
     // if chosen contains xxx while clicking sth, reaction.
 
-    public void startLab(Stage stage) {
+    public void startLab(Stage stage, Overlay overlay) {
+        this.overlay = overlay;
         // Set up language system.
         GameController controller = new GameController();
         boolean l = controller.language;
@@ -164,7 +168,8 @@ public class FlameLab {
         });
 
         mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly, inventory);
-        Scene scene = new Scene(mainLayout);
+        Pane pane = new Pane(mainLayout, overlay.getInventoryPane());
+        Scene scene = new Scene(pane);
 
         // Set up basic mouse click actions.
         door.setOnMouseClicked(e -> {
@@ -204,7 +209,7 @@ public class FlameLab {
         });
     }
 
-    private StackPane zoomDoor(Stage stage, Scene scene) {
+    private Pane zoomDoor(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(flameZoom);
@@ -222,10 +227,10 @@ public class FlameLab {
         b.setOnAction(e -> {
             stackPane.getChildren().add(monologuesL.get(0));
         });
-        return stackPane;
+        return new Pane(stackPane, overlay.getInventoryPane());
     }
 
-    private StackPane zoomBig(Stage stage, Scene scene) {
+    private Pane zoomBig(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().add(closedBig);
         stackPane.getChildren().add(openBig);
@@ -248,10 +253,10 @@ public class FlameLab {
             myPossibleItems.add(BunsenBurnerTool);
         });
         stackPane.getChildren().add(imageView);
-        return stackPane;
+        return new Pane(stackPane, overlay.getInventoryPane());
     }
 
-    private StackPane zoomSmall(Stage stage, Scene scene) {
+    private Pane zoomSmall(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
@@ -260,10 +265,10 @@ public class FlameLab {
             stage.setScene(scene);
         });
         stackPane.getChildren().add(imageView);
-        return stackPane;
+        return new Pane(stackPane, overlay.getInventoryPane());
     }
 
-    private StackPane zoomMicro(Stage stage, Scene scene) {
+    private Pane zoomMicro(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
@@ -279,10 +284,10 @@ public class FlameLab {
         b.setOnAction(e -> {
             stackPane.getChildren().add(monologuesL.get(2));
         });
-        return stackPane;
+        return new Pane(stackPane, overlay.getInventoryPane());
     }
 
-    private StackPane zoomLab(Stage stage, Scene scene) {
+    private Pane zoomLab(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         //stackPane.getChildren().add(doorZoom);
         stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
@@ -291,6 +296,6 @@ public class FlameLab {
             stage.setScene(scene);
         });
         stackPane.getChildren().add(imageView);
-        return stackPane;
+        return new Pane(stackPane, overlay.getInventoryPane());
     }
 }

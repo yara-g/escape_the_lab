@@ -15,6 +15,7 @@ public class rAcidNeutralization {
 private Stage stage;
     private AcidNeutralizationLab acidNeutralizationLab;
     private Pane arenaPane;
+    private Overlay overlay;
 
     // Olivia dropping images delivery :3
     private final ImageView backGroundA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bgA.png").toExternalForm()));
@@ -27,9 +28,10 @@ private Stage stage;
     private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     // Overlay order: backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory
 
-    public rAcidNeutralization(Stage stage, AcidNeutralizationLab acidNeutralizationLab) {
+    public rAcidNeutralization(Stage stage, AcidNeutralizationLab acidNeutralizationLab, Overlay overlay) {
         this.stage = stage;
         this.acidNeutralizationLab = acidNeutralizationLab;
+        this.overlay = overlay;
     }
     public Scene getMainScene() {
         Pane root = new Pane();
@@ -38,13 +40,13 @@ private Stage stage;
         ImageView acid2 = createSubstance("/images/substance.png", 50, 200);
         ImageView base1 = createSubstance("/images/substance.png", 50, 300);
 
-        /**
+        /*
          * FOR OLIVIAS LAB TEMPORARY
          */
         Button b = new Button("Skip");
         FlameLab flameLab = new FlameLab();
         b.setOnAction(e -> {
-            flameLab.startLab(stage);
+            flameLab.startLab(stage, overlay);
         });
 
         arenaPane = new Pane();
@@ -57,7 +59,7 @@ private Stage stage;
         acidNeutralizationLab.registerSubstances(substances);
         inventory.setMouseTransparent(true);
 
-        root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, b, acid1, acid2, base1, arenaPane);
+        root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, b, acid1, acid2, base1, arenaPane, overlay.getInventoryPane());
         return new Scene(root, 1000, 650);
     }
 

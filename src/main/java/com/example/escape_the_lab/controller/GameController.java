@@ -140,17 +140,17 @@ public class GameController extends Application {
         primaryStage.setScene(gameOverScene);
     }
 
-    public void transitionToNextLab() {
-        if (currentLab instanceof CircuitLab) {
+//    public void transitionToNextLab() {
+//        if (currentLab instanceof CircuitLab) {
 //        } else if (currentLab instanceof FlameLab) {
 //            currentLab = new SpringLab(primaryStage);
-        } else if (currentLab instanceof AcidNeutralizationLab) {
-            //loadAcidNeutralization();
-            currentLab = new AcidNeutralizationLab(primaryStage);
-        }
-        currentLab.setupLab();
-        transitionToLabScene(currentLab);
-    }
+//        } else if (currentLab instanceof AcidNeutralizationLab) {
+//            loadAcidNeutralization();
+//            currentLab = new AcidNeutralizationLab(primaryStage);
+//        }
+//        currentLab.setupLab();
+//        transitionToLabScene(currentLab);
+//    }
 
     private void transitionToLabScene(Lab lab) {
         Scene labScene = lab.createScene();

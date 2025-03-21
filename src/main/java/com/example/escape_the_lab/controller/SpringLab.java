@@ -58,11 +58,11 @@ public class SpringLab extends Lab {
     }
 
     public void attemptEscape() {
-        if (checkSolution()) {
-            System.out.println("Correct combination! Escape successful.");
-            gameController.transitionToNextLab();
-        } else {
-            failLab();
-        }
+//        if (checkSolution()) {
+//            System.out.println("Correct combination! Escape successful.");
+//            gameController.transitionToNextLab();
+//        } else {
+//            failLab();
+//        }
     }
 }

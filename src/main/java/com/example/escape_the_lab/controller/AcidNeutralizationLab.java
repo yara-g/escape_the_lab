@@ -2,6 +2,7 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Substance;
+import com.example.escape_the_lab.ui.Overlay;
 import com.example.escape_the_lab.ui.rAcidNeutralization;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,10 +41,12 @@ ImageView AcidImage1, AcidImage2, AcidImage3, AcidImage4, AcidImage5, BaseImage1
     private Lab lab;
     Stage primaryStage;
     rAcidNeutralization acidNeutralizationLabUI;
-    
-    public AcidNeutralizationLab(Stage stage) {
+    public Overlay overlay;
+
+    public AcidNeutralizationLab(Stage stage, Overlay overlay) {
         this.primaryStage = stage;
-        this.acidNeutralizationLabUI = new rAcidNeutralization(stage, this);
+        this.acidNeutralizationLabUI = new rAcidNeutralization(stage, this, overlay);
+        this.overlay = overlay;
     }
 
 
