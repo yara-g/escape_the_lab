@@ -7,9 +7,9 @@ import java.util.List;
 public class AAACommunicationTemporaryPleaseCheck {
     // Yara:
     //// Inventory/Lives Overlay
-    // I have added the inventory image to each of your scenes. If you add any new scene, make sure to add the image too
-    // As for the Overlay, I have only done the spring lab for now, but will get to the other ones soon.
-    // For now, each inventory slot is a button. I'll see how that will work out...
+    // Make sure to add the inventory image to all of your scenes
+    // You must update the overlay via overlay.updateInventory() whenever you add/remove an item
+    // Yes this is stupid but guess what, i cant code.
 
     // Olivia:
     // I added gameFail.png and gameFailF.png for when the user dies. Whoever do the lives count and death

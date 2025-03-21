@@ -46,6 +46,7 @@ public class GameController extends Application {
 
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
+        overlay.updateInventory();
 
         ImageView healthPotionImageView = healthPotion.getImageView();
         healthPotionImageView.setFitWidth(50);
