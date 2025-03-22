@@ -19,21 +19,22 @@ import java.util.List;
 public class Overlay {
     private LifeManager lifeManager;
     private Inventory inventory;
+    private Group inventoryPane; // Shared inventory pane
     private ImageView inv1;
     private ImageView inv2;
     private ImageView inv3;
     private ImageView inv4;
     private ImageView inv5;
     private ImageView inv6;
-    private Group pane;
 
-    public Overlay(Inventory inventory, LifeManager lifeManager) {
+    public Overlay(Inventory inventory, LifeManager lifeManager, Group inventoryPane) {
         this.lifeManager = lifeManager;
         this.inventory = inventory;
+        this.inventoryPane = inventoryPane;
     }
 
     public Group getInventoryPane() {
-        return pane;
+        return inventoryPane;
     }
     public Inventory getInventory() {
         return inventory;
@@ -41,19 +42,22 @@ public class Overlay {
 
     public void updateInventory() {
         List<Item> items = inventory.getItems();
-        ImageView[] inventorySpots = new ImageView[] {inv1, inv2, inv3, inv4, inv5, inv6};
         VBox vBox = new VBox();
 
-        for (int i = 0; i < items.size(); i++) {
-            inventorySpots[i] = items.get(i).getImageView();
-            vBox.getChildren().add(inventorySpots[i]);
-            System.out.println("added " + items.get(i).getName());
+        vBox.getChildren().clear(); // Clear existing items before adding new ones
+
+        for (Item item : items) {
+            vBox.getChildren().add(item.getImageView());
+            System.out.println("added " + item.getName());
         }
 
         vBox.setSpacing(28);
         vBox.setTranslateY(80);
-        pane = new Group(vBox);
         vBox.setTranslateX(880);
+        vBox.setStyle("-fx-border-color: red; -fx-border-width: 2;"); // Debugging border
+
+        inventoryPane.getChildren().clear(); // Clear the shared inventory pane
+        inventoryPane.getChildren().add(vBox); // Add the updated VBox
     }
 
     public void setInventory(Inventory inventory) {

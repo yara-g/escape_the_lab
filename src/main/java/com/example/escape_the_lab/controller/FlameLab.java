@@ -1,8 +1,11 @@
 package com.example.escape_the_lab.controller;
 
+import com.example.escape_the_lab.model.Item;
+import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -17,20 +20,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlameLab {
+    // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
     /// Possible tools. 11 in total.
     private final ImageView flameColorCrimsonTool = new ImageView(new Image("file:"));
     private final ImageView flameColorGreenTool = new ImageView(new Image("file:"));
     private final ImageView flameColorLilacTool = new ImageView(new Image("file:"));
     private final ImageView flameColorYellowTool = new ImageView(new Image("file:"));
-    private final ImageView liclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/liclTool.jpg").toExternalForm()));
+    private final Item liclTool = new Item("LiCl", "/images/AAAFlameLab/liclTool.jpg");
     private final ImageView bacl2Tool = new ImageView(new Image("file:"));
     //private final ImageView kclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
     //private final ImageView naclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    private final ImageView bunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bunsenTool.jpg").toExternalForm()));
+    private final Item bunsenBurnerTool = new Item("Bunsen Burner", "/images/AAAFlameLab/bunsenTool.jpg");
     private final ImageView wireLoopTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/wireLoopTool.jpg").toExternalForm()));
     private final ImageView powderTool =new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/powderTool.jpg").toExternalForm()));
     /// Main page.
-    private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    //private final ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     private final ImageView microscope = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/microF.png").toExternalForm()));
     private final ImageView drawerLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bigF.png").toExternalForm()));
     private final ImageView labSet = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bunsenF.png").toExternalForm()));
@@ -95,9 +99,11 @@ public class FlameLab {
     MediaPlayer doorPlayer = new MediaPlayer(doorMedia);
 
     //private final ImageView wireLoopLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    StackPane myPossibleItems;
-    ImageView chosenItem;
+
     Overlay overlay;
+    Inventory inventory;
+    Group inventoryPane;
+    StackPane mainLayout;
     
     public void startLab(Stage stage, Overlay overlay) {
         /// Set up language system.
@@ -114,16 +120,18 @@ public class FlameLab {
         monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
 
         /// Set up inventory.
-        myPossibleItems = new StackPane();
         this.overlay = overlay;
+        inventory = overlay.getInventory();
+        inventoryPane = overlay.getInventoryPane();
 
         /// Set up to start the lab.
-        StackPane mainLayout = new StackPane();
+        mainLayout = new StackPane();
         scareBat();
         initialize();
 
-        mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly, inventory);
-        Pane pane = new Pane(mainLayout, overlay.getInventoryPane());
+        mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly);
+        addInventory(mainLayout);
+        Pane pane = new Pane(mainLayout, inventoryPane);
         Scene scene = new Scene(pane);
         zoomMain(stage, scene);
         stage.setScene(scene);
@@ -131,73 +139,75 @@ public class FlameLab {
 
     private Pane zoomDoor(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(doorZoom);
-        stackPane.getChildren().add(flameZoom);
-        stackPane.getChildren().add(flameZoomRight);
-        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
-        imageView.setOnMouseClicked(e -> {
+        ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        back.setOnMouseClicked(e -> {
             stage.setScene(scene);
         });
-        stackPane.getChildren().add(imageView);
 
-        // Button for monolog test
+        stackPane.getChildren().addAll(List.of(doorZoom, flameZoom, flameZoomRight));
+        addInventory(stackPane);
+        stackPane.getChildren().add(back);
+
+        // Button for monologue test
         Button b = new Button();
         stackPane.getChildren().add(b);
         b.setOnAction(e -> {
             stackPane.getChildren().add(monologuesL.get(0));
         });
-        return new Pane(stackPane, overlay.getInventoryPane());
+        return new Pane(stackPane, inventoryPane);
     }
 
     private Pane zoomBig(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(closedBig);
-        stackPane.getChildren().add(openBig);
-        stackPane.getChildren().add(drawerBunsen);
-        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
-        imageView.setOnMouseClicked(e -> {
+        ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        back.setOnMouseClicked(e -> {
             stage.setScene(scene);
         });
+
+        stackPane.getChildren().addAll(List.of(closedBig, openBig, drawerBunsen));
+        addInventory(stackPane);
+        stackPane.getChildren().add(back);
+
         closedBig.setOnMouseClicked(e -> {
             doorPlayer.play();
             openBig.setVisible(true);
             drawerBunsen.setVisible(true);
             drawerBunsen.setMouseTransparent(false);
         });
+
         drawerBunsen.setOnMouseClicked(e -> {
             drawerBunsen.setVisible(false);
             drawerBunsen.setMouseTransparent(true);
-            bunsenBurnerTool.setVisible(true);
-            bunsenBurnerTool.setMouseTransparent(false);
-            //updateInventoryUI(myPossibleItems, imageInventory);
+            inventory.addItem(bunsenBurnerTool);
+            overlay.updateInventory();
         });
-        stackPane.getChildren().add(imageView);
-        return new Pane(stackPane, overlay.getInventoryPane());
+        return new Pane(stackPane, inventoryPane);
     }
 
     private Pane zoomSmall(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
-        //stackPane.getChildren().add(doorZoom);
-        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
-        imageView.setOnMouseClicked(e -> {
+        ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        back.setOnMouseClicked(e -> {
             stage.setScene(scene);
         });
-        stackPane.getChildren().add(imageView);
-        return new Pane(stackPane, overlay.getInventoryPane());
+
+        //stackPane.getChildren().add(doorZoom);
+        addInventory(stackPane);
+        stackPane.getChildren().add(back);
+
+        return new Pane(stackPane, inventoryPane);
     }
 
     private Pane zoomMicro(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
-        //stackPane.getChildren().add(doorZoom);
-        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
-        imageView.setOnMouseClicked(e -> {
+        ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        back.setOnMouseClicked(e -> {
             stage.setScene(scene);
         });
-        stackPane.getChildren().add(imageView);
+
+        //stackPane.getChildren().add(doorZoom);
+        addInventory(stackPane);
+        stackPane.getChildren().add(back);
 
         // Button for monolog test
         Button b = new Button();
@@ -205,19 +215,25 @@ public class FlameLab {
         b.setOnAction(e -> {
             stackPane.getChildren().add(monologuesL.get(2));
         });
-        return new Pane(stackPane, overlay.getInventoryPane());
+        return new Pane(stackPane, inventoryPane);
     }
 
     private Pane zoomLab(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
-        //stackPane.getChildren().add(doorZoom);
-        stackPane.getChildren().add(new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm())));
-        ImageView imageView = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
-        imageView.setOnMouseClicked(e -> {
+        ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+        back.setOnMouseClicked(e -> {
             stage.setScene(scene);
         });
-        stackPane.getChildren().add(imageView);
-        return new Pane(stackPane, overlay.getInventoryPane());
+
+        stackPane.getChildren().addAll(List.of(zoomLabF, bunsenBurnerLab, paperF, sol1F, sol2F, sol3F, tube1F, tube2F, tube3F, flameColorCrimsonLab, flameColorGreenLab, flameColorLilacLab, flameColorYellowLab));
+        addInventory(stackPane);
+        stackPane.getChildren().add(back);
+
+        paperF.setOnMouseClicked(e -> {
+            // Look Around you
+        });
+
+        return new Pane(stackPane, inventoryPane);
     }
 
     /**
@@ -226,7 +242,6 @@ public class FlameLab {
     private void scareBat() {
         batsFly.setVisible(false);
         batsFly.setMouseTransparent(true);
-        inventory.setMouseTransparent(true);
 
         batPlayer.setOnEndOfMedia (() -> {batPlayer.stop();});
         batFlyPlayer.setOnEndOfMedia (() -> {batFlyPlayer.stop();});
@@ -260,6 +275,23 @@ public class FlameLab {
         doorPlayer.setOnEndOfMedia (() -> {
             doorPlayer.stop();
         });
+
+        sol1F.setMouseTransparent(true);
+        sol1F.setVisible(false);
+        sol2F.setMouseTransparent(true);
+        sol2F.setVisible(false);
+        sol3F.setMouseTransparent(true);
+        sol3F.setVisible(false);
+        bunsenBurnerLab.setMouseTransparent(true);
+        bunsenBurnerLab.setVisible(false);
+        flameColorCrimsonLab.setMouseTransparent(true);
+        flameColorGreenLab.setMouseTransparent(true);
+        flameColorLilacLab.setMouseTransparent(true);
+        flameColorYellowLab.setMouseTransparent(true);
+        flameColorCrimsonLab.setVisible(false);
+        flameColorGreenLab.setVisible(false);
+        flameColorLilacLab.setVisible(false);
+        flameColorYellowLab.setVisible(false);
     }
 
     /**
@@ -286,5 +318,16 @@ public class FlameLab {
             Scene zoomLScene = new Scene(zoomLab(stage, scene));
             stage.setScene(zoomLScene);
         });
+        stage.setOnShown(event -> {
+            if (!mainLayout.getChildren().contains(inventoryPane)) {
+                mainLayout.getChildren().add(inventoryPane);
+            }
+        });
+    }
+
+    private void addInventory(StackPane stackPane) {
+        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+        inventoryImage.setMouseTransparent(true);
+        stackPane.getChildren().add(inventoryImage);
     }
 }

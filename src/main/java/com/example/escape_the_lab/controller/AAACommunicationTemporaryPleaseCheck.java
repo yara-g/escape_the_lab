@@ -5,6 +5,12 @@ import javafx.scene.control.Button;
 import java.util.List;
 
 public class AAACommunicationTemporaryPleaseCheck {
+    // Olivia:
+    //// What I understand of inventory system:
+    // I draw every single possible item that could be stored in inventory, then add each in my class as Item.
+    // In my own lab, get my own Inventory, and add the item when the user interacts with the game correctly, ex: click something collectable.
+    // Whenever I do that, or use an item, update inventory with my overlay.
+
     // Yara:
     //// Inventory/Lives Overlay
     // Make sure to add the inventory image to all of your scenes

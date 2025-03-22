@@ -4,10 +4,12 @@ import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.example.escape_the_lab.model.Player;
@@ -26,6 +28,7 @@ public class GameController extends Application {
     private Inventory inventory;
     private StackPane root;
     private Overlay overlay;
+    private Group sharedInventoryPane;
 
     public static void main(String[] args) {
         launch(args);
@@ -41,7 +44,8 @@ public class GameController extends Application {
         // Initialize player and labs
         player = new Player();
         inventory = new Inventory();
-        overlay = new Overlay(inventory, lifeManager);
+        sharedInventoryPane = new Group();
+        overlay = new Overlay(inventory, lifeManager, sharedInventoryPane);
         currentLab = new SpringLab(stage, overlay);
 
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
