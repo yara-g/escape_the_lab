@@ -10,16 +10,38 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.Stack;
+
 public class rCircuit {
     private Stage stage;
     private Overlay overlay;
+    private Scene mainScene;
+
+    ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+
+    // whole room
+    ImageView panel = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/panel.png").toExternalForm()));
+    ImageView mainBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/main-bg.png").toExternalForm()));
+    ImageView glassThing = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/glass-thing.png").toExternalForm()));
+    ImageView door = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/door.png").toExternalForm()));
+
+    // panel scene
+    ImageView panelBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/panel-bg.png").toExternalForm()));
+    ImageView note = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note.png").toExternalForm()));
+//    ImageView noteZoom = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note-zoomed.png").toExternalForm()));
+    ImageView ledOff = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-off.png").toExternalForm()));
+//    ImageView ledOn = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-on.png").toExternalForm()));
+    ImageView unattachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/unattached-wire.png").toExternalForm()));
+//    ImageView attachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/attached-wire.png").toExternalForm()));
+
 
     public rCircuit(Stage stage, Overlay overlay) {
         this.stage = stage;
         this.overlay = overlay;
     }
 
-    public void startLab() throws Exception {
+    public void startLab() {
         Scene scene = makeScene();
         stage.setScene(scene);
         stage.show();
@@ -32,43 +54,14 @@ public class rCircuit {
         right: blocked metal door
         if user tries to open the door, a little message tells them that its mechanically shut
         the metal box is open and it shows two disconnected wires. little paper at the bottom of the box.
-        it says something like: the battery has an electric potential of 5V. the forward voltage of the LED is 3.2V. and the current needed is 0.02 A.
-        find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high and even too low.
+        it says something like: the battery has an electric potential of 5V and the current needed is 0.02 A. (user must find a document listing all the forward voltages
+        for each color of led and use the right voltage based on the color that they have, i was thinking red, 1.8V)
+        find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high, but if it's too low, you will not be
+        able to change resistance.
          */
-
-        Pane pane = new Pane();
-        Scene scene = new Scene(pane, 1000, 650);
-
-        ImageView drawer = new ImageView(new Image(getClass().getResource("/images/drawers.png").toExternalForm()));
-        drawer.setPreserveRatio(true);
-        drawer.setFitHeight(200);
-        drawer.setLayoutX(400);
-        drawer.setLayoutY(400);
-
-        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
-
-        drawer.setOnMouseClicked(e -> {
-            showInsideDrawer();
-        });
-
-        ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/metal-box.png").toExternalForm()));
-        metalBox.setPreserveRatio(true);
-        metalBox.setLayoutY(-50);
-        metalBox.setLayoutX(-50);
-        metalBox.setFitHeight(150);
-
-        metalBox.setOnMouseClicked(e -> {
-            showInsideMetalBox();
-        });
-
-        ImageView door = new ImageView(new Image(getClass().getResource("/images/door.png").toExternalForm()));
-        door.setFitHeight(300);
-        door.setPreserveRatio(true);
-        door.setLayoutX(200);
-
-        door.setOnMouseClicked(e -> {
-            showDoorMessage();
-        });
+        StackPane stackPane = new StackPane();
+        Pane pane = new Pane(stackPane);
+        mainScene = new Scene(pane, 1000, 650);
 
         Button skipToNext = new Button("Skip to next");
         skipToNext.setTranslateX(300);
@@ -80,43 +73,30 @@ public class rCircuit {
             stage.setScene(lab.getMainScene());
         });
 
-        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, skipToNext, overlay.getInventoryPane());
+        panel.setOnMouseClicked(e -> {
+            panelClicked(mainScene);
+        });
 
-        return scene;
+        stackPane.getChildren().addAll(mainBG, panel, door, glassThing, inventoryImage, skipToNext);
+        pane.getChildren().add(overlay.getInventoryPane());
+
+        return mainScene;
     }
 
-    private void showInsideDrawer() {
-        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
-        Pane drawerPane = new Pane();
-        Scene drawerScene = new Scene(drawerPane, 1000, 650);
-        Label res1 = new Label("resistor 1");
-        res1.setTranslateX(200);
-        res1.setTranslateY(200);
-        Label res2 = new Label("resistor 2");
-        res2.setTranslateX(400);
-        res2.setTranslateY(400);
-        Label res3 = new Label("resistor 3");
-        res3.setTranslateX(400);
-        res3.setTranslateY(300);
-        Label res4 = new Label("resistor 4");
-        res4.setTranslateX(500);
-        res4.setTranslateY(500);
-
-        BackgroundImage myBI = new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                new BackgroundSize(1000, 650, true, true, true, true));
-        drawerPane.setBackground(new Background(myBI));
-
-        Button goBack = new Button("Go back");
-
-        goBack.setOnAction(e -> {
-            stage.setScene(makeScene());
+    private void panelClicked(Scene scene) {
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
+        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        Scene currentScene = new Scene(pane);
+        back.setOnMouseClicked(e -> {
+            stage.setScene(scene);
         });
-        drawerPane.getChildren().addAll(res1, res2, res3, res4, inventoryImage, goBack, overlay.getInventoryPane());
-        stage.setScene(drawerScene);
+
+        stage.setScene(currentScene);
     }
 
     private void showInsideMetalBox() {
+
 
     }
 
