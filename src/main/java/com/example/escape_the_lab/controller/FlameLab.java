@@ -1,6 +1,5 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,41 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlameLab {
-    Overlay overlay;
-    // Flame test
-    // Possible flames : 4 colors, right color is the wall color.
-    private final ImageView flameColorCrimsonLab = new ImageView(new Image("file:")); //
-    private final ImageView flameColorGreenLab = new ImageView(new Image("file:")); //
-    private final ImageView flameColorLilacLab = new ImageView(new Image("file:")); //
-    private final ImageView flameColorYellowLab = new ImageView(new Image("file:")); //
-    // Chosen flame color.
-    private ImageView flameColor;
+    //// Possible tools. 11 in total.
     private final ImageView flameColorCrimsonTool = new ImageView(new Image("file:"));
     private final ImageView flameColorGreenTool = new ImageView(new Image("file:"));
     private final ImageView flameColorLilacTool = new ImageView(new Image("file:"));
     private final ImageView flameColorYellowTool = new ImageView(new Image("file:"));
-    // Powders to find from microscope (and they appear as the chemical formula)
-    // Are those...? (If inventory doesn't have powder yet)
-    private final ImageView licl = new ImageView(new Image("file:1.webp"));
-    private final ImageView bacl2 = new ImageView(new Image("file:"));
-    private final ImageView kcl = new ImageView(new Image("file:"));
-    private final ImageView nacl = new ImageView(new Image("file:"));
-    private final ImageView liclTool = new ImageView(new Image("file:1.webp"));
+    private final ImageView liclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/liclTool.jpg").toExternalForm()));
     private final ImageView bacl2Tool = new ImageView(new Image("file:"));
     //private final ImageView kclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
     //private final ImageView naclTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    // Bunsen burner blue flame. Found from
-    //private final ImageView bunsenBurner = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    private final ImageView BunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/batF.png").toExternalForm()));
-    //private final ImageView bunsenBurnerLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    // Wire loop. Found from
-    //private final ImageView wireLoop = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    //private final ImageView wireLoopTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    //private final ImageView wireLoopLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    // Test tubes: 3, be on table.
-    //private final ImageView testTubesLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
-    // Tiny paper hint on table says: "Look around you"
-    // Other images needed.
+    private final ImageView bunsenBurnerTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bunsenTool.jpg").toExternalForm()));
+    private final ImageView wireLoopTool = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/wireLoopTool.jpg").toExternalForm()));
+    private final ImageView powderTool =new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/powderTool.jpg").toExternalForm()));
+    //// Main page.
+    private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     private final ImageView microscope = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/microF.png").toExternalForm()));
     private final ImageView drawerLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bigF.png").toExternalForm()));
     private final ImageView labSet = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bunsenF.png").toExternalForm()));
@@ -62,20 +40,38 @@ public class FlameLab {
     private final ImageView wall = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bgF.png").toExternalForm()));
     private final ImageView bats = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/batF.png").toExternalForm()));
     private final ImageView batsFly = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/batFlyF.png").toExternalForm()));
-    private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
-
-    // Zooms.
-    private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomDoorF.png").toExternalForm()));
-    private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomFlameF.png").toExternalForm()));
-    private final ImageView flameZoomRight = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/flameRightF.png").toExternalForm()));
+    //// Lab page.
+    private final ImageView bunsenBurnerLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/bunsenLabF.png").toExternalForm()));
+    private final ImageView flameColorCrimsonLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/crimLabF.jpg").toExternalForm()));
+    private final ImageView flameColorGreenLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/greenLabF.jpg").toExternalForm()));
+    private final ImageView flameColorLilacLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/lilacLabF.jpg").toExternalForm()));
+    private final ImageView flameColorYellowLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/yellowLabF.jpg").toExternalForm()));
+    private final ImageView paperF = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/paperF.jpg").toExternalForm()));
+    private final ImageView sol1F = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/sol1F.jpg").toExternalForm()));
+    private final ImageView sol2F = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/sol2F.jpg").toExternalForm()));
+    private final ImageView sol3F = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/sol3F.jpg").toExternalForm()));
+    private final ImageView tube1F = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/tube1F.jpg").toExternalForm()));
+    private final ImageView tube2F = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/tube2F.jpg").toExternalForm()));
+    private final ImageView tube3F = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/tube3F.jpg").toExternalForm()));
+    private final ImageView zoomLabF = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomLabF.jpg").toExternalForm()));
+    //// Big drawer page.
     private final ImageView closedBig = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/closedF.png").toExternalForm()));
     private final ImageView openBig = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/openF.png").toExternalForm()));
     private final ImageView drawerBunsen = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/drawerBunsenF.png").toExternalForm()));
-
+    //// Small drawer page.
+    //private final ImageView wireLoop = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
+    //// Microscope page.
     ImageView zoomedMicroscope;
-    ImageView powder;
-
-    // Monologue.
+    private final ImageView licl = new ImageView(new Image("file:1.webp"));
+    private final ImageView bacl2 = new ImageView(new Image("file:"));
+    private final ImageView kcl = new ImageView(new Image("file:"));
+    private final ImageView nacl = new ImageView(new Image("file:"));
+    //// Door page.
+    private final ImageView doorZoom = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomDoorF.png").toExternalForm()));
+    private final ImageView flameZoom = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/zoomFlameF.png").toExternalForm()));
+    private final ImageView flameZoomRight = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/flameRightF.png").toExternalForm()));
+    //// Monologue.
+    //ADD THE PAPER ONE. LOOK AROUND YOU
     private final ImageView monoPass = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/pass.png").toExternalForm()));
     private final ImageView monoPassF = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/passF.png").toExternalForm()));
     private final ImageView monoFail = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/fail.png").toExternalForm()));
@@ -84,12 +80,10 @@ public class FlameLab {
     private final ImageView monoLabF = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/labTalkF.png").toExternalForm()));
     private final ImageView monoFind = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/find.png").toExternalForm()));
     private final ImageView monoFindF = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/findF.png").toExternalForm()));
-
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
-
-    // Sounds.
+    //// Sounds.
     String batPath = getClass().getResource("/sounds/bat.mp3").toExternalForm();
     Media batMedia = new Media(batPath);
     MediaPlayer batPlayer = new MediaPlayer(batMedia);
@@ -100,15 +94,12 @@ public class FlameLab {
     Media doorMedia = new Media(doorCreak);
     MediaPlayer doorPlayer = new MediaPlayer(doorMedia);
 
-    // My items.
-    List<ImageView> myPossibleItems = new ArrayList<>();
-    int chosenDigit;
-    ImageView chosenItem;
+    //private final ImageView wireLoopLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
 
-    // Items.
-    // a list for imageviews, that are what ive collected (6 max).
-    // a list of max length 1, that is what is chosen atm.
-    // if chosen contains xxx while clicking sth, reaction.
+    StackPane myPossibleItems;
+    ImageView chosenItem;
+    Overlay overlay;
+
 
     public void startLab(Stage stage, Overlay overlay) {
         this.overlay = overlay;
@@ -125,20 +116,8 @@ public class FlameLab {
         monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab));
         monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF));
 
-        // Set up items list.
-//        chosenItem = myPossibleItems.get(chosenDigit);
-//        zoomedMicroscope.setOnMouseClicked(e -> {
-//            if (chosenItem.equals(powder)) {
-//                licl.setVisible(true);
-//                licl.setMouseTransparent(false);
-//                bacl2.setVisible(true);
-//                bacl2.setMouseTransparent(false);
-//                kcl.setVisible(true);
-//                kcl.setMouseTransparent(false);
-//                nacl.setVisible(true);
-//                nacl.setMouseTransparent(false);
-//            }
-//        });
+        // Set up inventory.
+        myPossibleItems = new StackPane();
 
         // Set bats for start.
         batsFly.setVisible(false);
@@ -161,8 +140,6 @@ public class FlameLab {
         openBig.setVisible(false);
         drawerBunsen.setMouseTransparent(true);
         drawerBunsen.setVisible(false);
-        BunsenBurnerTool.setMouseTransparent(true);
-        BunsenBurnerTool.setVisible(false);
         doorPlayer.setOnEndOfMedia (() -> {
             doorPlayer.stop();
         });
@@ -248,9 +225,10 @@ public class FlameLab {
         });
         drawerBunsen.setOnMouseClicked(e -> {
             drawerBunsen.setVisible(false);
-            BunsenBurnerTool.setVisible(true);
-            BunsenBurnerTool.setMouseTransparent(false);
-            myPossibleItems.add(BunsenBurnerTool);
+            drawerBunsen.setMouseTransparent(true);
+            bunsenBurnerTool.setVisible(true);
+            bunsenBurnerTool.setMouseTransparent(false);
+            //updateInventoryUI(myPossibleItems, imageInventory);
         });
         stackPane.getChildren().add(imageView);
         return new Pane(stackPane, overlay.getInventoryPane());
