@@ -1,16 +1,12 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.AcidNeutralizationLab;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.util.Stack;
 
 public class rCircuit {
     private Stage stage;
@@ -29,7 +25,7 @@ public class rCircuit {
     // panel scene
     ImageView panelBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/panel-bg.png").toExternalForm()));
     ImageView note = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note.png").toExternalForm()));
-//    ImageView noteZoom = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note-zoomed.png").toExternalForm()));
+    ImageView noteZoom = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note-zoomed.png").toExternalForm()));
     ImageView ledOff = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-off.png").toExternalForm()));
 //    ImageView ledOn = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-on.png").toExternalForm()));
     ImageView unattachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/unattached-wire.png").toExternalForm()));
@@ -39,11 +35,11 @@ public class rCircuit {
     public rCircuit(Stage stage, Overlay overlay) {
         this.stage = stage;
         this.overlay = overlay;
+        makeScene();
     }
 
-    public void startLab() {
-        Scene scene = makeScene();
-        stage.setScene(scene);
+    public void start() {
+        stage.setScene(makeScene());
         stage.show();
     }
 
@@ -60,8 +56,6 @@ public class rCircuit {
         able to change resistance.
          */
         StackPane stackPane = new StackPane();
-        Pane pane = new Pane(stackPane);
-        mainScene = new Scene(pane, 1000, 650);
 
         Button skipToNext = new Button("Skip to next");
         skipToNext.setTranslateX(300);
@@ -74,30 +68,44 @@ public class rCircuit {
         });
 
         panel.setOnMouseClicked(e -> {
-            panelClicked(mainScene);
+            panelClicked();
         });
 
         stackPane.getChildren().addAll(mainBG, panel, door, glassThing, inventoryImage, skipToNext);
-        pane.getChildren().add(overlay.getInventoryPane());
+        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        mainScene = new Scene(pane, 1000, 650);
 
         return mainScene;
     }
 
-    private void panelClicked(Scene scene) {
+    private void goBack() {
+        stage.setScene(makeScene());
+    }
+
+    private void panelClicked() {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
         Pane pane = new Pane(stackPane, overlay.getInventoryPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            goBack();
+        });
+        note.setOnMouseClicked(e -> {
+            readNote();
         });
 
         stage.setScene(currentScene);
     }
 
-    private void showInsideMetalBox() {
+    private void readNote() {
+        StackPane stackPane = new StackPane(panelBG, note, ledOff, unattachedWire, inventoryImage, back, noteZoom);
+        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        Scene currentScene = new Scene(pane);
+        back.setOnMouseClicked(e -> {
+            panelClicked();
+        });
 
-
+        stage.setScene(currentScene);
     }
 
     private void showDoorMessage() {

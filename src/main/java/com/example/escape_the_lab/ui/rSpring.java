@@ -67,7 +67,7 @@ public class rSpring {
         skipToNext.setOnAction(e -> {
             rCircuit lab = new rCircuit(stage, overlay);
             try {
-                lab.startLab();
+                lab.start();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -171,7 +171,7 @@ public class rSpring {
     private void startRCircuitLab() {
         rCircuit lab = new rCircuit(stage, overlay);
         try {
-            lab.startLab();
+            lab.start();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
