@@ -48,13 +48,11 @@ public class Overlay {
 
         for (Item item : items) {
             vBox.getChildren().add(item.getImageView());
-            System.out.println("added " + item.getName());
         }
 
-        vBox.setSpacing(28);
+        vBox.setSpacing(38);
         vBox.setTranslateY(80);
         vBox.setTranslateX(880);
-        vBox.setStyle("-fx-border-color: red; -fx-border-width: 2;"); // Debugging border
 
         inventoryPane.getChildren().clear(); // Clear the shared inventory pane
         inventoryPane.getChildren().add(vBox); // Add the updated VBox
