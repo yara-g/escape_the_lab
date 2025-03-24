@@ -58,7 +58,7 @@ public class rSpring {
         drawers.setOnMouseClicked(event -> showDrawersScene()); // Opens drawer/mass selection
 
         Pane root = new Pane();
-        root.getChildren().addAll(bed, labTable, drawers, inventoryImage, overlay.getInventoryPane());
+        root.getChildren().addAll(bed, labTable, drawers, inventoryImage, overlay.getOverlayPane());
 
         stage.setScene(new Scene(root, 1000, 650));
 
@@ -100,7 +100,7 @@ public class rSpring {
         });
 
 
-        root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack, overlay.getInventoryPane());
+        root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack, overlay.getOverlayPane());
         stage.setScene(new Scene(root, 1000, 650));
 
         // Start an animation timer to continuously check the solution
@@ -138,7 +138,7 @@ public class rSpring {
         ImageView mass2 = createMassImage("/images/mass2.png", 2.0, 250, 200);  // Correct choice
         ImageView mass3 = createMassImage("/images/mass3.png", 3.0, 400, 200);
 
-        root.getChildren().addAll(drawer, mass1, mass2, mass3, inventoryImage, overlay.getInventoryPane());
+        root.getChildren().addAll(drawer, mass1, mass2, mass3, inventoryImage, overlay.getOverlayPane());
         stage.setScene(new Scene(root, 1000, 650));
 
         Button goBack = new Button("Go back");

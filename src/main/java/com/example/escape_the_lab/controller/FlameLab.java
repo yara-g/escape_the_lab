@@ -122,7 +122,7 @@ public class FlameLab {
         /// Set up inventory.
         this.overlay = overlay;
         inventory = overlay.getInventory();
-        inventoryPane = overlay.getInventoryPane();
+        inventoryPane = overlay.getOverlayPane();
 
         /// Set up to start the lab.
         mainLayout = new StackPane();

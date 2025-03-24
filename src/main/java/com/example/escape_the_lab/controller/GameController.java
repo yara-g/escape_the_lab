@@ -38,7 +38,6 @@ public class GameController extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         stage.setResizable(false);
-
         //initialize lifeManager
         lifeManager = LifeManager.getInstance();
         // Initialize player and labs

@@ -99,7 +99,7 @@ public class rCircuit {
         });
 
         stackPane.getChildren().addAll(mainBG, panel, door, glassThing, head, inventoryImage, skipToNext);
-        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         mainScene = new Scene(pane, 1000, 650);
 
         return mainScene;
@@ -112,7 +112,7 @@ public class rCircuit {
     private void panelClicked() {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
-        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> {
             goBack();
@@ -130,7 +130,7 @@ public class rCircuit {
 
     private void inspectHead() {
         StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, dialogue, inventoryImage, back);
-        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> {
             goBack();
@@ -166,7 +166,7 @@ public class rCircuit {
 
     private void readNote() {
         StackPane stackPane = new StackPane(panelBG, note, ledOff, unattachedWire, inventoryImage, back, noteZoom);
-        Pane pane = new Pane(stackPane, overlay.getInventoryPane());
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> {
             panelClicked();
