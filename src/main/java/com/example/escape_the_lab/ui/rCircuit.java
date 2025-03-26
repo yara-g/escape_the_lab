@@ -119,6 +119,7 @@ public class rCircuit {
         });
         addResistor.setOnAction(e -> {
             System.out.println("What would you like to put here?");
+            promptPlayer();
         });
 
         stage.setScene(currentScene);
@@ -183,5 +184,13 @@ public class rCircuit {
         glassThing = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/glass-thing-broken.png").toExternalForm()));
         head.setVisible(true);
         stage.setScene(makeScene());
+    }
+
+    private void promptPlayer() {
+        res1Item.getImageView().setOnMouseClicked(e -> {
+            overlay.getInventory().removeItem(res1Item);
+            overlay.updateInventory();
+            System.out.println("CORRECT");
+        });
     }
 }
