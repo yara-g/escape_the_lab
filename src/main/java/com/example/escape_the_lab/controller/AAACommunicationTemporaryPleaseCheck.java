@@ -10,6 +10,7 @@ public class AAACommunicationTemporaryPleaseCheck {
     // I draw every single possible item that could be stored in inventory, then add each in my class as Item.
     // In my own lab, get my own Inventory, and add the item when the user interacts with the game correctly, ex: click something collectable.
     // Whenever I do that, or use an item, update inventory with my overlay.
+    //// Yara: Yes that's exactly it.
 
     // Yara:
     //// Inventory/Lives Overlay

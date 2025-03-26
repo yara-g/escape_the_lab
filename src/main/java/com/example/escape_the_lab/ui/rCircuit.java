@@ -13,6 +13,7 @@ public class rCircuit {
     private Stage stage;
     private Overlay overlay;
     private Scene mainScene;
+    private boolean hasResistor = false;
 
     ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
@@ -59,17 +60,6 @@ public class rCircuit {
     }
 
     public Scene makeScene() {
-        /*
-        left: drawer
-        center: metal box with wires in them (idk what theyre called)
-        right: blocked metal door
-        if user tries to open the door, a little message tells them that its mechanically shut
-        the metal box is open and it shows two disconnected wires. little paper at the bottom of the box.
-        it says something like: the battery has an electric potential of 5V and the current needed is 0.02 A. (user must find a document listing all the forward voltages
-        for each color of led and use the right voltage based on the color that they have, i was thinking red, 1.8V)
-        find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high, but if it's too low, you will not be
-        able to change resistance.
-         */
         StackPane stackPane = new StackPane();
 
         Button skipToNext = new Button("Skip to next");
@@ -111,14 +101,24 @@ public class rCircuit {
 
     private void panelClicked() {
         StackPane stackPane = new StackPane();
+        Button addResistor = new Button("add res");
+        addResistor.setTranslateX(-55);
         stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
+        if (hasResistor) {
+            stackPane.getChildren().add(addResistor);
+        }
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
+        overlay.getLifeManager().decreaseLife();
+        overlay.updateLifeManager();
         back.setOnMouseClicked(e -> {
             goBack();
         });
         note.setOnMouseClicked(e -> {
             readNote();
+        });
+        addResistor.setOnAction(e -> {
+            System.out.println("What would you like to put here?");
         });
 
         stage.setScene(currentScene);
@@ -141,24 +141,28 @@ public class rCircuit {
             res1.setVisible(false);
             overlay.getInventory().addItem(res1Item);
             overlay.updateInventory();
+            hasResistor = true;
         });
 
         res2.setOnMouseClicked(e -> {
             res2.setVisible(false);
             overlay.getInventory().addItem(res2Item);
             overlay.updateInventory();
+            hasResistor = true;
         });
 
         res3.setOnMouseClicked(e -> {
             res3.setVisible(false);
             overlay.getInventory().addItem(res3Item);
             overlay.updateInventory();
+            hasResistor = true;
         });
 
         res4.setOnMouseClicked(e -> {
             res4.setVisible(false);
             overlay.getInventory().addItem(res4Item);
             overlay.updateInventory();
+            hasResistor = true;
         });
 
         stage.setScene(currentScene);

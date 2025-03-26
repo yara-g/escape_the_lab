@@ -8,7 +8,7 @@ public class LifeManager {
     // now every time a player makes a mistake call LifeManager.getInstance().decreaseLife();
 
     private static LifeManager instance;
-    //private int lives = 3;
+    private int lives = 3;
     private HBox lifeDisplay = new HBox(10); // Holds the hearts
     private ImageView[] hearts = new ImageView[3];
 
@@ -40,6 +40,7 @@ public class LifeManager {
         lifeDisplay.setVisible(false);
     }
 
+
     // Update the life display based on the player's current lives
     public void updateLives(int lives) {
         for (int i = 0; i < 3; i++) {
@@ -54,12 +55,12 @@ public class LifeManager {
 //        return lives;
 //    }
 //
-//    public void decreaseLife() {
-//        if (lives > 0) {
-//            lives--;
-//            hearts[lives].setVisible(false);
-//        }
-//    }
+    public void decreaseLife() {
+        if (lives > 0) {
+            lives--;
+            hearts[lives].setVisible(false);
+        }
+    }
 //
 //    public void resetLives() {
 //        lives = 3;

@@ -28,7 +28,6 @@ public class GameController extends Application {
     private Inventory inventory;
     private StackPane root;
     private Overlay overlay;
-    private Group sharedInventoryPane;
 
     public static void main(String[] args) {
         launch(args);
@@ -43,13 +42,14 @@ public class GameController extends Application {
         // Initialize player and labs
         player = new Player();
         inventory = new Inventory();
-        sharedInventoryPane = new Group();
-        overlay = new Overlay(inventory, lifeManager, sharedInventoryPane);
+        overlay = new Overlay(inventory, lifeManager);
         currentLab = new SpringLab(stage, overlay);
 
         Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
         inventory.addItem(healthPotion);
         overlay.updateInventory();
+
+        overlay.updateLifeManager();
 
         ImageView healthPotionImageView = healthPotion.getImageView();
         healthPotionImageView.setFitWidth(50);

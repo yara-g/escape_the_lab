@@ -2,6 +2,7 @@ package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.model.Item;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -13,17 +14,15 @@ public class Overlay {
     private Inventory inventory;
     private Group inventoryPane; // Shared inventory pane
     private Group overlayPane;
-    private ImageView inv1;
-    private ImageView inv2;
-    private ImageView inv3;
-    private ImageView inv4;
-    private ImageView inv5;
-    private ImageView inv6;
+    private Group lifePane;
 
-    public Overlay(Inventory inventory, LifeManager lifeManager, Group inventoryPane) {
+    public Overlay(Inventory inventory, LifeManager lifeManager) {
         this.lifeManager = lifeManager;
         this.inventory = inventory;
-        this.inventoryPane = inventoryPane;
+        inventoryPane = new Group();
+        lifePane = new Group();
+
+        overlayPane = new Group(lifePane, inventoryPane);
     }
 
     public Group getOverlayPane() {
@@ -32,6 +31,13 @@ public class Overlay {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void updateLifeManager() {
+        HBox hearts = lifeManager.getLifeDisplay();
+        hearts.setTranslateX(800);
+        lifePane.getChildren().clear();
+        lifePane.getChildren().add(hearts);
     }
 
     public void updateInventory() {

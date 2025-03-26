@@ -16,6 +16,10 @@ public class Item {
         this.imageView.setFitWidth(50); // Set a reasonable width
         this.imageView.setFitHeight(50); // Set a reasonable height
         this.imageView.setPreserveRatio(true); // Maintain aspect ratio
+
+        imageView.setOnMouseClicked(e -> {
+            use();
+        });
     }
 
     public String getName() {
@@ -31,6 +35,6 @@ public class Item {
     }
 
     public void use() {
-        System.out.println("Item " + name + " used");
+        System.out.println(name + " used.");
     }
 }
