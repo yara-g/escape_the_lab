@@ -8,6 +8,11 @@ public class Item {
     private Image image;
     private ImageView imageView;
 
+    public boolean isItemSelected() {
+        return itemSelected;
+    }
+
+    private boolean itemSelected = false;
 
     public Item(String name, String imagePath) {
         this.name = name;
@@ -18,7 +23,7 @@ public class Item {
         this.imageView.setPreserveRatio(true); // Maintain aspect ratio
 
         imageView.setOnMouseClicked(e -> {
-            use();
+            select();
         });
     }
 
@@ -34,7 +39,13 @@ public class Item {
         return image;
     }
 
-    public void use() {
-        System.out.println(name + " used.");
+    public void unselect() {
+        this.itemSelected = false;
+        System.out.println(name + " unselected.");
+    }
+
+    public void select() {
+        this.itemSelected = true;
+        System.out.println(name + " selected.");
     }
 }

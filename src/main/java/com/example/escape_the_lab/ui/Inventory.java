@@ -18,7 +18,7 @@ public class Inventory {
     public void useItem(Item item) {
         if (items.contains(item)) {
             // Logic for using the item (e.g., heal the player, etc.)
-            item.use();
+            item.select();
             items.remove(item);
         }
     }
