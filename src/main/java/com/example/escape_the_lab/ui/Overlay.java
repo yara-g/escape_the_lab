@@ -35,7 +35,8 @@ public class Overlay {
 
     public void updateLifeManager() {
         HBox hearts = lifeManager.getLifeDisplay();
-        hearts.setTranslateX(800);
+        hearts.setTranslateX(858);
+        hearts.setTranslateY(26);
         lifePane.getChildren().clear();
         lifePane.getChildren().add(hearts);
     }

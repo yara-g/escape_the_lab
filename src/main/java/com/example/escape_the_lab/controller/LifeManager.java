@@ -9,18 +9,18 @@ public class LifeManager {
 
     private static LifeManager instance;
     private int lives = 3;
-    private HBox lifeDisplay = new HBox(10); // Holds the hearts
+    private HBox lifeDisplay = new HBox(); // Holds the hearts
     private ImageView[] hearts = new ImageView[3];
 
     private LifeManager() {
-        Image heartImage = new Image(getClass().getResourceAsStream("/images/heart.png"));
+        Image heart1 = new Image(getClass().getResourceAsStream("/images/heart1.png"));
+        Image heart2 = new Image(getClass().getResourceAsStream("/images/heart2.png"));
+        Image heart3 = new Image(getClass().getResourceAsStream("/images/heart3.png"));
 
-        for (int i = 0; i < 3; i++) {
-            hearts[i] = new ImageView(heartImage);
-            hearts[i].setFitWidth(50); // Adjust size
-            hearts[i].setFitHeight(50);
-            lifeDisplay.getChildren().add(hearts[i]);
-        }
+        hearts[0] = new ImageView(heart1);
+        hearts[1] = new ImageView(heart2);
+        hearts[2] = new ImageView(heart3);
+        lifeDisplay.getChildren().addAll(hearts[0], hearts[1], hearts[2]);
 
         lifeDisplay.setVisible(false); // Hidden at the start
     }
