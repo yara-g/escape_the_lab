@@ -23,9 +23,9 @@ public class Item {
         this.imageView.setFitHeight(50); // Set a reasonable height
         this.imageView.setPreserveRatio(true); // Maintain aspect ratio
 
-//        imageView.setOnMouseClicked(e -> {
-//            select();
-//        });
+        imageView.setOnMouseClicked(e -> {
+            select();
+        });
     }
 
     public String getName() {
@@ -48,5 +48,11 @@ public class Item {
     public void select() {
         this.itemSelected = true;
         System.out.println(name + " selected.");
+    }
+
+    public void setItem(Item item) {
+        this.name = item.getName();
+        this.image =  item.getImage();
+        this.imageView =  item.getImageView();
     }
 }

@@ -5,6 +5,36 @@ import javafx.scene.control.Button;
 import java.util.List;
 
 public class AAACommunicationTemporaryPleaseCheck {
+    // Olivia: Ty Yara <3 <3 <3
+    //// How my Item Inventory system work:
+    // Add Items in your class. Add an Item called placeHolder (copy this:)
+    // Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
+    // add a private Item chosenItem;
+    // Initialize your scene with chosenItem = placeHolder;
+    // Now, set up mouse click actions for the imageviews on your scene, for example,
+    // An action for a spring that could be picked up will include at least spring.setVisible(false);
+    // And inventory.addItem(springTool).
+    // Set an action for your item: exampleItem.getImageview().setOnMouseClicked(e -> {
+    // chosenItem = exampleItem;})
+    // Add this method, and add more else if statements.
+    // private void useItem(MouseEvent event) {
+    //        if (chosenItem != null && chosenItem.equals(exampleItem)) {
+    //            exampleItem.setMouseTransparent(false);
+    //            exampleItem.setVisible(true);
+    //            chosenItem = placeHolder;
+    //            inventory.removeItem(exampleItem);
+    //            overlay.updateInventory();
+    //        }
+    //    }
+    // Then set on action for where you want to trigger (use) the item.
+    // examplePlace.setOnMouseClicked(e -> {
+    //            useItem(e);
+    //        });
+
+
+
+
+
     // Olivia:
     //// What I understand of inventory system:
     // I draw every single possible item that could be stored in inventory, then add each in my class as Item.
@@ -12,11 +42,13 @@ public class AAACommunicationTemporaryPleaseCheck {
     // Whenever I do that, or use an item, update inventory with my overlay.
     //// Yara: Yes that's exactly it.
 
+
     // Yara:
     //// Inventory/Lives Overlay
     // Make sure to add the inventory image to all of your scenes
     // You must update the overlay via overlay.updateInventory() whenever you add/remove an item
     // Yes this is stupid but guess what, i cant code.
+
 
     // Olivia:
     // I added gameFail.png and gameFailF.png for when the user dies. Whoever do the lives count and death
@@ -26,6 +58,7 @@ public class AAACommunicationTemporaryPleaseCheck {
     // The imgView for going back from a zoomed scene to your main room is called back.png, just assign
     // setOnMouseClicked to the imgView if you wish, OR again ask me to set all the visuals after you
     // finish coding.
+
 
     //// How does the language system work?
     // IN YOUR OWN LAB, CREATE A GAME CONTROLLER OR COPY THESE 2 LINES.

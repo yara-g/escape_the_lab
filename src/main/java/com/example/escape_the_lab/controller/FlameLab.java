@@ -5,11 +5,14 @@ import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -100,11 +103,14 @@ public class FlameLab {
 
     //private final ImageView wireLoopLab = new ImageView(new Image(getClass().getResource("/images/AAAFlameLab/start-bg.png").toExternalForm()));
 
-    Overlay overlay;
-    Inventory inventory;
-    Group inventoryPane;
-    StackPane mainLayout;
-    
+    private Overlay overlay;
+    private Inventory inventory;
+    private Group inventoryPane;
+    private StackPane mainLayout;
+    private Item chosenItem;
+    Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
+
+
     public void startLab(Stage stage, Overlay overlay) {
         /// Set up language system.
         if (GameController.language) {
@@ -133,6 +139,10 @@ public class FlameLab {
         Scene scene = new Scene(pane);
         zoomMain(stage, scene);
         stage.setScene(scene);
+
+        bunsenBurnerTool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = bunsenBurnerTool;
+        });
     }
 
     private void back(Stage stage) {
@@ -181,25 +191,18 @@ public class FlameLab {
             openBig.setVisible(true);
             drawerBunsen.setVisible(true);
             drawerBunsen.setMouseTransparent(false);
+            closedBig.setMouseTransparent(true);
         });
 
         drawerBunsen.setOnMouseClicked(e -> {
             drawerBunsen.setVisible(false);
             drawerBunsen.setMouseTransparent(true);
-
             inventory.addItem(bunsenBurnerTool);
-
             overlay.updateInventory();
         });
         return new Pane(stackPane, inventoryPane);
     }
-/*
-    xxx.setOnMouseClicked(e -> {
-        if (this.bunsenBurnerTool.isItemSelected()) {
 
-        }
-    }
- */
     private Pane zoomSmall(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
@@ -249,6 +252,10 @@ public class FlameLab {
             // Look Around you
         });
 
+        zoomLabF.setOnMouseClicked(e -> {
+            useItem(e);
+        });
+
         return new Pane(stackPane, inventoryPane);
     }
 
@@ -279,6 +286,7 @@ public class FlameLab {
      * Initialize the original state of certain media.
      */
     private void initialize() {
+        chosenItem = placeHolder;
         flame.setMouseTransparent(true);
 
         flameZoomRight.setMouseTransparent(true);
@@ -345,5 +353,15 @@ public class FlameLab {
         ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
         inventoryImage.setMouseTransparent(true);
         stackPane.getChildren().add(inventoryImage);
+    }
+
+    private void useItem(MouseEvent event) {
+        if (chosenItem != null && chosenItem.equals(bunsenBurnerTool)) {
+            bunsenBurnerLab.setMouseTransparent(false);
+            bunsenBurnerLab.setVisible(true);
+            chosenItem = placeHolder;
+            inventory.removeItem(bunsenBurnerTool);
+            overlay.updateInventory();
+        }
     }
 }
