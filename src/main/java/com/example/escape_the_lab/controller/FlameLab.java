@@ -21,6 +21,7 @@ import java.util.List;
 
 public class FlameLab {
     // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
+    // Draw a bit table so bunsen isnt there in main. imgv = xxx after put it there.
     /// Possible tools. 11 in total.
     private final ImageView flameColorCrimsonTool = new ImageView(new Image("file:"));
     private final ImageView flameColorGreenTool = new ImageView(new Image("file:"));
@@ -112,7 +113,8 @@ public class FlameLab {
         if (l) {
             monologuesL.clear();
             monologuesL = monologues;
-        } else if (!l) {
+        }
+        else if (!l) {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
