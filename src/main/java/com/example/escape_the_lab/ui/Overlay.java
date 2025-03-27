@@ -4,40 +4,40 @@ import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.model.Item;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
     private LifeManager lifeManager;
     private Inventory inventory;
     private Group inventoryPane; // Shared inventory pane
-    private ImageView inv1;
-    private ImageView inv2;
-    private ImageView inv3;
-    private ImageView inv4;
-    private ImageView inv5;
-    private ImageView inv6;
+    private Group overlayPane;
+    private Group lifePane;
 
-    public Overlay(Inventory inventory, LifeManager lifeManager, Group inventoryPane) {
+    public Overlay(Inventory inventory, LifeManager lifeManager) {
         this.lifeManager = lifeManager;
         this.inventory = inventory;
-        this.inventoryPane = inventoryPane;
+        inventoryPane = new Group();
+        lifePane = new Group();
+
+        overlayPane = new Group(lifePane, inventoryPane);
     }
 
-    public Group getInventoryPane() {
-        return inventoryPane;
+    public Group getOverlayPane() {
+        return overlayPane;
     }
+
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void updateLifeManager() {
+        HBox hearts = lifeManager.getLifeDisplay();
+        hearts.setTranslateX(800);
+        lifePane.getChildren().clear();
+        lifePane.getChildren().add(hearts);
     }
 
     public void updateInventory() {
@@ -48,13 +48,11 @@ public class Overlay {
 
         for (Item item : items) {
             vBox.getChildren().add(item.getImageView());
-            System.out.println("added " + item.getName());
         }
 
-        vBox.setSpacing(28);
+        vBox.setSpacing(38);
         vBox.setTranslateY(80);
         vBox.setTranslateX(880);
-        vBox.setStyle("-fx-border-color: red; -fx-border-width: 2;"); // Debugging border
 
         inventoryPane.getChildren().clear(); // Clear the shared inventory pane
         inventoryPane.getChildren().add(vBox); // Add the updated VBox

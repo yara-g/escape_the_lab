@@ -21,7 +21,6 @@ import java.util.List;
 
 public class FlameLab {
     // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
-    // Draw a bit table so bunsen isnt there in main. imgv = xxx after put it there.
     /// Possible tools. 11 in total.
     private final ImageView flameColorCrimsonTool = new ImageView(new Image("file:"));
     private final ImageView flameColorGreenTool = new ImageView(new Image("file:"));
@@ -108,13 +107,10 @@ public class FlameLab {
     
     public void startLab(Stage stage, Overlay overlay) {
         /// Set up language system.
-        GameController controller = new GameController();
-        boolean l = controller.language;
-        if (l) {
+        if (GameController.language) {
             monologuesL.clear();
             monologuesL = monologues;
-        }
-        else if (!l) {
+        } else {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
@@ -123,17 +119,27 @@ public class FlameLab {
 
         /// Set up inventory.
         this.overlay = overlay;
-        inventory = overlay.getInventory();
-        inventoryPane = overlay.getInventoryPane();
+        this.inventory = overlay.getInventory();
+        this.inventoryPane = overlay.getOverlayPane();
 
         /// Set up to start the lab.
-        mainLayout = new StackPane();
+        this.mainLayout = new StackPane();
         scareBat();
         initialize();
 
-        mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly);
-        addInventory(mainLayout);
-        Pane pane = new Pane(mainLayout, inventoryPane);
+        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly);
+        addInventory(this.mainLayout);
+        Pane pane = new Pane(this.mainLayout, this.inventoryPane);
+        Scene scene = new Scene(pane);
+        zoomMain(stage, scene);
+        stage.setScene(scene);
+    }
+
+    private void back(Stage stage) {
+        this.mainLayout = new StackPane();
+        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, door, flame, bats, batsFly);
+        addInventory(this.mainLayout);
+        Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
         zoomMain(stage, scene);
         stage.setScene(scene);
@@ -143,7 +149,7 @@ public class FlameLab {
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         back.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            back(stage);
         });
 
         stackPane.getChildren().addAll(List.of(doorZoom, flameZoom, flameZoomRight));
@@ -163,7 +169,7 @@ public class FlameLab {
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         back.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            back(stage);
         });
 
         stackPane.getChildren().addAll(List.of(closedBig, openBig, drawerBunsen));
@@ -180,17 +186,25 @@ public class FlameLab {
         drawerBunsen.setOnMouseClicked(e -> {
             drawerBunsen.setVisible(false);
             drawerBunsen.setMouseTransparent(true);
+
             inventory.addItem(bunsenBurnerTool);
+
             overlay.updateInventory();
         });
         return new Pane(stackPane, inventoryPane);
     }
+/*
+    xxx.setOnMouseClicked(e -> {
+        if (this.bunsenBurnerTool.isItemSelected()) {
 
+        }
+    }
+ */
     private Pane zoomSmall(Stage stage, Scene scene) {
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         back.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            back(stage);
         });
 
         //stackPane.getChildren().add(doorZoom);
@@ -204,7 +218,7 @@ public class FlameLab {
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         back.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            back(stage);
         });
 
         //stackPane.getChildren().add(doorZoom);
@@ -224,7 +238,7 @@ public class FlameLab {
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
         back.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            back(stage);
         });
 
         stackPane.getChildren().addAll(List.of(zoomLabF, bunsenBurnerLab, paperF, sol1F, sol2F, sol3F, tube1F, tube2F, tube3F, flameColorCrimsonLab, flameColorGreenLab, flameColorLilacLab, flameColorYellowLab));

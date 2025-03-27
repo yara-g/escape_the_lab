@@ -1,10 +1,9 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.AcidNeutralizationLab;
-import javafx.application.Application;
+import com.example.escape_the_lab.model.Item;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -13,62 +12,55 @@ import javafx.stage.Stage;
 public class rCircuit {
     private Stage stage;
     private Overlay overlay;
+    private Scene mainScene;
+    private boolean hasResistor = false;
+
+    ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
+
+    // whole room
+    ImageView panel = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/panel.png").toExternalForm()));
+    ImageView mainBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/main-bg.png").toExternalForm()));
+    ImageView glassThing = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/glass-thing.png").toExternalForm()));
+    ImageView door = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/door.png").toExternalForm()));
+
+    // panel scene
+    ImageView panelBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/panel-bg.png").toExternalForm()));
+    ImageView note = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note.png").toExternalForm()));
+    ImageView noteZoom = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note-zoomed.png").toExternalForm()));
+    ImageView ledOff = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-off.png").toExternalForm()));
+    ImageView head = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/head.png").toExternalForm()));
+//    ImageView ledOn = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-on.png").toExternalForm()));
+    ImageView unattachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/unattached-wire.png").toExternalForm()));
+//    ImageView attachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/attached-wire.png").toExternalForm()));
+
+    // head scene
+    ImageView headBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/head-zoomed.png").toExternalForm()));
+    ImageView dialogue = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/dialogue.png").toExternalForm()));
+    ImageView res1 = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/res1.png").toExternalForm()));
+    ImageView res2 = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/res2.png").toExternalForm()));
+    ImageView res3 = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/res3.png").toExternalForm()));
+    ImageView res4 = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/res4.png").toExternalForm()));
+
+    Item res1Item = new Item("160 Ohm Resistor", "/images/AAACircuitLab/res1item.png");
+    Item res2Item = new Item("200 Ohm Resistor", "/images/AAACircuitLab/res2item.png");
+    Item res3Item = new Item("120 Ohm Resistor", "/images/AAACircuitLab/res3item.png");
+    Item res4Item = new Item("100 Ohm Resistor", "/images/AAACircuitLab/res4item.png");
 
     public rCircuit(Stage stage, Overlay overlay) {
         this.stage = stage;
         this.overlay = overlay;
+        head.setVisible(false);
+        makeScene();
     }
 
-    public void startLab() throws Exception {
-        Scene scene = makeScene();
-        stage.setScene(scene);
+    public void start() {
+        stage.setScene(makeScene());
         stage.show();
     }
 
     public Scene makeScene() {
-        /*
-        left: drawer
-        center: metal box with wires in them (idk what theyre called)
-        right: blocked metal door
-        if user tries to open the door, a little message tells them that its mechanically shut
-        the metal box is open and it shows two disconnected wires. little paper at the bottom of the box.
-        it says something like: the battery has an electric potential of 5V. the forward voltage of the LED is 3.2V. and the current needed is 0.02 A.
-        find the resistance needed to make it light up. note: this is a special LED that will explode if the current is too high and even too low.
-         */
-
-        Pane pane = new Pane();
-        Scene scene = new Scene(pane, 1000, 650);
-
-        ImageView drawer = new ImageView(new Image(getClass().getResource("/images/drawers.png").toExternalForm()));
-        drawer.setPreserveRatio(true);
-        drawer.setFitHeight(200);
-        drawer.setLayoutX(400);
-        drawer.setLayoutY(400);
-
-        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
-
-        drawer.setOnMouseClicked(e -> {
-            showInsideDrawer();
-        });
-
-        ImageView metalBox = new ImageView(new Image(getClass().getResource("/images/metal-box.png").toExternalForm()));
-        metalBox.setPreserveRatio(true);
-        metalBox.setLayoutY(-50);
-        metalBox.setLayoutX(-50);
-        metalBox.setFitHeight(150);
-
-        metalBox.setOnMouseClicked(e -> {
-            showInsideMetalBox();
-        });
-
-        ImageView door = new ImageView(new Image(getClass().getResource("/images/door.png").toExternalForm()));
-        door.setFitHeight(300);
-        door.setPreserveRatio(true);
-        door.setLayoutX(200);
-
-        door.setOnMouseClicked(e -> {
-            showDoorMessage();
-        });
+        StackPane stackPane = new StackPane();
 
         Button skipToNext = new Button("Skip to next");
         skipToNext.setTranslateX(300);
@@ -80,47 +72,125 @@ public class rCircuit {
             stage.setScene(lab.getMainScene());
         });
 
-        pane.getChildren().addAll(drawer, metalBox, door, inventoryImage, skipToNext, overlay.getInventoryPane());
-
-        return scene;
-    }
-
-    private void showInsideDrawer() {
-        ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
-        Pane drawerPane = new Pane();
-        Scene drawerScene = new Scene(drawerPane, 1000, 650);
-        Label res1 = new Label("resistor 1");
-        res1.setTranslateX(200);
-        res1.setTranslateY(200);
-        Label res2 = new Label("resistor 2");
-        res2.setTranslateX(400);
-        res2.setTranslateY(400);
-        Label res3 = new Label("resistor 3");
-        res3.setTranslateX(400);
-        res3.setTranslateY(300);
-        Label res4 = new Label("resistor 4");
-        res4.setTranslateX(500);
-        res4.setTranslateY(500);
-
-        BackgroundImage myBI = new BackgroundImage(new Image(getClass().getResource("/images/in-drawer.jpg").toExternalForm()),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                new BackgroundSize(1000, 650, true, true, true, true));
-        drawerPane.setBackground(new Background(myBI));
-
-        Button goBack = new Button("Go back");
-
-        goBack.setOnAction(e -> {
-            stage.setScene(makeScene());
+        panel.setOnMouseClicked(e -> {
+            panelClicked();
         });
-        drawerPane.getChildren().addAll(res1, res2, res3, res4, inventoryImage, goBack, overlay.getInventoryPane());
-        stage.setScene(drawerScene);
+
+        door.setOnMouseClicked(e -> {
+            doorClicked();
+        });
+
+        glassThing.setOnMouseClicked(e -> {
+            breakGlass();
+        });
+
+        head.setOnMouseClicked(e -> {
+            inspectHead();
+        });
+
+        stackPane.getChildren().addAll(mainBG, panel, door, glassThing, head, inventoryImage, skipToNext);
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
+        mainScene = new Scene(pane, 1000, 650);
+
+        return mainScene;
     }
 
-    private void showInsideMetalBox() {
-
+    private void goBack() {
+        stage.setScene(makeScene());
     }
 
-    private void showDoorMessage() {
-        System.out.println("too heavy for you.");
+    private void panelClicked() {
+        StackPane stackPane = new StackPane();
+        Button addResistor = new Button("add res");
+        addResistor.setTranslateX(-55);
+        stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
+        if (hasResistor) {
+            stackPane.getChildren().add(addResistor);
+        }
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
+        Scene currentScene = new Scene(pane);
+        overlay.getLifeManager().decreaseLife();
+        overlay.updateLifeManager();
+        back.setOnMouseClicked(e -> {
+            goBack();
+        });
+        note.setOnMouseClicked(e -> {
+            readNote();
+        });
+        addResistor.setOnAction(e -> {
+            System.out.println("What would you like to put here?");
+            promptPlayer();
+        });
+
+        stage.setScene(currentScene);
+    }
+
+    private void doorClicked() {
+        System.out.println("The power is cut and the door is way too heavy for you to push open.");
+    }
+
+    private void inspectHead() {
+        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, dialogue, inventoryImage, back);
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
+        Scene currentScene = new Scene(pane);
+        back.setOnMouseClicked(e -> {
+            goBack();
+        });
+
+        res1.setOnMouseClicked(e -> {
+            dialogue.setVisible(false);
+            res1.setVisible(false);
+            overlay.getInventory().addItem(res1Item);
+            overlay.updateInventory();
+            hasResistor = true;
+        });
+
+        res2.setOnMouseClicked(e -> {
+            res2.setVisible(false);
+            overlay.getInventory().addItem(res2Item);
+            overlay.updateInventory();
+            hasResistor = true;
+        });
+
+        res3.setOnMouseClicked(e -> {
+            res3.setVisible(false);
+            overlay.getInventory().addItem(res3Item);
+            overlay.updateInventory();
+            hasResistor = true;
+        });
+
+        res4.setOnMouseClicked(e -> {
+            res4.setVisible(false);
+            overlay.getInventory().addItem(res4Item);
+            overlay.updateInventory();
+            hasResistor = true;
+        });
+
+        stage.setScene(currentScene);
+    }
+
+    private void readNote() {
+        StackPane stackPane = new StackPane(panelBG, note, ledOff, unattachedWire, inventoryImage, back, noteZoom);
+        Pane pane = new Pane(stackPane, overlay.getOverlayPane());
+        Scene currentScene = new Scene(pane);
+        back.setOnMouseClicked(e -> {
+            panelClicked();
+        });
+
+        stage.setScene(currentScene);
+    }
+
+    private void breakGlass() {
+        glassThing = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/glass-thing-broken.png").toExternalForm()));
+        head.setVisible(true);
+        stage.setScene(makeScene());
+    }
+
+    private void promptPlayer() {
+        res1Item.getImageView().setOnMouseClicked(e -> {
+            overlay.getInventory().removeItem(res1Item);
+            overlay.updateInventory();
+            System.out.println("CORRECT");
+        });
     }
 }

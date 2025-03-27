@@ -1,5 +1,6 @@
 package com.example.escape_the_lab.model;
 
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -8,6 +9,11 @@ public class Item {
     private Image image;
     private ImageView imageView;
 
+    public boolean isItemSelected() {
+        return itemSelected;
+    }
+
+    private boolean itemSelected = false;
 
     public Item(String name, String imagePath) {
         this.name = name;
@@ -16,6 +22,10 @@ public class Item {
         this.imageView.setFitWidth(50); // Set a reasonable width
         this.imageView.setFitHeight(50); // Set a reasonable height
         this.imageView.setPreserveRatio(true); // Maintain aspect ratio
+
+//        imageView.setOnMouseClicked(e -> {
+//            select();
+//        });
     }
 
     public String getName() {
@@ -30,7 +40,13 @@ public class Item {
         return image;
     }
 
-    public void use() {
-        System.out.println("Item " + name + " used");
+    public void unselect() {
+        this.itemSelected = false;
+        System.out.println(name + " unselected.");
+    }
+
+    public void select() {
+        this.itemSelected = true;
+        System.out.println(name + " selected.");
     }
 }
