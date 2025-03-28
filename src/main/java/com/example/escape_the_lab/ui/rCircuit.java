@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -13,7 +14,8 @@ public class rCircuit {
     private Stage stage;
     private Overlay overlay;
     private Scene mainScene;
-    private boolean hasResistor = false;
+    private Item chosenItem;
+    private Item placeHolder;
 
     ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
@@ -51,7 +53,9 @@ public class rCircuit {
         this.stage = stage;
         this.overlay = overlay;
         head.setVisible(false);
+        placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
         makeScene();
+        chosenItem = placeHolder;
     }
 
     public void start() {
@@ -88,6 +92,19 @@ public class rCircuit {
             inspectHead();
         });
 
+        res1Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = res1Item;
+        });
+        res2Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = res2Item;
+        });
+        res3Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = res3Item;
+        });
+        res4Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = res4Item;
+        });
+
         stackPane.getChildren().addAll(mainBG, panel, door, glassThing, head, inventoryImage, skipToNext);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         mainScene = new Scene(pane, 1000, 650);
@@ -101,12 +118,7 @@ public class rCircuit {
 
     private void panelClicked() {
         StackPane stackPane = new StackPane();
-        Button addResistor = new Button("add res");
-        addResistor.setTranslateX(-55);
         stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
-        if (hasResistor) {
-            stackPane.getChildren().add(addResistor);
-        }
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         overlay.getLifeManager().decreaseLife();
@@ -117,9 +129,9 @@ public class rCircuit {
         note.setOnMouseClicked(e -> {
             readNote();
         });
-        addResistor.setOnAction(e -> {
-            System.out.println("What would you like to put here?");
-            promptPlayer();
+        ledOff.setOnMouseClicked(e -> {
+            useItem(e);
+            System.out.println("CORRECT");
         });
 
         stage.setScene(currentScene);
@@ -142,28 +154,24 @@ public class rCircuit {
             res1.setVisible(false);
             overlay.getInventory().addItem(res1Item);
             overlay.updateInventory();
-            hasResistor = true;
         });
 
         res2.setOnMouseClicked(e -> {
             res2.setVisible(false);
             overlay.getInventory().addItem(res2Item);
             overlay.updateInventory();
-            hasResistor = true;
         });
 
         res3.setOnMouseClicked(e -> {
             res3.setVisible(false);
             overlay.getInventory().addItem(res3Item);
             overlay.updateInventory();
-            hasResistor = true;
         });
 
         res4.setOnMouseClicked(e -> {
             res4.setVisible(false);
             overlay.getInventory().addItem(res4Item);
             overlay.updateInventory();
-            hasResistor = true;
         });
 
         stage.setScene(currentScene);
@@ -176,7 +184,6 @@ public class rCircuit {
         back.setOnMouseClicked(e -> {
             panelClicked();
         });
-
         stage.setScene(currentScene);
     }
 
@@ -186,11 +193,13 @@ public class rCircuit {
         stage.setScene(makeScene());
     }
 
-    private void promptPlayer() {
-        res1Item.getImageView().setOnMouseClicked(e -> {
+    private void useItem(MouseEvent event) {
+        if (chosenItem != null && chosenItem.equals(res1Item)) {
+            res1Item.getImageView().setMouseTransparent(false);
+            res1Item.getImageView().setVisible(true);
+            chosenItem = placeHolder;
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
-            System.out.println("CORRECT");
-        });
+        }
     }
 }
