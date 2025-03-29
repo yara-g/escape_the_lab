@@ -4,18 +4,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.util.Objects;
+
 public class LifeManager {
     // now every time a player makes a mistake call LifeManager.getInstance().decreaseLife();
 
     private static LifeManager instance;
     private int lives = 3;
-    private HBox lifeDisplay = new HBox(); // Holds the hearts
-    private ImageView[] hearts = new ImageView[3];
+    private final HBox lifeDisplay = new HBox(); // Holds the hearts
+    private final ImageView[] hearts = new ImageView[3];
 
     private LifeManager() {
-        Image heart1 = new Image(getClass().getResourceAsStream("/images/heart1.png"));
-        Image heart2 = new Image(getClass().getResourceAsStream("/images/heart2.png"));
-        Image heart3 = new Image(getClass().getResourceAsStream("/images/heart3.png"));
+        Image heart1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/heart1.png")));
+        Image heart2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/heart2.png")));
+        Image heart3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/heart3.png")));
 
         hearts[0] = new ImageView(heart1);
         hearts[1] = new ImageView(heart2);
@@ -61,7 +63,7 @@ public class LifeManager {
             hearts[lives].setVisible(false);
         }
     }
-//
+
 //    public void resetLives() {
 //        lives = 3;
 //        for (ImageView heart : hearts) {
