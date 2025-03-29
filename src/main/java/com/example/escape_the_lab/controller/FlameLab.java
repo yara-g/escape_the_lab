@@ -88,7 +88,6 @@ public class FlameLab {
     private final ImageView monoFindF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/findF.png")).toExternalForm()));
     private final ImageView monoPaper = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/monoPaper.png")).toExternalForm()));
     private final ImageView monoPaperF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/monoPaperF.png")).toExternalForm()));
-
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
@@ -102,7 +101,7 @@ public class FlameLab {
     String doorCreak = Objects.requireNonNull(getClass().getResource("/sounds/doorCreak.mp3")).toExternalForm();
     Media doorMedia = new Media(doorCreak);
     MediaPlayer doorPlayer = new MediaPlayer(doorMedia);
-
+    //// Other useful variables.
     private Overlay overlay;
     private Inventory inventory;
     private Group inventoryPane;
@@ -110,6 +109,11 @@ public class FlameLab {
     private Item chosenItem;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
 
+    /**
+     * Call this to start the flame lab!
+     * @param stage Stage of game.
+     * @param overlay Overlay of inventory.
+     */
     public void startLab(Stage stage, Overlay overlay) {
         /// Set up language system.
         if (GameController.language) {
@@ -121,24 +125,21 @@ public class FlameLab {
         }
         monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab, monoPaper));
         monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF, monoPaperF));
-
         /// Set up inventory.
         this.overlay = overlay;
         this.inventory = overlay.getInventory();
         this.inventoryPane = overlay.getOverlayPane();
-
         /// Set up to start the lab.
-        this.mainLayout = new StackPane();
         scareBat();
         initialize();
-
+        this.mainLayout = new StackPane();
         this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly);
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
         zoomMain(stage, scene);
         stage.setScene(scene);
-
+        //// Set up items.
         bunsenBurnerTool.getImageView().setOnMouseClicked(e -> {
             chosenItem = bunsenBurnerTool;
         });
@@ -147,6 +148,10 @@ public class FlameLab {
         });
     }
 
+    /**
+     * Call this to go back from a zoomed scene to main scene.
+     * @param stage Stage.
+     */
     private void back(Stage stage) {
         this.mainLayout = new StackPane();
         this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly);
@@ -157,13 +162,18 @@ public class FlameLab {
         stage.setScene(scene);
     }
 
+    /**
+     * The zoomed scene of door.
+     * @param stage Stage.
+     * @return Pane of door.
+     */
     private Pane zoomDoor(Stage stage) {
+        //// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> {
             back(stage);
         });
-
         stackPane.getChildren().addAll(List.of(doorZoom, flameZoom, flameZoomRight));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
@@ -177,7 +187,13 @@ public class FlameLab {
         return new Pane(stackPane, inventoryPane);
     }
 
+    /**
+     * The zoomed scene of big drawer.
+     * @param stage Stage.
+     * @return Pane of big drawer.
+     */
     private Pane zoomBig(Stage stage) {
+        //// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> {
@@ -186,7 +202,7 @@ public class FlameLab {
         stackPane.getChildren().addAll(List.of(closedBig, openBig, drawerBunsen));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-
+        //// Set up actions for all interactive image views.
         closedBig.setOnMouseClicked(e -> {
             doorPlayer.play();
             openBig.setVisible(true);
@@ -203,7 +219,13 @@ public class FlameLab {
         return new Pane(stackPane, inventoryPane);
     }
 
+    /**
+     * The zoomed scene of small drawer.
+     * @param stage Stage.
+     * @return Pane of small drawer.
+     */
     private Pane zoomSmall(Stage stage) {
+        //// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> {
@@ -212,7 +234,7 @@ public class FlameLab {
         stackPane.getChildren().addAll(List.of(smallZoom, powderZoom));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-
+        //// Set up actions for all interactive image views.
         powderZoom.setOnMouseClicked(e -> {
             powderZoom.setVisible(false);
             powderZoom.setMouseTransparent(true);
@@ -222,7 +244,13 @@ public class FlameLab {
         return new Pane(stackPane, inventoryPane);
     }
 
+    /**
+     * The zoomed scene of microscope.
+     * @param stage Stage.
+     * @return Pane of microscope.
+     */
     private Pane zoomMicro(Stage stage) {
+        //// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> {
@@ -231,7 +259,7 @@ public class FlameLab {
         stackPane.getChildren().addAll(List.of(zoomedMicroscope, zoomedPowderMicro, nacl, licl, bacl2, kcl));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-
+        //// Set up actions for all interactive image views.
         zoomedMicroscope.setOnMouseClicked(e -> {
             useItem(e);
             stackPane.getChildren().add(monologuesL.get(2));
@@ -273,17 +301,22 @@ public class FlameLab {
         return new Pane(stackPane, inventoryPane);
     }
 
+    /**
+     * The zoomed scene of lab set.
+     * @param stage Stage.
+     * @return Pane of lab set.
+     */
     private Pane zoomLab(Stage stage) {
+        //// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> {
             back(stage);
         });
-
         stackPane.getChildren().addAll(List.of(zoomLabF, bunsenBurnerLab, paperF, sol1F, sol2F, sol3F, tube1F, tube2F, tube3F, flameColorCrimsonLab, flameColorGreenLab, flameColorLilacLab, flameColorYellowLab));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-
+        //// Set up actions for all interactive image views.
         paperF.setOnMouseClicked(e -> {
             stackPane.getChildren().add(monologuesL.get(4));
         });
@@ -296,20 +329,18 @@ public class FlameLab {
     }
 
     /**
-     * Extracted settings of bat animation from start to a method for order.
+     * Settings of bat animation.
      */
     private void scareBat() {
         batsFly.setVisible(false);
         batsFly.setMouseTransparent(true);
-
         batPlayer.setOnEndOfMedia (() -> {batPlayer.stop();});
         batFlyPlayer.setOnEndOfMedia (() -> {batFlyPlayer.stop();});
         Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(1.9), event -> {batsFly.setVisible(false);}));
-
+        //// Set on action.
         bats.setOnMouseClicked(e -> {
             bats.setMouseTransparent(true);
             batPlayer.play();
-
             Timeline batVisibleTime = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {bats.setVisible(false); batsFly.setVisible(true);}));
             Timeline batSoundTime = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> {batFlyPlayer.play();}));
             batTime.playFromStart();
@@ -322,14 +353,15 @@ public class FlameLab {
      * Initialize the original state of certain media.
      */
     private void initialize() {
+        //// Main scene.
         chosenItem = placeHolder;
         flame.setMouseTransparent(true);
         labSetShow.setMouseTransparent(true);
         labSetShow.setVisible(false);
-
+        //// Door scene.
         flameZoomRight.setMouseTransparent(true);
         flameZoomRight.setVisible(false);
-
+        //// Bug drawer scene.
         openBig.setMouseTransparent(true);
         openBig.setVisible(false);
         drawerBunsen.setMouseTransparent(true);
@@ -337,7 +369,7 @@ public class FlameLab {
         doorPlayer.setOnEndOfMedia (() -> {
             doorPlayer.stop();
         });
-
+        //// Microscope scene.
         zoomedPowderMicro.setMouseTransparent(true);
         zoomedPowderMicro.setVisible(false);
         nacl.setMouseTransparent(true);
@@ -348,7 +380,7 @@ public class FlameLab {
         kcl.setVisible(false);
         licl.setMouseTransparent(true);
         licl.setVisible(false);
-
+        //// Lab set scene.
         sol1F.setMouseTransparent(true);
         sol1F.setVisible(false);
         sol2F.setMouseTransparent(true);
@@ -402,6 +434,9 @@ public class FlameLab {
         });
     }
 
+    /**
+     * Easy add inventory image and set up.
+     */
     private void addInventory(StackPane stackPane) {
         ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
         inventoryImage.setMouseTransparent(true);
