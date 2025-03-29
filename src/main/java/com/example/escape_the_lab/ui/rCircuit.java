@@ -16,6 +16,7 @@ public class rCircuit {
     private Scene mainScene;
     private Item chosenItem;
     private Item placeHolder;
+    private boolean isLedOn = false;
 
     ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
@@ -25,6 +26,7 @@ public class rCircuit {
     ImageView mainBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/main-bg.png").toExternalForm()));
     ImageView glassThing = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/glass-thing.png").toExternalForm()));
     ImageView door = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/door.png").toExternalForm()));
+    ImageView openedDoor = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/door-open.png").toExternalForm()));
 
     // panel scene
     ImageView panelBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/panel-bg.png").toExternalForm()));
@@ -32,9 +34,10 @@ public class rCircuit {
     ImageView noteZoom = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note-zoomed.png").toExternalForm()));
     ImageView ledOff = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-off.png").toExternalForm()));
     ImageView head = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/head.png").toExternalForm()));
-//    ImageView ledOn = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-on.png").toExternalForm()));
+    ImageView ledOn = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-on.png").toExternalForm()));
     ImageView unattachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/unattached-wire.png").toExternalForm()));
-//    ImageView attachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/attached-wire.png").toExternalForm()));
+    ImageView attachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/attached-wire.png").toExternalForm()));
+    ImageView clickableSection = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/clickable-section.png").toExternalForm()));
 
     // head scene
     ImageView headBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/head-zoomed.png").toExternalForm()));
@@ -67,20 +70,22 @@ public class rCircuit {
         StackPane stackPane = new StackPane();
 
         Button skipToNext = new Button("Skip to next");
-        skipToNext.setTranslateX(300);
-        skipToNext.setTranslateY(300);
+        skipToNext.setTranslateX(-400);
+        skipToNext.setTranslateY(-300);
         skipToNext.setMinWidth(90);
         skipToNext.setOnAction(e -> {
-            AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
-            rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
-            stage.setScene(lab.getMainScene());
+            passLab();
         });
 
         panel.setOnMouseClicked(e -> {
-            panelClicked();
+            panelScene();
         });
 
         door.setOnMouseClicked(e -> {
+            doorClicked();
+        });
+
+        openedDoor.setOnMouseClicked(e -> {
             doorClicked();
         });
 
@@ -105,7 +110,12 @@ public class rCircuit {
             chosenItem = res4Item;
         });
 
-        stackPane.getChildren().addAll(mainBG, panel, door, glassThing, head, inventoryImage, skipToNext);
+        stackPane.getChildren().addAll(mainBG, panel, glassThing, head, inventoryImage, skipToNext);
+        if (isLedOn) {
+            stackPane.getChildren().add(2, openedDoor);
+        } else {
+            stackPane.getChildren().add(2, door);
+        }
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         mainScene = new Scene(pane, 1000, 650);
 
@@ -116,29 +126,39 @@ public class rCircuit {
         stage.setScene(makeScene());
     }
 
-    private void panelClicked() {
+    private void panelScene() {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(panelBG, note, ledOff, unattachedWire, inventoryImage, back);
+        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
+        if (isLedOn) {
+            stackPane.getChildren().addAll(ledOn);
+            stackPane.getChildren().add(attachedWire);
+        } else {
+            stackPane.getChildren().add(ledOff);
+            stackPane.getChildren().add(unattachedWire);
+        }
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
-        overlay.getLifeManager().decreaseLife();
-        overlay.updateLifeManager();
         back.setOnMouseClicked(e -> {
             goBack();
         });
         note.setOnMouseClicked(e -> {
             readNote();
         });
-        ledOff.setOnMouseClicked(e -> {
-            useItem(e);
-            System.out.println("CORRECT");
+        clickableSection.setOnMouseClicked(e -> {
+            if (chosenItem != placeHolder) {
+                useItem(e);
+            }
         });
 
         stage.setScene(currentScene);
     }
 
     private void doorClicked() {
-        System.out.println("The power is cut and the door is way too heavy for you to push open.");
+        if (!isLedOn) {
+            System.out.println("The power is cut and the door is way too heavy for you to push open.");
+        } else {
+            passLab();
+        }
     }
 
     private void inspectHead() {
@@ -182,7 +202,7 @@ public class rCircuit {
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> {
-            panelClicked();
+            panelScene();
         });
         stage.setScene(currentScene);
     }
@@ -193,6 +213,16 @@ public class rCircuit {
         stage.setScene(makeScene());
     }
 
+    private void passLab() {
+        AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
+        rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
+        stage.setScene(lab.getMainScene());
+    }
+
+    private void failLab() {
+        overlay.getLifeManager().decreaseLife();
+    }
+
     private void useItem(MouseEvent event) {
         if (chosenItem != null && chosenItem.equals(res1Item)) {
             res1Item.getImageView().setMouseTransparent(false);
@@ -200,6 +230,11 @@ public class rCircuit {
             chosenItem = placeHolder;
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
+
+            isLedOn = true;
+            panelScene();
+        } else {
+            failLab();
         }
     }
 }
