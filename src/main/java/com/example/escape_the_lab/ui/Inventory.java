@@ -19,6 +19,10 @@ public class Inventory {
         items.remove(item);
     }
 
+    public void resetInventory() {
+        this.items = new ArrayList<>();
+    }
+
     public List<Item> getItems() {
         return items;
     }

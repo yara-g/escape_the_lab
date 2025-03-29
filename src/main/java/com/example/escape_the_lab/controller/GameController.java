@@ -45,19 +45,7 @@ public class GameController extends Application {
         overlay = new Overlay(inventory, lifeManager);
         currentLab = new SpringLab(stage, overlay);
 
-        Item healthPotion = new Item("Health Potion", "/images/health_potion.png");
-        inventory.addItem(healthPotion);
-        overlay.updateInventory();
-
         overlay.updateLifeManager();
-
-        ImageView healthPotionImageView = healthPotion.getImageView();
-        healthPotionImageView.setFitWidth(50);
-        healthPotionImageView.setFitHeight(50);
-
-        healthPotionImageView.setOnMouseDragged(e -> {
-            // Logic to handle dragging
-        });
 
         //Start screen setup
         ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
