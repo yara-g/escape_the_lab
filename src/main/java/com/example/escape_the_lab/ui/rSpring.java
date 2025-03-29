@@ -4,6 +4,8 @@ import com.example.escape_the_lab.controller.SpringLab;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -26,41 +28,30 @@ public class rSpring {
     public Scene getMainScene() {
         Pane root = new Pane();
         // Add UI elements here
+
         return new Scene(root, 1000, 650);
     }
 
     // Show main scene with interactive components
     public void showMainScene() {
-        // Bed on the left to access springs
-        ImageView bed = new ImageView(new Image(getClass().getResource("/images/bed.png").toExternalForm()));
-        bed.setFitWidth(200);
-        bed.setFitHeight(600);
-        bed.setPreserveRatio(true);
-        bed.setLayoutX(70);
-        bed.setLayoutY(270);
-        bed.setOnMouseClicked(event -> showSpringsScene()); // Shows spring selection
+        ImageView bg = createImageView("/images/AAASpringLab/bg.jpg", 10, 10, 1000, 950);
 
-        // Lab table in the middle
-        ImageView labTable = new ImageView(new Image(getClass().getResource("/images/table.png").toExternalForm()));
-        labTable.setFitWidth(200);
-        labTable.setFitHeight(300);
-        labTable.setPreserveRatio(true);
-        labTable.setLayoutX(400);
-        labTable.setLayoutY(250);
+        ImageView chandelier = createImageView("/images/AAASpringLab/chandelier.png", 330, 40, 200, 200);
 
-        // Drawers to the right to access masses
-        ImageView drawers = new ImageView(new Image(getClass().getResource("/images/drawers.png").toExternalForm()));
-        drawers.setFitWidth(200);
-        drawers.setFitHeight(300);
-        drawers.setPreserveRatio(true);
-        drawers.setLayoutX(700);
-        drawers.setLayoutY(250);
-        drawers.setOnMouseClicked(event -> showDrawersScene()); // Opens drawer/mass selection
+        ImageView door = createImageView("/images/AAASpringLab/door..png", 100, 170, 200, 600);
+        door.setOnMouseClicked(event -> showDoorScene()); // Shows spring selection
 
-        Pane root = new Pane();
-        root.getChildren().addAll(bed, labTable, drawers, inventoryImage, overlay.getOverlayPane());
+        ImageView chair = createImageView("/images/AAASpringLab/chair.png", 450, 300, 200, 200);
+        chair.setOnMouseClicked(event -> showSpringsScene());
 
-        stage.setScene(new Scene(root, 1000, 650));
+        ImageView drawer = createImageView("/images/AAASpringLab/drawer.png", 600, 300, 200, 400);
+        drawer.setOnMouseClicked(event -> showLabScene()); // Opens drawer/mass selection
+
+        ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 600, 160, 200, 400);
+        shelves.setOnMouseClicked(event -> showShelvesScene()); // Opens drawer/mass selection
+
+//        ImageView table = createImageView("/images/table.png", 600, 150, 200, 300);
+//        shelves.setOnMouseClicked(event -> showLabScene()); // Opens drawer/mass selection
 
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Skip to next");
@@ -72,25 +63,25 @@ public class rSpring {
                 throw new RuntimeException(ex);
             }
         });
-        root.getChildren().add(skipToNext);
+
+        Pane root = new Pane();
+        root.getChildren().addAll(bg, chandelier, door, chair, drawer, shelves, inventoryImage, overlay.getOverlayPane(), skipToNext);
+        stage.setScene(new Scene(root, 1000, 650));
 
         // Start an animation timer to continuously check the solution
         startSolutionCheck();
     }
 
+    private void showDoorScene() {
+        ImageView door = createImageView("/images/AAASpringLab/door..png", 120, 70, 800, 500);
+    }
+
     // Show springs scene with different types of springs
     private void showSpringsScene() {
-        Pane root = new Pane();
-
-        ImageView bedSprings = new ImageView(new Image(getClass().getResource("/images/bedSprings.png").toExternalForm()));
-        bedSprings.setFitWidth(800);
-        bedSprings.setFitHeight(500);
-        bedSprings.setPreserveRatio(true);
-        bedSprings.setLayoutX(120);
-        bedSprings.setLayoutY(70);
+        ImageView bedSprings = createImageView("/images/AAASpringLab/chair.png", 120, 70, 800, 600);
 
         // Different springs
-        ImageView spring1 = createSpringImage("/images/spring1.png", 30, 150, 390); //k, x, y
+        ImageView spring1 = createSpringImage("/images/spring1.png", 30, 150, 390);
         ImageView spring2 = createSpringImage("/images/spring2.png", 50, 270, 390);  // Correct choice
         ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
 
@@ -99,7 +90,7 @@ public class rSpring {
             showMainScene();
         });
 
-
+        Pane root = new Pane();
         root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack, overlay.getOverlayPane());
         stage.setScene(new Scene(root, 1000, 650));
 
@@ -107,14 +98,90 @@ public class rSpring {
         startSolutionCheck();
     }
 
+    // Show drawers scene with different masses
+    private void showShelvesScene() {
+        ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
+
+        // Different masses
+        ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 1.0, 390, 150); //book
+        ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 2.0, 500, 340);  // Correct choice
+        ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 3.0, 240, 420);
+
+        Button goBack = new Button("Go back");
+        goBack.setLayoutX(20);
+        goBack.setLayoutY(600);
+        goBack.setOnAction(e -> {
+            showMainScene();
+        });
+
+        Pane root = new Pane();
+        root.getChildren().addAll(shelves, mass1, mass2, mass3, inventoryImage, overlay.getOverlayPane(), goBack);
+        stage.setScene(new Scene(root, 1000, 650));
+
+        // Start an animation timer to continuously check the solution
+        startSolutionCheck();
+    }
+
+    private void showLabScene() {
+        ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 180, 95, 500, 500);
+        ImageView table = createImageView("/images/AAASpringLab/table.png", 5, 400, 1000, 1000);
+        ImageView selectedSpring = createImageView("/images/spring2.png", 440, 200, 100, 300);
+
+        // Lab table setup for drag-and-drop
+//        ImageView labTable = createImageView("/images/table.png", 400, 250, 200, 300);
+
+        // Vertical Compression Slider
+        Slider compressionSlider = new Slider(0, 100, 0);  // 0 = uncompressed, 100 = fully compressed
+        compressionSlider.setLayoutX(90);  // Position it next to the spring
+        compressionSlider.setLayoutY(130);
+        compressionSlider.setPrefHeight(300);  // Make it tall
+        compressionSlider.setRotate(-90);  // Rotate it to be vertical
+
+        // Label for slider
+        Label sliderLabel = new Label("Spring Compression");
+        sliderLabel.setLayoutX(100);
+        sliderLabel.setLayoutY(150);
+
+        // Adjust Spring Height based on slider value
+        compressionSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            double scale = 1 - (newVal.doubleValue() / 200); // Scale between 1 and 0.5
+            //selectedSpring.setPivotY(selectedSpring.getLayoutY() + selectedSpring.getFitHeight());
+            selectedSpring.setScaleY(scale);
+            selectedSpring.setLayoutY(200 + (newVal.doubleValue() / 2));  // Move bottom of spring UP
+
+        });
+
+        Button goBack = new Button("Go back");
+        goBack.setLayoutX(20);
+        goBack.setLayoutY(600);
+        goBack.setOnAction(e -> showMainScene());
+
+//        Button attemptEscapeButton = new Button("Attempt Escape");
+//        attemptEscapeButton.setLayoutX(850);
+//        attemptEscapeButton.setLayoutY(600);
+//        attemptEscapeButton.setOnAction(event -> springLab.attemptEscape());
+
+        Pane root = new Pane();
+        root.getChildren().addAll(table, springStand, selectedSpring, sliderLabel, compressionSlider, inventoryImage, overlay.getOverlayPane(), goBack);
+        stage.setScene(new Scene(root, 1000, 650));
+    }
+
+
+
+    private ImageView createImageView(String path, double x, double y, double width, double height) {
+        ImageView imageView = new ImageView(new Image(getClass().getResource(path).toExternalForm()));
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+        imageView.setPreserveRatio(true);
+        imageView.setLayoutX(x);
+        imageView.setLayoutY(y);
+        return imageView;
+    }
+
     // Method to create a spring image and handle click events
     private ImageView createSpringImage(String imagePath, double k, double x, double y) {
-        ImageView spring = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
-        spring.setFitWidth(500);
-        spring.setFitHeight(150);
-        spring.setPreserveRatio(true);
-        spring.setLayoutX(x);
-        spring.setLayoutY(y);
+        ImageView spring = createImageView(imagePath, x, y, 50, 100);
+
         spring.setOnMouseClicked(event -> {
             springLab.setSelectedSpringConstant(k);  // Call controller to set value
             System.out.println("Spring selected: " + k + " N/m");
@@ -122,44 +189,10 @@ public class rSpring {
         return spring;
     }
 
-    // Show drawers scene with different masses
-    private void showDrawersScene() {
-        Pane root = new Pane();
-
-        ImageView drawer = new ImageView(new Image(getClass().getResource("/images/openDrawer.png").toExternalForm()));
-        drawer.setFitWidth(1000);
-        drawer.setFitHeight(600);
-        drawer.setPreserveRatio(true);
-        drawer.setLayoutX(30);
-        drawer.setLayoutY(30);
-
-        // Different masses
-        ImageView mass1 = createMassImage("/images/mass1.png", 1.0, 100, 200); //book
-        ImageView mass2 = createMassImage("/images/mass2.png", 2.0, 250, 200);  // Correct choice
-        ImageView mass3 = createMassImage("/images/mass3.png", 3.0, 400, 200);
-
-        root.getChildren().addAll(drawer, mass1, mass2, mass3, inventoryImage, overlay.getOverlayPane());
-        stage.setScene(new Scene(root, 1000, 650));
-
-        Button goBack = new Button("Go back");
-        root.getChildren().add(goBack);
-
-        goBack.setOnAction(e -> {
-            showMainScene();
-        });
-
-        // Start an animation timer to continuously check the solution
-        startSolutionCheck();
-    }
-
     // Method to create a mass image and handle click events
     private ImageView createMassImage(String imagePath, double mass, double x, double y) {
-        ImageView massImage = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
-        massImage.setFitWidth(100);
-        massImage.setFitHeight(100);
-        massImage.setPreserveRatio(true);
-        massImage.setLayoutX(x);
-        massImage.setLayoutY(y);
+        ImageView massImage = createImageView(imagePath, x, y, 150, 150);
+
         massImage.setOnMouseClicked(event -> {
             springLab.setSelectedMass(mass);  // Call controller to set value
             System.out.println("Mass selected: " + mass + " kg");
