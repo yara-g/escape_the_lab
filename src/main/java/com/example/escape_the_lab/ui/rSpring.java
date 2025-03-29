@@ -1,7 +1,7 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.SpringLab;
-import javafx.animation.AnimationTimer;
+import javafx.animation.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,6 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import javafx.animation.Timeline;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+
 
 public class rSpring {
     private Stage stage;
@@ -94,7 +99,6 @@ public class rSpring {
         root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack, overlay.getOverlayPane());
         stage.setScene(new Scene(root, 1000, 650));
 
-        // Start an animation timer to continuously check the solution
         startSolutionCheck();
     }
 
@@ -102,7 +106,6 @@ public class rSpring {
     private void showShelvesScene() {
         ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
 
-        // Different masses
         ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 1.0, 390, 150); //book
         ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 2.0, 500, 340);  // Correct choice
         ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 3.0, 240, 420);
@@ -118,7 +121,6 @@ public class rSpring {
         root.getChildren().addAll(shelves, mass1, mass2, mass3, inventoryImage, overlay.getOverlayPane(), goBack);
         stage.setScene(new Scene(root, 1000, 650));
 
-        // Start an animation timer to continuously check the solution
         startSolutionCheck();
     }
 
@@ -130,21 +132,18 @@ public class rSpring {
         // Lab table setup for drag-and-drop
 //        ImageView labTable = createImageView("/images/table.png", 400, 250, 200, 300);
 
-        // Vertical Compression Slider
-        Slider compressionSlider = new Slider(0, 100, 0);  // 0 = uncompressed, 100 = fully compressed
-        compressionSlider.setLayoutX(90);  // Position it next to the spring
+        Slider compressionSlider = new Slider(0, 100, 0);
+        compressionSlider.setLayoutX(90);
         compressionSlider.setLayoutY(130);
-        compressionSlider.setPrefHeight(300);  // Make it tall
-        compressionSlider.setRotate(-90);  // Rotate it to be vertical
+        compressionSlider.setPrefHeight(300);
+        compressionSlider.setRotate(-90);
 
-        // Label for slider
         Label sliderLabel = new Label("Spring Compression");
         sliderLabel.setLayoutX(100);
         sliderLabel.setLayoutY(150);
 
-        // Adjust Spring Height based on slider value
         compressionSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            double scale = 1 - (newVal.doubleValue() / 200); // Scale between 1 and 0.5
+            double scale = 1 - (newVal.doubleValue() / 200);
             //selectedSpring.setPivotY(selectedSpring.getLayoutY() + selectedSpring.getFitHeight());
             selectedSpring.setScaleY(scale);
             selectedSpring.setLayoutY(200 + (newVal.doubleValue() / 2));  // Move bottom of spring UP
@@ -156,17 +155,72 @@ public class rSpring {
         goBack.setLayoutY(600);
         goBack.setOnAction(e -> showMainScene());
 
+        Button playButton = new Button("Play");
+        playButton.setLayoutX(400);
+        playButton.setLayoutY(600);
+        playButton.setOnAction(event -> startSpringOscillation(selectedSpring, compressionSlider.getValue()));
+
 //        Button attemptEscapeButton = new Button("Attempt Escape");
 //        attemptEscapeButton.setLayoutX(850);
-//        attemptEscapeButton.setLayoutY(600);
+//        attemptEscapeButton.setLayoutY(500);
 //        attemptEscapeButton.setOnAction(event -> springLab.attemptEscape());
 
         Pane root = new Pane();
-        root.getChildren().addAll(table, springStand, selectedSpring, sliderLabel, compressionSlider, inventoryImage, overlay.getOverlayPane(), goBack);
+        root.getChildren().addAll(table, springStand, selectedSpring, sliderLabel, compressionSlider, inventoryImage, overlay.getOverlayPane(), playButton, goBack);
         stage.setScene(new Scene(root, 1000, 650));
     }
 
+    private void startSpringOscillation(ImageView spring, double compressionValue) {
+        double maxCompression = compressionValue;  // Max compression value (same as slider)
+        double originalY = spring.getLayoutY();
+        double period = 2000;  // One full oscillation (milliseconds)
+        spring.setLayoutY(200);
 
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0), new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH)),
+                new KeyFrame(Duration.seconds(1), new KeyValue(spring.scaleYProperty(), 1 - maxCompression / 200, Interpolator.EASE_BOTH)),
+                new KeyFrame(Duration.seconds(2), new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH))
+
+//            new KeyFrame(Duration.ZERO, event -> {
+//                double newVal = 0;  // Start at uncompressed state
+//                double scale = 1 - (newVal / 200);
+//                spring.setScaleY(scale);
+//                spring.setLayoutY(originalY + (newVal / 2));
+//            }, new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH)),
+//
+//            new KeyFrame(Duration.millis(period / 4), event -> {
+//                double newVal = maxCompression / 2;  // Fully compressed state
+//                double scale = 1 - (newVal / 200);
+//                spring.setScaleY(scale);
+//                spring.setLayoutY(originalY + (newVal / 2));
+//            }, new KeyValue(spring.scaleYProperty(), 0.5, Interpolator.EASE_BOTH)),
+//
+//            new KeyFrame(Duration.millis(period / 2), event -> {
+//                double newVal = maxCompression;  // Fully compressed state
+//                double scale = 1 - (newVal / 200);
+//                spring.setScaleY(scale);
+//                spring.setLayoutY(originalY + (newVal / 2));
+//            }, new KeyValue(spring.scaleYProperty(), 0.25, Interpolator.EASE_BOTH)),
+//
+//            new KeyFrame(Duration.millis(3 * period / 4), event -> {
+//                double newVal = maxCompression / 2;  // Partially decompressed
+//                double scale = 1 - (newVal / 200);
+//                spring.setScaleY(scale);
+//                spring.setLayoutY(originalY + (newVal / 2));
+//            }, new KeyValue(spring.scaleYProperty(), 0.5, Interpolator.EASE_BOTH)),
+//
+//            new KeyFrame(Duration.millis(period), event -> {
+//                double newVal = 0;  // Back to uncompressed state
+//                double scale = 1 - (newVal / 200);
+//                spring.setScaleY(scale);
+//                spring.setLayoutY(originalY + (newVal / 2));
+//            }, new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH))
+        );
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setAutoReverse(true);
+        timeline.play();
+    }
 
     private ImageView createImageView(String path, double x, double y, double width, double height) {
         ImageView imageView = new ImageView(new Image(getClass().getResource(path).toExternalForm()));
@@ -178,7 +232,7 @@ public class rSpring {
         return imageView;
     }
 
-    // Method to create a spring image and handle click events
+    //create a spring image and handle click events
     private ImageView createSpringImage(String imagePath, double k, double x, double y) {
         ImageView spring = createImageView(imagePath, x, y, 50, 100);
 
@@ -189,7 +243,7 @@ public class rSpring {
         return spring;
     }
 
-    // Method to create a mass image and handle click events
+    //create a mass image and handle click events
     private ImageView createMassImage(String imagePath, double mass, double x, double y) {
         ImageView massImage = createImageView(imagePath, x, y, 150, 150);
 
