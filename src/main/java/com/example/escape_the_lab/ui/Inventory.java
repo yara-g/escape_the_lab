@@ -15,16 +15,12 @@ public class Inventory {
         items.add(item);
     }
 
-//    public void useItem(Item item) {
-//        if (items.contains(item)) {
-//            // Logic for using the item (e.g., heal the player, etc.)
-//            item.select();
-//            items.remove(item);
-//        }
-//    }
-
     public void removeItem(Item item) {
         items.remove(item);
+    }
+
+    public void resetInventory() {
+        this.items = new ArrayList<>();
     }
 
     public List<Item> getItems() {
