@@ -17,6 +17,8 @@ public class rCircuit {
     private Item chosenItem;
     private Item placeHolder;
     private boolean isLedOn = false;
+    private boolean resTooLow = false;
+    private boolean resTooHigh = false;
 
     ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     ImageView back = new ImageView(new Image(getClass().getResource("/images/back.png").toExternalForm()));
@@ -222,8 +224,11 @@ public class rCircuit {
     }
 
     private void failLab() {
-        overlay.getLifeManager().decreaseLife();
-
+        if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
+            resTooLow = true;
+        } else {
+            resTooHigh = true;
+        }
     }
 
     private void useItem(MouseEvent event) {
@@ -237,6 +242,12 @@ public class rCircuit {
             isLedOn = true;
             panelScene();
         } else {
+            assert chosenItem != null;
+            chosenItem.getImageView().setMouseTransparent(false);
+            chosenItem.getImageView().setVisible(true);
+            overlay.getInventory().removeItem(res1Item);
+            overlay.updateInventory();
+
             failLab();
         }
     }
