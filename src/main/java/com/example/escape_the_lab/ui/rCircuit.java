@@ -138,6 +138,11 @@ public class rCircuit {
             stackPane.getChildren().add(ledOff);
             stackPane.getChildren().add(unattachedWire);
         }
+
+        if (resTooLow) {
+
+        }
+
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> {
@@ -226,8 +231,10 @@ public class rCircuit {
     private void failLab() {
         if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
             resTooLow = true;
+            panelScene();
         } else {
             resTooHigh = true;
+            panelScene();
         }
     }
 
@@ -245,7 +252,7 @@ public class rCircuit {
             assert chosenItem != null;
             chosenItem.getImageView().setMouseTransparent(false);
             chosenItem.getImageView().setVisible(true);
-            overlay.getInventory().removeItem(res1Item);
+            overlay.getInventory().removeItem(chosenItem);
             overlay.updateInventory();
 
             failLab();
