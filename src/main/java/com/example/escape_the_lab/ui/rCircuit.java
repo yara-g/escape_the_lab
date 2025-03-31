@@ -1,14 +1,21 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.AcidNeutralizationLab;
+import com.example.escape_the_lab.controller.KillPlayer;
 import com.example.escape_the_lab.model.Item;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class rCircuit {
     private Stage stage;
@@ -35,11 +42,13 @@ public class rCircuit {
     ImageView note = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note.png").toExternalForm()));
     ImageView noteZoom = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/note-zoomed.png").toExternalForm()));
     ImageView ledOff = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-off.png").toExternalForm()));
+    ImageView ledBroken = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-broken.png").toExternalForm()));
     ImageView head = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/head.png").toExternalForm()));
     ImageView ledOn = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/led-on.png").toExternalForm()));
     ImageView unattachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/unattached-wire.png").toExternalForm()));
     ImageView attachedWire = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/attached-wire.png").toExternalForm()));
     ImageView clickableSection = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/clickable-section.png").toExternalForm()));
+    ImageView dialogue2 = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/dialogue2.png").toExternalForm()));
 
     // head scene
     ImageView headBG = new ImageView(new Image(getClass().getResource("/images/AAACircuitLab/head-zoomed.png").toExternalForm()));
@@ -131,17 +140,24 @@ public class rCircuit {
     private void panelScene() {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
-        if (isLedOn) {
-            stackPane.getChildren().addAll(ledOn);
+        if (isLedOn || resTooLow || resTooHigh) {
             stackPane.getChildren().add(attachedWire);
         } else {
-            stackPane.getChildren().add(ledOff);
             stackPane.getChildren().add(unattachedWire);
         }
 
-        if (resTooLow) {
-
+        if (isLedOn) {
+            stackPane.getChildren().addAll(ledOn);
+        } else if (resTooLow) {
+            stackPane.getChildren().add(ledBroken);
+        } else {
+            stackPane.getChildren().add(ledOff);
         }
+
+        if (resTooHigh) {
+            stackPane.getChildren().add(dialogue2);
+        }
+
 
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
@@ -229,12 +245,27 @@ public class rCircuit {
     }
 
     private void failLab() {
+        // new circuit lab created if we need to restart the lab
+        rCircuit newRCircuit = new rCircuit(stage, overlay);
         if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
             resTooLow = true;
             panelScene();
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.play();
+
+            pause.setOnFinished(e ->{
+                KillPlayer.killPlayer("you were blinded by a shard that got into your eye.", stage, newRCircuit.makeScene(), overlay);
+            });
+
         } else {
             resTooHigh = true;
             panelScene();
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.play();
+
+            pause.setOnFinished(e ->{
+                KillPlayer.killPlayer("you couldn't figure out how to get out, so you succumbed due to dehydration.", stage, newRCircuit.makeScene(), overlay);
+            });
         }
     }
 
