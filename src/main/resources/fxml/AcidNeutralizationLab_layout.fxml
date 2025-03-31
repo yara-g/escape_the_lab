@@ -24,13 +24,13 @@
    </center>
    <left>
       <GridPane maxWidth="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="192.6666717529297" minHeight="0.0" prefHeight="60.5" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="567.3333377838135" minHeight="10.0" prefHeight="539.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="192.6666717529297" minHeight="0.0" prefHeight="60.5" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="567.3333377838135" minHeight="10.0" prefHeight="539.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <VBox fx:id="AcidBank" alignment="CENTER" prefHeight="606.0" prefWidth="140.0" GridPane.rowIndex="1">
                <children>
