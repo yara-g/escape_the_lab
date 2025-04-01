@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -23,17 +22,21 @@ import java.util.Objects;
 
 public class FlameLab {
     // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
-    /// Possible tools. 10 in total.
-    private final Item flameColorCrimsonTool = new Item("Crimson Flame", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item flameColorGreenTool = new Item("Green Flame", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item flameColorLilacTool = new Item("Lilac Flame", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item flameColorYellowTool = new Item("Yellow Flame", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item liclTool = new Item("LiCl", "/images/AAAFlameLab/liclTool.jpg");
-    private final Item bacl2Tool = new Item("BaCl2", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item kclTool = new Item("KCl", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item naclTool = new Item("NaCl", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item bunsenBurnerTool = new Item("Bunsen Burner", "/images/AAAFlameLab/bunsenTool.jpg");
-    private final Item powderTool = new Item("Powder", "/images/AAAFlameLab/bunsenTool.jpg");
+    /// Possible tools. 11 in total.
+    private final Item flameColorCrimsonTool = new Item("Crimson Flame", "/images/AAAFlameLab/crimTool.png");
+    private final Item flameColorGreenTool = new Item("Green Flame", "/images/AAAFlameLab/greTool.png");
+    private final Item flameColorLilacTool = new Item("Lilac Flame", "/images/AAAFlameLab/lilTool.png");
+    private final Item flameColorYellowTool = new Item("Yellow Flame", "/images/AAAFlameLab/yelTool.png");
+    private final Item liclTool = new Item("LiCl", "/images/AAAFlameLab/liTool.png");
+    private final Item bacl2Tool = new Item("BaCl2", "/images/AAAFlameLab/baTool.png");
+    private final Item kclTool = new Item("KCl", "/images/AAAFlameLab/kTool.png");
+    private final Item naclTool = new Item("NaCl", "/images/AAAFlameLab/naTool.png");
+    private final Item bunsenBurnerTool = new Item("Bunsen Burner", "/images/AAAFlameLab/bunsenTool.png");
+    private final Item powderTool = new Item("Powder", "/images/AAAFlameLab/powTool.png");
+    private final Item tubeToolK = new Item("Tube", "/images/AAAFlameLab/tubeTool.png");
+    private final Item tubeToolB = new Item("Tube", "/images/AAAFlameLab/tubeTool.png");
+    private final Item tubeToolL = new Item("Tube", "/images/AAAFlameLab/tubeTool.png");
+    private final Item tubeToolN = new Item("Tube", "/images/AAAFlameLab/tubeTool.png");
     /// Main page.
     private final ImageView microscope = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/microF.png")).toExternalForm()));
     private final ImageView drawerLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bigF.png")).toExternalForm()));
@@ -52,9 +55,9 @@ public class FlameLab {
     private final ImageView flameColorLilacLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/lilacLabF.png")).toExternalForm()));
     private final ImageView flameColorYellowLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/yellowLabF.png")).toExternalForm()));
     private final ImageView paperF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/paperF.png")).toExternalForm()));
-    private final ImageView sol1F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/sol1F.png")).toExternalForm()));
-    private final ImageView sol2F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/sol2F.png")).toExternalForm()));
-    private final ImageView sol3F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/sol3F.png")).toExternalForm()));
+    private final ImageView full1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/fullTube1.png")).toExternalForm()));
+    private final ImageView full2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/fullTube2.png")).toExternalForm()));
+    private final ImageView full3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/fullTube3.png")).toExternalForm()));
     private final ImageView tube1F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/tube1F.png")).toExternalForm()));
     private final ImageView tube2F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/tube2F.png")).toExternalForm()));
     private final ImageView tube3F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/tube3F.png")).toExternalForm()));
@@ -139,13 +142,6 @@ public class FlameLab {
         Scene scene = new Scene(pane);
         zoomMain(stage, scene);
         stage.setScene(scene);
-        //// Set up items.
-        bunsenBurnerTool.getImageView().setOnMouseClicked(e -> {
-            chosenItem = bunsenBurnerTool;
-        });
-        powderTool.getImageView().setOnMouseClicked(e -> {
-            chosenItem = powderTool;
-        });
     }
 
     /**
@@ -261,18 +257,7 @@ public class FlameLab {
         stackPane.getChildren().add(back);
         //// Set up actions for all interactive image views.
         zoomedMicroscope.setOnMouseClicked(e -> {
-            useItem(e);
-            stackPane.getChildren().add(monologuesL.get(2));
-            zoomedPowderMicro.setVisible(true);
-            zoomedMicroscope.setMouseTransparent(true);
-            nacl.setMouseTransparent(false);
-            nacl.setVisible(true);
-            bacl2.setMouseTransparent(false);
-            bacl2.setVisible(true);
-            kcl.setMouseTransparent(false);
-            kcl.setVisible(true);
-            licl.setMouseTransparent(false);
-            licl.setVisible(true);
+            useItem(zoomedMicroscope, stackPane);
         });
         bacl2.setOnMouseClicked(e -> {
             bacl2.setVisible(false);
@@ -313,17 +298,29 @@ public class FlameLab {
         back.setOnMouseClicked(e -> {
             back(stage);
         });
-        stackPane.getChildren().addAll(List.of(zoomLabF, bunsenBurnerLab, paperF, sol1F, sol2F, sol3F, tube1F, tube2F, tube3F, flameColorCrimsonLab, flameColorGreenLab, flameColorLilacLab, flameColorYellowLab));
+        stackPane.getChildren().addAll(List.of(zoomLabF, bunsenBurnerLab, paperF, full1, full2, full3, tube1F, tube2F, tube3F, flameColorCrimsonLab, flameColorGreenLab, flameColorLilacLab, flameColorYellowLab));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
         //// Set up actions for all interactive image views.
         paperF.setOnMouseClicked(e -> {
+            stackPane.getChildren().remove(monologuesL.get(3));
             stackPane.getChildren().add(monologuesL.get(4));
+            paperF.setMouseTransparent(true);
         });
         zoomLabF.setOnMouseClicked(e -> {
-            useItem(e);
-            labSetShow.setVisible(true);
-            labSetShow.setMouseTransparent(false);
+            useItem(zoomLabF, stackPane);
+        });
+        tube1F.setOnMouseClicked(e -> {
+            useItem(tube1F, stackPane);
+        });
+        tube2F.setOnMouseClicked(e -> {
+            useItem(tube2F, stackPane);
+        });
+        tube3F.setOnMouseClicked(e -> {
+            useItem(tube3F, stackPane);
+        });
+        bunsenBurnerLab.setOnMouseClicked(e -> {
+            useItem(bunsenBurnerLab, stackPane);
         });
         return new Pane(stackPane, inventoryPane);
     }
@@ -381,12 +378,12 @@ public class FlameLab {
         licl.setMouseTransparent(true);
         licl.setVisible(false);
         //// Lab set scene.
-        sol1F.setMouseTransparent(true);
-        sol1F.setVisible(false);
-        sol2F.setMouseTransparent(true);
-        sol2F.setVisible(false);
-        sol3F.setMouseTransparent(true);
-        sol3F.setVisible(false);
+        full1.setMouseTransparent(true);
+        full1.setVisible(false);
+        full2.setMouseTransparent(true);
+        full2.setVisible(false);
+        full3.setMouseTransparent(true);
+        full3.setVisible(false);
         bunsenBurnerLab.setMouseTransparent(true);
         bunsenBurnerLab.setVisible(false);
         flameColorCrimsonLab.setMouseTransparent(true);
@@ -397,6 +394,25 @@ public class FlameLab {
         flameColorGreenLab.setVisible(false);
         flameColorLilacLab.setVisible(false);
         flameColorYellowLab.setVisible(false);
+        //// Set up items.
+        bunsenBurnerTool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = bunsenBurnerTool;
+        });
+        powderTool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = powderTool;
+        });
+        kclTool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = kclTool;
+        });
+        bacl2Tool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = bacl2Tool;
+        });
+        naclTool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = naclTool;
+        });
+        liclTool.getImageView().setOnMouseClicked(e -> {
+            chosenItem = liclTool;
+        });
     }
 
     /**
@@ -445,19 +461,81 @@ public class FlameLab {
 
     /**
      * Use item action to... use items.
-     * @param event mouse clicked event.
      */
-    private void useItem(MouseEvent event) {
-        if (chosenItem != null && chosenItem.equals(bunsenBurnerTool)) {
+    private void useItem(ImageView clickedImage, StackPane stackPane) {
+        if (chosenItem != null && chosenItem.equals(bunsenBurnerTool) && clickedImage.equals(zoomLabF)) {
+            stackPane.getChildren().remove(monologuesL.get(4));
+            stackPane.getChildren().add(monologuesL.get(3));
+            labSetShow.setVisible(true);
+            labSetShow.setMouseTransparent(false);
             bunsenBurnerLab.setMouseTransparent(false);
             bunsenBurnerLab.setVisible(true);
             chosenItem = placeHolder;
             inventory.removeItem(bunsenBurnerTool);
             overlay.updateInventory();
-        } else if (chosenItem != null && chosenItem.equals(powderTool)) {
+        } else if (chosenItem != null && chosenItem.equals(powderTool) && clickedImage.equals(zoomedMicroscope)) {
             chosenItem = placeHolder;
             inventory.removeItem(powderTool);
             overlay.updateInventory();
+            stackPane.getChildren().add(monologuesL.get(2));
+            zoomedPowderMicro.setVisible(true);
+            zoomedMicroscope.setMouseTransparent(true);
+            nacl.setMouseTransparent(false);
+            nacl.setVisible(true);
+            bacl2.setMouseTransparent(false);
+            bacl2.setVisible(true);
+            kcl.setMouseTransparent(false);
+            kcl.setVisible(true);
+            licl.setMouseTransparent(false);
+            licl.setVisible(true);
+        } else if (chosenItem != null && chosenItem.equals(kclTool)) {
+            chosenItem = placeHolder;
+            inventory.removeItem(kclTool);
+            overlay.updateInventory();
+            if (clickedImage.equals(tube1F)) {tubeSet(full1, tube1F, tubeToolK);}
+            else if (clickedImage.equals(tube2F)) {tubeSet(full2, tube2F, tubeToolK);}
+            else if (clickedImage.equals(tube3F)) {tubeSet(full3, tube3F, tubeToolK);}
+        } else if (chosenItem != null && chosenItem.equals(naclTool)) {
+            chosenItem = placeHolder;
+            inventory.removeItem(naclTool);
+            overlay.updateInventory();
+            if (clickedImage.equals(tube1F)) {tubeSet(full1, tube1F, tubeToolN);}
+            else if (clickedImage.equals(tube2F)) {tubeSet(full2, tube2F, tubeToolN);}
+            else if (clickedImage.equals(tube3F)) {tubeSet(full3, tube3F, tubeToolN);}
+        } else if (chosenItem != null && chosenItem.equals(bacl2Tool)) {
+            chosenItem = placeHolder;
+            inventory.removeItem(bacl2Tool);
+            overlay.updateInventory();
+            if (clickedImage.equals(tube1F)) {tubeSet(full1, tube1F, tubeToolB);}
+            else if (clickedImage.equals(tube2F)) {tubeSet(full2, tube2F, tubeToolB);}
+            else if (clickedImage.equals(tube3F)) {tubeSet(full3, tube3F, tubeToolB);}
+        } else if (chosenItem != null && chosenItem.equals(liclTool)) {
+            chosenItem = placeHolder;
+            inventory.removeItem(liclTool);
+            overlay.updateInventory();
+            if (clickedImage.equals(tube1F)) {tubeSet(full1, tube1F, tubeToolL);}
+            else if (clickedImage.equals(tube2F)) {tubeSet(full2, tube2F, tubeToolL);}
+            else if (clickedImage.equals(tube3F)) {tubeSet(full3, tube3F, tubeToolL);}
+        } else if (chosenItem != null && chosenItem.equals(tubeToolK) && clickedImage.equals(bunsenBurnerLab)) {
+            chosenItem = placeHolder;
+            inventory.removeItem(tubeToolK);
+            overlay.updateInventory();
+            labSetShow.setVisible(true);
+            labSetShow.setMouseTransparent(false);
+            bunsenBurnerLab.setMouseTransparent(true); // transpa until taken away the flame.
         }
+    }
+
+    private void tubeSet(ImageView full, ImageView tube, Item tubeTool) {
+        full.setMouseTransparent(false);
+        full.setVisible(true);
+        tube.setMouseTransparent(true);
+        tube.setVisible(false);
+        full.setOnMouseClicked(e -> {
+            full.setVisible(false);
+            full.setMouseTransparent(true);
+            inventory.addItem(tubeTool);
+            overlay.updateInventory();
+        });
     }
 }
