@@ -21,7 +21,7 @@ import javafx.scene.Parent;
 public class GameController extends Application {
 
     public static boolean language = true; // True English False French.
-    private LifeManager lifeManager;
+    private static LifeManager lifeManager;
     private Player player;
     private Lab currentLab;
     private Stage primaryStage;
@@ -167,5 +167,9 @@ public class GameController extends Application {
             e.printStackTrace();
 
         }
+    }
+
+    public static LifeManager getLifeManager() {
+        return lifeManager;
     }
 }

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class FlameLab {
     // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
-    /// Possible tools. 11 in total.
+    /// Possible tools. 14 in total.
     // <editor-fold>
     private final Item flameColorCrimsonTool = new Item("Crimson Flame", "/images/AAAFlameLab/crimTool.png");
     private final Item flameColorGreenTool = new Item("Green Flame", "/images/AAAFlameLab/greTool.png");
@@ -126,6 +126,7 @@ public class FlameLab {
     // <editor-fold>
     private Overlay overlay;
     private Inventory inventory;
+    private LifeManager lifeManager;
     private Group inventoryPane;
     private StackPane mainLayout;
     private Item chosenItem;
@@ -152,6 +153,7 @@ public class FlameLab {
         this.overlay = overlay;
         this.inventory = overlay.getInventory();
         this.inventoryPane = overlay.getOverlayPane();
+        this.lifeManager = GameController.getLifeManager();
         /// Set up to start the lab.
         scareBat();
         initialize();
@@ -191,11 +193,7 @@ public class FlameLab {
         stackPane.getChildren().addAll(List.of(doorZoom, flameZoom, flameZoomRight));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-
-        // Button for monologue test
-        Button b = new Button();
-        stackPane.getChildren().add(b);
-        b.setOnAction(e -> stackPane.getChildren().add(monologuesL.getFirst()));
+        flameZoom.setOnMouseClicked(e -> useItem(flameZoom, stackPane));
         return new Pane(stackPane, inventoryPane);
     }
 
@@ -426,6 +424,20 @@ public class FlameLab {
         } else if (chosenItem != null && chosenItem.equals(tubeToolN) && clickedImage.equals(bunsenBurnerLab)) {placeTube(tubeToolN, flameColorYellowLab);
         } else if (chosenItem != null && chosenItem.equals(tubeToolB) && clickedImage.equals(bunsenBurnerLab)) {placeTube(tubeToolB, flameColorGreenLab);
         } else if (chosenItem != null && chosenItem.equals(tubeToolL) && clickedImage.equals(bunsenBurnerLab)) {placeTube(tubeToolL, flameColorCrimsonLab);
+        } else if (chosenItem != null && chosenItem.equals(flameColorCrimsonTool) && clickedImage.equals(flameZoom)) {
+            stackPane.getChildren().remove(monologuesL.get(1));
+            removeFromInventory(flameColorCrimsonTool);
+            stackPane.getChildren().add(monologuesL.getFirst());
+            showImage(flameZoomRight);
+            hideImage(flameZoom);
+        } else if (chosenItem != null && clickedImage.equals(flameZoom)) {
+            if (chosenItem.equals(flameColorYellowTool)) {
+                useWrongFlame(flameColorYellowTool, stackPane);
+            } else if (chosenItem.equals(flameColorGreenTool)) {
+                useWrongFlame(flameColorGreenTool, stackPane);
+            } else if (chosenItem.equals(flameColorLilacTool)) {
+                useWrongFlame(flameColorLilacTool, stackPane);
+            }
         }
     }
 
@@ -506,5 +518,12 @@ public class FlameLab {
         ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
         inventoryImage.setMouseTransparent(true);
         stackPane.getChildren().add(inventoryImage);
+    }
+
+    private void useWrongFlame (Item wrongFlame, StackPane stackPane) {
+        removeFromInventory(wrongFlame);
+        stackPane.getChildren().remove(monologuesL.get(1));
+        stackPane.getChildren().add(monologuesL.get(1));
+        lifeManager.decreaseLife();
     }
 }
