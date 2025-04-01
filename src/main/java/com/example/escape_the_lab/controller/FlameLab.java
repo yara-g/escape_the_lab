@@ -23,6 +23,7 @@ import java.util.Objects;
 public class FlameLab {
     // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
     /// Possible tools. 11 in total.
+    // <editor-fold>
     private final Item flameColorCrimsonTool = new Item("Crimson Flame", "/images/AAAFlameLab/crimTool.png");
     private final Item flameColorGreenTool = new Item("Green Flame", "/images/AAAFlameLab/greTool.png");
     private final Item flameColorLilacTool = new Item("Lilac Flame", "/images/AAAFlameLab/lilTool.png");
@@ -37,7 +38,9 @@ public class FlameLab {
     private final Item tubeToolB = new Item("Tube", "/images/AAAFlameLab/tubeToolB.png");
     private final Item tubeToolL = new Item("Tube", "/images/AAAFlameLab/tubeToolL.png");
     private final Item tubeToolN = new Item("Tube", "/images/AAAFlameLab/tubeToolN.png");
+    // </editor-fold>
     /// Main page.
+    // <editor-fold>
     private final ImageView microscope = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/microF.png")).toExternalForm()));
     private final ImageView drawerLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bigF.png")).toExternalForm()));
     private final ImageView labSet = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bunsenUnplacedF.png")).toExternalForm()));
@@ -48,7 +51,9 @@ public class FlameLab {
     private final ImageView wall = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bgF.png")).toExternalForm()));
     private final ImageView bats = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/batF.png")).toExternalForm()));
     private final ImageView batsFly = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/batFlyF.png")).toExternalForm()));
+    // </editor-fold>
     /// Lab page.
+    // <editor-fold>
     private final ImageView bunsenBurnerLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bunsenLabF.png")).toExternalForm()));
     private final ImageView flameColorCrimsonLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/crimLabF.png")).toExternalForm()));
     private final ImageView flameColorGreenLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/greenLabF.png")).toExternalForm()));
@@ -62,25 +67,35 @@ public class FlameLab {
     private final ImageView tube2F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/tube2F.png")).toExternalForm()));
     private final ImageView tube3F = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/tube3F.png")).toExternalForm()));
     private final ImageView zoomLabF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/zoomLabF.png")).toExternalForm()));
+    // </editor-fold>
     /// Big drawer page.
+    // <editor-fold>
     private final ImageView closedBig = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/closedF.png")).toExternalForm()));
     private final ImageView openBig = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/openF.png")).toExternalForm()));
     private final ImageView drawerBunsen = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/drawerBunsenF.png")).toExternalForm()));
+    // </editor-fold>
     /// Small drawer page.
+    // <editor-fold>
     private final ImageView smallZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/zoomSmallF.png")).toExternalForm()));
     private final ImageView powderZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/powderSmallF.png")).toExternalForm()));
+    // </editor-fold>
     /// Microscope page.
+    // <editor-fold>
     private final ImageView zoomedMicroscope = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/zoomMicroF.png")).toExternalForm()));
     private final ImageView zoomedPowderMicro = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/zoomMicroPowderF.png")).toExternalForm()));
     private final ImageView licl = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/LiClzoomF.png")).toExternalForm()));
     private final ImageView bacl2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/BaCl2zoomF.png")).toExternalForm()));
     private final ImageView kcl = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/KClzoomF.png")).toExternalForm()));
     private final ImageView nacl = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/NaClzoomF.png")).toExternalForm()));
+    // </editor-fold>
     /// Door page.
+    // <editor-fold>
     private final ImageView doorZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/zoomDoorF.png")).toExternalForm()));
     private final ImageView flameZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/zoomFlameF.png")).toExternalForm()));
     private final ImageView flameZoomRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/flameRightF.png")).toExternalForm()));
+    // </editor-fold>
     /// Monologue.
+    // <editor-fold>
     private final ImageView monoPass = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/pass.png")).toExternalForm()));
     private final ImageView monoPassF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/passF.png")).toExternalForm()));
     private final ImageView monoFail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/fail.png")).toExternalForm()));
@@ -94,7 +109,9 @@ public class FlameLab {
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
+    // </editor-fold>
     /// Sounds.
+    // <editor-fold>
     String batPath = Objects.requireNonNull(getClass().getResource("/sounds/bat.mp3")).toExternalForm();
     Media batMedia = new Media(batPath);
     MediaPlayer batPlayer = new MediaPlayer(batMedia);
@@ -104,13 +121,16 @@ public class FlameLab {
     String doorCreak = Objects.requireNonNull(getClass().getResource("/sounds/doorCreak.mp3")).toExternalForm();
     Media doorMedia = new Media(doorCreak);
     MediaPlayer doorPlayer = new MediaPlayer(doorMedia);
+    // </editor-fold>
     /// Other useful variables.
+    // <editor-fold>
     private Overlay overlay;
     private Inventory inventory;
     private Group inventoryPane;
     private StackPane mainLayout;
     private Item chosenItem;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
+    // </editor-fold>
 
     /**
      * Call this to start the flame lab!
