@@ -104,7 +104,7 @@ public class FlameLab {
     String doorCreak = Objects.requireNonNull(getClass().getResource("/sounds/doorCreak.mp3")).toExternalForm();
     Media doorMedia = new Media(doorCreak);
     MediaPlayer doorPlayer = new MediaPlayer(doorMedia);
-    //// Other useful variables.
+    /// Other useful variables.
     private Overlay overlay;
     private Inventory inventory;
     private Group inventoryPane;
@@ -164,7 +164,7 @@ public class FlameLab {
      * @return Pane of door.
      */
     private Pane zoomDoor(Stage stage) {
-        //// Set up scene.
+        /// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> back(stage));
@@ -185,14 +185,14 @@ public class FlameLab {
      * @return Pane of big drawer.
      */
     private Pane zoomBig(Stage stage) {
-        //// Set up scene.
+        /// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> back(stage));
         stackPane.getChildren().addAll(List.of(closedBig, openBig, drawerBunsen));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-        //// Set up actions for all interactive image views.
+        /// Set up actions for all interactive image views.
         closedBig.setOnMouseClicked(e -> {
             doorPlayer.play();
             openBig.setVisible(true);
@@ -209,14 +209,14 @@ public class FlameLab {
      * @return Pane of small drawer.
      */
     private Pane zoomSmall(Stage stage) {
-        //// Set up scene.
+        /// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> back(stage));
         stackPane.getChildren().addAll(List.of(smallZoom, powderZoom));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-        //// Set up actions for all interactive image views.
+        /// Set up actions for all interactive image views.
         powderZoom.setOnMouseClicked(e -> addIntoInventory(powderZoom, powderTool));
         return new Pane(stackPane, inventoryPane);
     }
@@ -227,14 +227,14 @@ public class FlameLab {
      * @return Pane of microscope.
      */
     private Pane zoomMicro(Stage stage) {
-        //// Set up scene.
+        /// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> back(stage));
         stackPane.getChildren().addAll(List.of(zoomedMicroscope, zoomedPowderMicro, nacl, licl, bacl2, kcl));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-        //// Set up actions for all interactive image views.
+        /// Set up actions for all interactive image views.
         zoomedMicroscope.setOnMouseClicked(e -> useItem(zoomedMicroscope, stackPane));
         bacl2.setOnMouseClicked(e -> addIntoInventory(bacl2, bacl2Tool));
         kcl.setOnMouseClicked(e -> addIntoInventory(kcl, kclTool));
@@ -249,14 +249,14 @@ public class FlameLab {
      * @return Pane of lab set.
      */
     private Pane zoomLab(Stage stage) {
-        //// Set up scene.
+        /// Set up scene.
         StackPane stackPane = new StackPane();
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> back(stage));
         stackPane.getChildren().addAll(List.of(zoomLabF, bunsenBurnerLab, paperF, full1, full2, full3, tube1F, tube2F, tube3F, flameColorCrimsonLab, flameColorGreenLab, flameColorLilacLab, flameColorYellowLab));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-        //// Set up actions for all interactive image views.
+        /// Set up actions for all interactive image views.
         paperF.setOnMouseClicked(e -> {
             stackPane.getChildren().remove(monologuesL.get(3));
             stackPane.getChildren().add(monologuesL.get(4));
@@ -286,7 +286,7 @@ public class FlameLab {
         batPlayer.setOnEndOfMedia (() -> batPlayer.stop());
         batFlyPlayer.setOnEndOfMedia (() -> batFlyPlayer.stop());
         Timeline batTime = new Timeline(new KeyFrame(Duration.seconds(1.9), event -> batsFly.setVisible(false)));
-        //// Set on action.
+        /// Set on action.
         bats.setOnMouseClicked(e -> {
             bats.setMouseTransparent(true);
             batPlayer.play();
@@ -302,23 +302,23 @@ public class FlameLab {
      * Initialize the original state of certain media.
      */
     private void initialize() {
-        //// Main scene.
+        /// Main scene.
         chosenItem = placeHolder;
         flame.setMouseTransparent(true);
         hideImage(labSetShow);
-        //// Door scene.
+        /// Door scene.
         hideImage(flameZoomRight);
-        //// Bug drawer scene.
+        /// Bug drawer scene.
         hideImage(openBig);
         hideImage(drawerBunsen);
         doorPlayer.setOnEndOfMedia (() -> doorPlayer.stop());
-        //// Microscope scene.
+        /// Microscope scene.
         hideImage(zoomedPowderMicro);
         hideImage(nacl);
         hideImage(bacl2);
         hideImage(kcl);
         hideImage(licl);
-        //// Lab set scene.
+        /// Lab set scene.
         hideImage(full1);
         hideImage(full2);
         hideImage(full3);
@@ -327,7 +327,7 @@ public class FlameLab {
         hideImage(flameColorGreenLab);
         hideImage(flameColorLilacLab);
         hideImage(flameColorYellowLab);
-        //// Set up items.
+        /// Set up items.
         bunsenBurnerTool.getImageView().setOnMouseClicked(e -> chosenItem = bunsenBurnerTool);
         powderTool.getImageView().setOnMouseClicked(e -> chosenItem = powderTool);
         kclTool.getImageView().setOnMouseClicked(e -> chosenItem = kclTool);
@@ -380,15 +380,6 @@ public class FlameLab {
     }
 
     /**
-     * Easy add inventory image and set up.
-     */
-    private void addInventory(StackPane stackPane) {
-        ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
-        inventoryImage.setMouseTransparent(true);
-        stackPane.getChildren().add(inventoryImage);
-    }
-
-    /**
      * Use item action to... use items.
      */
     private void useItem(ImageView clickedImage, StackPane stackPane) {
@@ -418,12 +409,18 @@ public class FlameLab {
         }
     }
 
+    /**
+     * Extracted repeated method for placing tubes.
+     */
     private void placeTube(Item tubeTool, ImageView flameColor) {
         removeFromInventory(tubeTool);
         bunsenBurnerLab.setMouseTransparent(true);
         showImage(flameColor);
     }
 
+    /**
+     * Extracted repeated method for placing chemicals.
+     */
     private void placeChem(ImageView clickedImage, Item tubeTool, Item chemTool) {
         if (clickedImage.equals(tube1F)) {
             tubeSet(full1, tube1F, tubeTool);
@@ -439,31 +436,55 @@ public class FlameLab {
         }
     }
 
+    /**
+     * Extracted repeated method for tube changes from putting chemicals in empty tubes.
+     */
     private void tubeSet(ImageView full, ImageView tube, Item tubeTool) {
         showImage(full);
         hideImage(tube);
         full.setOnMouseClicked(e -> addIntoInventory(full, tubeTool));
     }
 
+    /**
+     * Extracted repeated method for making an image view visible and clickable.
+     */
     private void showImage(ImageView image) {
         image.setMouseTransparent(false);
         image.setVisible(true);
     }
 
+    /**
+     * Extracted repeated method for making an image view not visible and not clickable.
+     */
     private void hideImage(ImageView image) {
         image.setMouseTransparent(true);
         image.setVisible(false);
     }
 
+    /**
+     * Extracted repeated method for adding an item into the inventory.
+     */
     private void addIntoInventory(ImageView imageOfTool, Item tool){
         hideImage(imageOfTool);
         inventory.addItem(tool);
         overlay.updateInventory();
     }
 
+    /**
+     * Extracted repeated method for removing an item from the inventory.
+     */
     private void removeFromInventory(Item tool){
         chosenItem = placeHolder;
         inventory.removeItem(tool);
         overlay.updateInventory();
+    }
+
+    /**
+     * Easy add inventory image and set up.
+     */
+    private void addInventory(StackPane stackPane) {
+        ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
+        inventoryImage.setMouseTransparent(true);
+        stackPane.getChildren().add(inventoryImage);
     }
 }
