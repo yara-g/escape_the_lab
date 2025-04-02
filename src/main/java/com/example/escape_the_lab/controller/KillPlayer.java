@@ -1,7 +1,6 @@
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.ui.Overlay;
-import com.example.escape_the_lab.ui.rCircuit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,8 +10,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class KillPlayer {
-    static ImageView deathScreen = new ImageView(new Image(KillPlayer.class.getResource("/images/death-screen.png").toExternalForm()));
+    static ImageView deathScreen = new ImageView(new Image(Objects.requireNonNull(KillPlayer.class.getResource("/images/death-screen.png")).toExternalForm()));
     public static void killPlayer(String message, Stage stage, Scene newScene, Overlay overlay) {
         Button restart = new Button("Restart lab?");
         restart.setOnAction(e -> {

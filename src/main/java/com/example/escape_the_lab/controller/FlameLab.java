@@ -3,11 +3,9 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -162,7 +160,7 @@ public class FlameLab {
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
-        zoomMain(stage, scene);
+        zoomMain(stage);
         stage.setScene(scene);
     }
 
@@ -176,7 +174,7 @@ public class FlameLab {
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
-        zoomMain(stage, scene);
+        zoomMain(stage);
         stage.setScene(scene);
     }
 
@@ -365,7 +363,7 @@ public class FlameLab {
     /**
      * Set up mouse click actions for the main scene.
      */
-    private void zoomMain(Stage stage, Scene scene) {
+    private void zoomMain(Stage stage) {
         door.setOnMouseClicked(e -> {
             Scene zoomDScene = new Scene(zoomDoor(stage));
             stage.setScene(zoomDScene);
@@ -520,6 +518,9 @@ public class FlameLab {
         stackPane.getChildren().add(inventoryImage);
     }
 
+    /**
+     * Method for when user uses wrong color of flame to open the door.
+     */
     private void useWrongFlame (Item wrongFlame, StackPane stackPane) {
         removeFromInventory(wrongFlame);
         stackPane.getChildren().remove(monologuesL.get(1));

@@ -1,20 +1,19 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Lab;
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -48,17 +47,17 @@ public class GameController extends Application {
         overlay.updateLifeManager();
 
         //Start screen setup
-        ImageView startGame = new ImageView(new Image(getClass().getResource("/images/start-bg.png").toExternalForm()));
-        ImageView startGameFr = new ImageView(new Image(getClass().getResource("/images/start-bg-fr.png").toExternalForm()));
-        ImageView enButton = new ImageView(new Image(getClass().getResource("/images/en.png").toExternalForm()));
-        ImageView frButton = new ImageView(new Image(getClass().getResource("/images/fr.png").toExternalForm()));
+        ImageView startGame = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/start-bg.png")).toExternalForm()));
+        ImageView startGameFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/start-bg-fr.png")).toExternalForm()));
+        ImageView enButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/en.png")).toExternalForm()));
+        ImageView frButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/fr.png")).toExternalForm()));
         // Set up initial UI
         root = new StackPane(startGame);
         root.getChildren().add(enButton);
         root.getChildren().add(frButton);
 
-        ImageView startButton = new ImageView(new Image(getClass().getResource("/images/start.png").toExternalForm()));
-        ImageView startButtonFr = new ImageView(new Image(getClass().getResource("/images/reveiller.png").toExternalForm()));
+        ImageView startButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/start.png")).toExternalForm()));
+        ImageView startButtonFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/reveiller.png")).toExternalForm()));
         startButton.setOnMouseClicked(e -> startLab());
         startButtonFr.setOnMouseClicked(e -> startLab());
         root.getChildren().add(startButton);

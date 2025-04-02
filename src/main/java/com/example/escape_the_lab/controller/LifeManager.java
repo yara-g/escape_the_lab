@@ -64,14 +64,18 @@ public class LifeManager {
         }
     }
 
-//    public void resetLives() {
-//        lives = 3;
-//        for (ImageView heart : hearts) {
-//            heart.setVisible(true); // Show all hearts
-//        }
-//    }
+    public void resetLives() {
+        lives = 3;
+        for (ImageView heart : hearts) {
+            heart.setVisible(true); // Show all hearts
+        }
+    }
 
     public HBox getLifeDisplay() {
         return lifeDisplay;
+    }
+
+    public int getLives() {
+        return lives;
     }
 }

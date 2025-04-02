@@ -2,9 +2,7 @@ package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.model.Item;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.util.List;
@@ -12,9 +10,9 @@ import java.util.List;
 public class Overlay {
     private LifeManager lifeManager;
     private Inventory inventory;
-    private Group inventoryPane; // Shared inventory pane
-    private Group overlayPane;
-    private Group lifePane;
+    private final Group inventoryPane; // Shared inventory pane
+    private final Group overlayPane;
+    private final Group lifePane;
 
     public Overlay(Inventory inventory, LifeManager lifeManager) {
         this.lifeManager = lifeManager;

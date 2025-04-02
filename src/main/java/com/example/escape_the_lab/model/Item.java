@@ -1,8 +1,9 @@
 package com.example.escape_the_lab.model;
 
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Objects;
 
 public class Item {
     private String name;
@@ -17,12 +18,10 @@ public class Item {
 
     public Item(String name, String imagePath) {
         this.name = name;
-        this.image = new Image(getClass().getResourceAsStream(imagePath));
+        this.image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         this.imageView = new ImageView(image);
 
-        imageView.setOnMouseClicked(e -> {
-            select();
-        });
+        imageView.setOnMouseClicked(e -> select());
     }
 
     public String getName() {
