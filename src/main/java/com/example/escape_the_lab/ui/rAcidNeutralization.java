@@ -12,7 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class rAcidNeutralization {
-private Stage stage;
+
+    private Stage stage;
     private AcidNeutralizationLab acidNeutralizationLab;
     private Pane arenaPane;
     private Overlay overlay;
@@ -33,6 +34,7 @@ private Stage stage;
         this.acidNeutralizationLab = acidNeutralizationLab;
         this.overlay = overlay;
     }
+
     public Scene getMainScene() {
         Pane root = new Pane();
 
@@ -56,7 +58,7 @@ private Stage stage;
         arenaPane.setLayoutY(100);
 
         List<ImageView> substances = Arrays.asList(acid1, acid2, base1);
-        acidNeutralizationLab.registerSubstances(substances);
+        //acidNeutralizationLab.registerSubstances(substances);
         inventory.setMouseTransparent(true);
 
         root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, b, acid1, acid2, base1, arenaPane, overlay.getOverlayPane());
@@ -77,6 +79,3 @@ private Stage stage;
         stage.show();
     }
 }
-    
-    
-
