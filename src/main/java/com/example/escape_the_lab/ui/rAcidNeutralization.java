@@ -61,7 +61,7 @@ public class rAcidNeutralization {
         //acidNeutralizationLab.registerSubstances(substances);
         inventory.setMouseTransparent(true);
 
-        root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, b, acid1, acid2, base1, arenaPane, overlay.getOverlayPane());
+        root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, acid1, acid2, base1, arenaPane, overlay.getOverlayPane(), b);
         return new Scene(root, 1000, 650);
     }
 

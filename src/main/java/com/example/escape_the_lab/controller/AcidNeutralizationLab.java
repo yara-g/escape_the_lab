@@ -129,7 +129,7 @@ public class AcidNeutralizationLab extends Lab {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
             loader.setController(this);
             Parent labRoot = loader.load();
-            doorOpen();
+            doorOpen(primaryStage);
             bigFlowerA.setOnMouseClicked(mouseEvent ->
                     pressBigFlower());
 
@@ -438,7 +438,7 @@ public class AcidNeutralizationLab extends Lab {
             System.out.println("Success! You neutralized the floor");
             arenaPane.setStyle("");
             succeedLab = true;
-            doorOpen();
+            doorOpen(primaryStage);
             arenaPane.getChildren().remove(acidFloorA);
             showSuccessScreen();
             // Add logic to proceed to the next level
@@ -496,13 +496,17 @@ public class AcidNeutralizationLab extends Lab {
         failedStage.show();
     }
 
-    public void doorOpen() {
+    public void doorOpen(Stage stage) {
         if (succeedLab == true) {
 //            doorButton.setOnAction((event) -> {
 //                System.out.println("Opening door");
 //            });
             doorA.setOnMouseClicked((event) -> {
                         System.out.println("Opening door");
+                        doorA.setOnMouseClicked(e -> {
+                            FlameLab f = new FlameLab();
+                            f.startLab(stage, overlay);
+                        });
                     }
             );
         }
