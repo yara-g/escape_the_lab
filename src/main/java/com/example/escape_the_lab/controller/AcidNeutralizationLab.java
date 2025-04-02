@@ -108,12 +108,10 @@ public class AcidNeutralizationLab extends Lab {
         return hasNeutralized;
     }
 
-    @Override
     public void failLab() {
         showFailedScreen();
     }
 
-    @Override
     public void setupLab() {
         createScene();
     }

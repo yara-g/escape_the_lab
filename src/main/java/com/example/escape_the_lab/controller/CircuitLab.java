@@ -1,14 +1,20 @@
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
+import com.example.escape_the_lab.ui.Inventory;
+import com.example.escape_the_lab.ui.Overlay;
+import com.example.escape_the_lab.ui.rCircuit;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class CircuitLab extends Lab {
-    private final String name = "Circuit Lab";
+public class CircuitLab extends Lab{
+    //private final String name = "Circuit Lab";
 
-    @Override
     public void startLab() {
-
+        Stage stage = GameController.getStage();
+        Overlay overlay = GameController.getOver();
+        rCircuit rCircuit = new rCircuit(stage, overlay);
+        rCircuit.start();
     }
 
     @Override
@@ -17,21 +23,7 @@ public class CircuitLab extends Lab {
     }
 
     @Override
-    public void failLab() {
-
-    }
-
-    @Override
-    public void setupLab() {
-
-    }
-
-    @Override
     public Scene createScene() {
         return null;
-    }
-
-    public void assembleCircuit() {
-
     }
 }

@@ -34,12 +34,10 @@ public class SpringLab extends Lab {
         return springModel.isCorrectCombination(correctMass, correctSpringConstant);
     }
 
-    @Override
     public void failLab() {
         System.out.println("Wrong combination! Try again.");
     }
 
-    @Override
     public void setupLab() {
         //will be used for the lab scene
     }

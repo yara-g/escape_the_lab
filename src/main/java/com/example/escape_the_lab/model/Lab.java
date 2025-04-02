@@ -7,7 +7,5 @@ public abstract class Lab {
 
     public abstract void startLab();
     public abstract boolean checkSolution();
-    public abstract void failLab();
-    public abstract void setupLab();
     public abstract Scene createScene();
 }

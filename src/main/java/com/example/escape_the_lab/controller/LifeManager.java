@@ -14,7 +14,7 @@ public class LifeManager {
     private final HBox lifeDisplay = new HBox(); // Holds the hearts
     private final ImageView[] hearts = new ImageView[3];
 
-    private LifeManager() {
+    LifeManager() {
         Image heart1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/heart1.png")));
         Image heart2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/heart2.png")));
         Image heart3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/heart3.png")));

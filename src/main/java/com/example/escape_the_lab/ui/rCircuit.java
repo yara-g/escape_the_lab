@@ -2,6 +2,7 @@ package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.AcidNeutralizationLab;
 import com.example.escape_the_lab.controller.KillPlayer;
+import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
@@ -208,8 +209,10 @@ public class rCircuit {
 
     private void passLab() {
         overlay.getInventory().resetInventory();
-        AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
-        stage.setScene(acidLab.createScene());
+        SpringLab s = new SpringLab(stage, overlay);
+        //AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
+        //rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
+        s.startLab();
         overlay.updateInventory();
     }
 

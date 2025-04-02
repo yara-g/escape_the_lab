@@ -1,5 +1,6 @@
 package com.example.escape_the_lab.ui;
 
+import com.example.escape_the_lab.controller.FlameLab;
 import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.*;
@@ -17,11 +18,13 @@ import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 
+import java.util.Objects;
+
 
 public class rSpring {
     private Stage stage;
     private SpringLab springLab;
-    ImageView inventoryImage = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     Overlay overlay;
     private Timeline timeline;
 
@@ -80,7 +83,8 @@ public class rSpring {
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Skip to next");
         skipToNext.setOnAction(e -> {
-            startRCircuitLab();
+            FlameLab f = new FlameLab();
+            f.startLab(stage, overlay);
         });
 
         Pane root = new Pane();

@@ -23,10 +23,10 @@ public class GameController extends Application {
     private static LifeManager lifeManager;
     private Player player;
     private Lab currentLab;
-    private Stage primaryStage;
+    private static Stage primaryStage;
     private Inventory inventory;
     private StackPane root;
-    private Overlay overlay;
+    private static Overlay overlay;
     private static Scene scene;
 
     public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class GameController extends Application {
         player = new Player();
         inventory = new Inventory();
         overlay = new Overlay(inventory, lifeManager);
-        currentLab = new SpringLab(stage, overlay);
+        currentLab = new CircuitLab();
 
         overlay.updateLifeManager();
 
@@ -90,44 +90,36 @@ public class GameController extends Application {
     private void startLab() {
         if (currentLab != null) {
             currentLab.startLab();
-            //transitionToLabScene(currentLab);
-            // Transition to lab scene
-
             lifeManager.showLives();
-            // Update the life display based on current player's lives
             lifeManager.updateLives(player.getLives());
-
         }
     }
+//
+//    private void checkGameOver() {
+//        if (player.getLives() <= 0) {
+//            // Handle game over logic
+//            showGameOverScreen();
+//        }
+//    }
 
-    private void checkGameOver() {
-        if (player.getLives() <= 0) {
-            // Handle game over logic
-            showGameOverScreen();
-        }
-    }
-
-    private void showGameOverScreen() {
-        // Shows the game over screen when lives run out
-        Button restartButton = new Button("Restart");
-
-        restartButton.setOnAction(e -> {
-            player = new Player();
-            LifeManager.getInstance().updateLives(player.getLives());
-
-            // Transition back to the first lab scene
-            currentLab = new SpringLab(primaryStage, overlay);
-            currentLab.startLab();
-            transitionToLabScene(currentLab);
-        });
-
-
-        StackPane gameOverLayout = new StackPane();
-        gameOverLayout.getChildren().addAll(restartButton);
-
-        Scene gameOverScene = new Scene(gameOverLayout, 1000, 650);
-        primaryStage.setScene(gameOverScene);
-    }
+//    private void showGameOverScreen() {
+//        // Shows the game over screen when lives run out
+//        Button restartButton = new Button("Restart");
+//
+//        restartButton.setOnAction(e -> {
+//            player = new Player();
+//            LifeManager.getInstance().updateLives(player.getLives());
+//
+//            // Transition back to the first lab scene
+//            currentLab = new CircuitLab();
+//            currentLab.startLab();
+//            transitionToLabScene(currentLab);
+//        });
+//        StackPane gameOverLayout = new StackPane();
+//        gameOverLayout.getChildren().addAll(restartButton);
+//        Scene gameOverScene = new Scene(gameOverLayout, 1000, 650);
+//        primaryStage.setScene(gameOverScene);
+//    }
 
 //    public void transitionToNextLab() {
 //        if (currentLab instanceof CircuitLab) {
@@ -141,10 +133,10 @@ public class GameController extends Application {
 //        transitionToLabScene(currentLab);
 //    }
 
-    private void transitionToLabScene(Lab lab) {
-        Scene labScene = lab.createScene();
-        primaryStage.setScene(labScene); // Use the stored primaryStage
-    }
+//    private void transitionToLabScene(Lab lab) {
+//        Scene labScene = lab.createScene();
+//        primaryStage.setScene(labScene); // Use the stored primaryStage
+//    }
 
     public void loadAcidNeutralizationFXML() {
         try {
@@ -173,5 +165,13 @@ public class GameController extends Application {
 
     public static Scene getScene() {
         return scene;
+    }
+
+    public static Stage getStage() {
+        return primaryStage;
+    }
+
+    public static Overlay getOver() {
+        return overlay;
     }
 }
