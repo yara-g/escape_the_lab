@@ -27,6 +27,7 @@ public class GameController extends Application {
     private Inventory inventory;
     private StackPane root;
     private Overlay overlay;
+    private static Scene scene;
 
     public static void main(String[] args) {
         launch(args);
@@ -62,7 +63,7 @@ public class GameController extends Application {
         startButtonFr.setOnMouseClicked(e -> startLab());
         root.getChildren().add(startButton);
 
-        Scene scene = new Scene(root, 1000, 650);
+        scene = new Scene(root, 1000, 650);
 
         // Set up language system.
         frButton.setOnMouseClicked(e -> {
@@ -109,7 +110,6 @@ public class GameController extends Application {
     private void showGameOverScreen() {
         // Shows the game over screen when lives run out
         Button restartButton = new Button("Restart");
-        Button exitButton = new Button("Exit");
 
         restartButton.setOnAction(e -> {
             player = new Player();
@@ -121,10 +121,9 @@ public class GameController extends Application {
             transitionToLabScene(currentLab);
         });
 
-        exitButton.setOnAction(e -> primaryStage.close());
 
         StackPane gameOverLayout = new StackPane();
-        gameOverLayout.getChildren().addAll(restartButton, exitButton);
+        gameOverLayout.getChildren().addAll(restartButton);
 
         Scene gameOverScene = new Scene(gameOverLayout, 1000, 650);
         primaryStage.setScene(gameOverScene);
@@ -170,5 +169,9 @@ public class GameController extends Application {
 
     public static LifeManager getLifeManager() {
         return lifeManager;
+    }
+
+    public static Scene getScene() {
+        return scene;
     }
 }

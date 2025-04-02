@@ -94,6 +94,10 @@ public class FlameLab {
     // </editor-fold>
     /// Monologue.
     // <editor-fold>
+    private final ImageView fail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFail.png")).toExternalForm()));
+    private final ImageView failF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFailF.png")).toExternalForm()));
+    private final ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/goBack.png")).toExternalForm()));
+    private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
     private final ImageView monoPass = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/pass.png")).toExternalForm()));
     private final ImageView monoPassF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/passF.png")).toExternalForm()));
     private final ImageView monoFail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/fail.png")).toExternalForm()));
@@ -145,8 +149,8 @@ public class FlameLab {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
-        monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab, monoPaper));
-        monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF, monoPaperF));
+        monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab, monoPaper, fail, goBack));
+        monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF, monoPaperF, failF, retourner));
         /// Set up inventory.
         this.overlay = overlay;
         this.inventory = overlay.getInventory();
@@ -191,7 +195,7 @@ public class FlameLab {
         stackPane.getChildren().addAll(List.of(doorZoom, flameZoom, flameZoomRight));
         addInventory(stackPane);
         stackPane.getChildren().add(back);
-        flameZoom.setOnMouseClicked(e -> useItem(flameZoom, stackPane));
+        flameZoom.setOnMouseClicked(e -> useItem(flameZoom, stackPane, stage));
         return new Pane(stackPane, inventoryPane);
     }
 
@@ -251,7 +255,7 @@ public class FlameLab {
         addInventory(stackPane);
         stackPane.getChildren().add(back);
         /// Set up actions for all interactive image views.
-        zoomedMicroscope.setOnMouseClicked(e -> useItem(zoomedMicroscope, stackPane));
+        zoomedMicroscope.setOnMouseClicked(e -> useItem(zoomedMicroscope, stackPane, stage));
         bacl2.setOnMouseClicked(e -> addIntoInventory(bacl2, bacl2Tool));
         kcl.setOnMouseClicked(e -> addIntoInventory(kcl, kclTool));
         nacl.setOnMouseClicked(e -> addIntoInventory(nacl, naclTool));
@@ -278,11 +282,11 @@ public class FlameLab {
             stackPane.getChildren().add(monologuesL.get(4));
             paperF.setMouseTransparent(true);
         });
-        zoomLabF.setOnMouseClicked(e -> useItem(zoomLabF, stackPane));
-        tube1F.setOnMouseClicked(e -> useItem(tube1F, stackPane));
-        tube2F.setOnMouseClicked(e -> useItem(tube2F, stackPane));
-        tube3F.setOnMouseClicked(e -> useItem(tube3F, stackPane));
-        bunsenBurnerLab.setOnMouseClicked(e -> useItem(bunsenBurnerLab, stackPane));
+        zoomLabF.setOnMouseClicked(e -> useItem(zoomLabF, stackPane, stage));
+        tube1F.setOnMouseClicked(e -> useItem(tube1F, stackPane, stage));
+        tube2F.setOnMouseClicked(e -> useItem(tube2F, stackPane, stage));
+        tube3F.setOnMouseClicked(e -> useItem(tube3F, stackPane, stage));
+        bunsenBurnerLab.setOnMouseClicked(e -> useItem(bunsenBurnerLab, stackPane, stage));
         flameColorLilacLab.setOnMouseClicked(e -> {addIntoInventory(flameColorLilacLab, flameColorLilacTool);
             bunsenBurnerLab.setMouseTransparent(false);});
         flameColorCrimsonLab.setOnMouseClicked(e -> {addIntoInventory(flameColorCrimsonLab, flameColorCrimsonTool);
@@ -322,6 +326,10 @@ public class FlameLab {
         chosenItem = placeHolder;
         flame.setMouseTransparent(true);
         hideImage(labSetShow);
+        fail.setOpacity(0);
+        failF.setOpacity(0);
+        goBack.setOpacity(0);
+        retourner.setOpacity(0);
         /// Door scene.
         hideImage(flameZoomRight);
         /// Bug drawer scene.
@@ -398,7 +406,7 @@ public class FlameLab {
     /**
      * Use item action to... use items.
      */
-    private void useItem(ImageView clickedImage, StackPane stackPane) {
+    private void useItem(ImageView clickedImage, StackPane stackPane, Stage stage) {
         if (chosenItem != null && chosenItem.equals(bunsenBurnerTool) && clickedImage.equals(zoomLabF)) {
             stackPane.getChildren().remove(monologuesL.get(4));
             stackPane.getChildren().add(monologuesL.get(3));
@@ -430,11 +438,11 @@ public class FlameLab {
             hideImage(flameZoom);
         } else if (chosenItem != null && clickedImage.equals(flameZoom)) {
             if (chosenItem.equals(flameColorYellowTool)) {
-                useWrongFlame(flameColorYellowTool, stackPane);
+                useWrongFlame(flameColorYellowTool, stackPane, stage);
             } else if (chosenItem.equals(flameColorGreenTool)) {
-                useWrongFlame(flameColorGreenTool, stackPane);
+                useWrongFlame(flameColorGreenTool, stackPane, stage);
             } else if (chosenItem.equals(flameColorLilacTool)) {
-                useWrongFlame(flameColorLilacTool, stackPane);
+                useWrongFlame(flameColorLilacTool, stackPane, stage);
             }
         }
     }
@@ -521,10 +529,37 @@ public class FlameLab {
     /**
      * Method for when user uses wrong color of flame to open the door.
      */
-    private void useWrongFlame (Item wrongFlame, StackPane stackPane) {
+    private void useWrongFlame (Item wrongFlame, StackPane stackPane, Stage stage) {
         removeFromInventory(wrongFlame);
         stackPane.getChildren().remove(monologuesL.get(1));
         stackPane.getChildren().add(monologuesL.get(1));
         lifeManager.decreaseLife();
+        if (lifeManager.getLives() == 0) {
+            FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
+            FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), monologuesL.get(5));
+            FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), monologuesL.get(6));
+            fadeTransitionBG.setFromValue(0);
+            fadeTransitionBG.setToValue(1);
+            fadeTransitionLet.setFromValue(0);
+            fadeTransitionLet.setToValue(1);
+            fadeTransitionIn.setFromValue(1);
+            fadeTransitionIn.setToValue(0);
+            fadeTransitionBG.play();
+            fadeTransitionLet.play();
+            fadeTransitionIn.play();
+            stackPane.getChildren().add(monologuesL.get(5));
+            stackPane.getChildren().add(monologuesL.get(6));
+            overlay.updateInventory();
+            goBack.setOnMouseClicked(e -> reStart(stage));
+            retourner.setOnMouseClicked(e -> reStart(stage));
+        }
+    }
+
+    private void reStart(Stage stage) {
+        stage.setScene(GameController.getScene());
+        lifeManager.resetLives();
+        inventoryPane.setOpacity(1);
+        inventory.resetInventory();
+        overlay.updateInventory();
     }
 }
