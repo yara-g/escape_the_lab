@@ -209,7 +209,6 @@ public class rCircuit {
     private void passLab() {
         overlay.getInventory().resetInventory();
         AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
-        rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
         stage.setScene(acidLab.createScene());
         overlay.updateInventory();
     }

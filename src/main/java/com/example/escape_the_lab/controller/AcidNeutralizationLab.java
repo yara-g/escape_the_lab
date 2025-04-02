@@ -62,11 +62,9 @@ public class AcidNeutralizationLab extends Lab {
 
     public AcidNeutralizationLab(Stage stage, Overlay overlay) {
         this.primaryStage = stage;
-        this.acidNeutralizationLabUI = new rAcidNeutralization(stage, this, overlay);
+        this.acidNeutralizationLabUI = new rAcidNeutralization(stage, overlay);
         this.overlay = overlay;
     }
-
-
 
     @FXML
     private void initialize() {

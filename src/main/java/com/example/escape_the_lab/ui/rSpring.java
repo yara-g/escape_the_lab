@@ -80,12 +80,7 @@ public class rSpring {
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Skip to next");
         skipToNext.setOnAction(e -> {
-            rCircuit lab = new rCircuit(stage, overlay);
-            try {
-                lab.start();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+            startRCircuitLab();
         });
 
         Pane root = new Pane();
