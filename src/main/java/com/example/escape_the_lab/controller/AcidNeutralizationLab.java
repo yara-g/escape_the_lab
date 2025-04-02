@@ -26,8 +26,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class AcidNeutralizationLab extends Lab {
@@ -53,14 +51,14 @@ public class AcidNeutralizationLab extends Lab {
     rAcidNeutralization acidNeutralizationLabUI;
 
     public Overlay overlay;
-    private final ImageView backGroundA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bgA.png").toExternalForm()));
-    private final ImageView treeA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/treeA.png").toExternalForm()));
-    private final ImageView houseA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/houseA.png").toExternalForm()));
-    private final ImageView doorA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/doorA.png").toExternalForm()));
-    private final ImageView bigFlowerA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bigFlowerA.png").toExternalForm()));
-    private final ImageView hintFlowerA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/hintFlowerA.png").toExternalForm()));
-    private final ImageView acidFloorA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/acidA.png").toExternalForm()));
-    private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+    private final ImageView backGroundA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/bgA.png")).toExternalForm()));
+    private final ImageView treeA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/treeA.png")).toExternalForm()));
+    private final ImageView houseA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/houseA.png")).toExternalForm()));
+    private final ImageView doorA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/doorA.png")).toExternalForm()));
+    private final ImageView bigFlowerA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/bigFlowerA.png")).toExternalForm()));
+    private final ImageView hintFlowerA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/hintFlowerA.png")).toExternalForm()));
+    private final ImageView acidFloorA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/acidA.png")).toExternalForm()));
+    private final ImageView inventory = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
 
     public AcidNeutralizationLab(Stage stage, Overlay overlay) {
         this.primaryStage = stage;
@@ -497,7 +495,7 @@ public class AcidNeutralizationLab extends Lab {
     }
 
     public void doorOpen(Stage stage) {
-        if (succeedLab == true) {
+        if (succeedLab) {
 //            doorButton.setOnAction((event) -> {
 //                System.out.println("Opening door");
 //            });
@@ -510,7 +508,7 @@ public class AcidNeutralizationLab extends Lab {
                     }
             );
         }
-        if (succeedLab == false) {
+        if (!succeedLab) {
 //            doorButton.setOnAction((event) -> {
 //                System.out.println("Door is locked");
 //            });
