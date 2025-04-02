@@ -555,6 +555,10 @@ public class FlameLab {
         }
     }
 
+    /**
+     * Go back to the beginning.
+     * @param stage stage.
+     */
     private void reStart(Stage stage) {
         stage.setScene(GameController.getScene());
         lifeManager.resetLives();
