@@ -15,12 +15,11 @@ public class SpringLab extends Lab {
 //    private double selectedSpringConstant = -1;  // no spring selected
     private final double correctMass = 2.0;  // in kg
     private final double correctSpringConstant = 50; // k in N/m
-    private GameController gameController;
 
-    public SpringLab(Stage stage, Overlay overlay) {
+    public SpringLab(Stage stage) {
         this.stage = stage;
-        this.springLabUI = new rSpring(stage, this, overlay);
-        this.gameController = gameController;
+        Overlay overlay = GameController.getOver();
+        this.springLabUI = new rSpring(stage, this);
         this.springModel = new SpringModel(-1, -1); // Default values
     }
 

@@ -60,10 +60,10 @@ public class AcidNeutralizationLab extends Lab {
     private final ImageView acidFloorA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/acidA.png")).toExternalForm()));
     private final ImageView inventory = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
 
-    public AcidNeutralizationLab(Stage stage, Overlay overlay) {
+    public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
-        this.acidNeutralizationLabUI = new rAcidNeutralization(stage, overlay);
-        this.overlay = overlay;
+        this.overlay = GameController.getOver();
+        this.acidNeutralizationLabUI = new rAcidNeutralization(stage);
     }
 
     @FXML
@@ -118,7 +118,6 @@ public class AcidNeutralizationLab extends Lab {
 
     @Override
     public Scene createScene() {
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
             loader.setController(this);
@@ -126,7 +125,6 @@ public class AcidNeutralizationLab extends Lab {
             doorOpen(primaryStage);
             bigFlowerA.setOnMouseClicked(mouseEvent ->
                     pressBigFlower());
-
 
             arenaPane.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, overlay.getOverlayPane());
 
@@ -139,7 +137,6 @@ public class AcidNeutralizationLab extends Lab {
 
     private void pressBigFlower() {
         Stage flowerStage = new Stage();
-
 
         Label failedLabel = new Label("A scientist accidentally spilled some very highly concentrated\n" +
                 "HCl on the ground. Neutralize it to be able to pass!");
@@ -172,7 +169,6 @@ public class AcidNeutralizationLab extends Lab {
         activeSubstances.add(substance3);
         activeSubstances.add(substance4);
         activeSubstances.add(substance5);
-
     }
 
     /**
@@ -499,7 +495,7 @@ public class AcidNeutralizationLab extends Lab {
                         System.out.println("Opening door");
                         doorA.setOnMouseClicked(e -> {
                             FlameLab f = new FlameLab();
-                            f.startLab(stage, overlay);
+                            f.startLab(stage);
                         });
                     }
             );

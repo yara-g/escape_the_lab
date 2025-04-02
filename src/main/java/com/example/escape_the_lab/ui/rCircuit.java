@@ -1,6 +1,7 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.AcidNeutralizationLab;
+import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.KillPlayer;
 import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
@@ -62,9 +63,9 @@ public class rCircuit {
     Item res3Item = new Item("120 Ohm Resistor", "/images/AAACircuitLab/res3item.png");
     Item res4Item = new Item("100 Ohm Resistor", "/images/AAACircuitLab/res4item.png");
 
-    public rCircuit(Stage stage, Overlay overlay) {
+    public rCircuit(Stage stage) {
         this.stage = stage;
-        this.overlay = overlay;
+        this.overlay = GameController.getOver();
         head.setVisible(false);
         placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
         makeScene();
@@ -209,7 +210,7 @@ public class rCircuit {
 
     private void passLab() {
         overlay.getInventory().resetInventory();
-        SpringLab s = new SpringLab(stage, overlay);
+        SpringLab s = new SpringLab(stage);
         //AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
         //rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
         s.startLab();
@@ -218,7 +219,7 @@ public class rCircuit {
 
     private void failLab() {
         // new circuit lab created if we need to restart the lab
-        rCircuit newRCircuit = new rCircuit(stage, overlay);
+        rCircuit newRCircuit = new rCircuit(stage);
         if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
             resTooLow = true;
             panelScene();

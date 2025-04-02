@@ -12,8 +12,7 @@ public class CircuitLab extends Lab{
 
     public void startLab() {
         Stage stage = GameController.getStage();
-        Overlay overlay = GameController.getOver();
-        rCircuit rCircuit = new rCircuit(stage, overlay);
+        rCircuit rCircuit = new rCircuit(stage);
         rCircuit.start();
     }
 

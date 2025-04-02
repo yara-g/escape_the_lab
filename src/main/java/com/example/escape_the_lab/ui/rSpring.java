@@ -1,6 +1,7 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.FlameLab;
+import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.*;
@@ -45,10 +46,10 @@ public class rSpring {
     Item spring3Item = new Item("3k", "/images/spring3.png");
 
     // Constructor
-    public rSpring(Stage stage, SpringLab springLab, Overlay overlay) {
+    public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
         this.springLab = springLab;
-        this.overlay = overlay;
+        this.overlay = GameController.getOver();
     }
 
     // Main scene
@@ -84,7 +85,7 @@ public class rSpring {
         Button skipToNext = new Button("Skip to next");
         skipToNext.setOnAction(e -> {
             FlameLab f = new FlameLab();
-            f.startLab(stage, overlay);
+            f.startLab(stage);
         });
 
         Pane root = new Pane();
@@ -351,7 +352,7 @@ public class rSpring {
 
     // Start the rCircuit lab
     private void startRCircuitLab() {
-        rCircuit lab = new rCircuit(stage, overlay);
+        rCircuit lab = new rCircuit(stage);
         try {
             lab.start();
         } catch (Exception ex) {

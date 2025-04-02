@@ -1,6 +1,7 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.FlameLab;
+import com.example.escape_the_lab.controller.GameController;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
@@ -27,9 +28,9 @@ public class rAcidNeutralization {
     private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
     // Overlay order: backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory
 
-    public rAcidNeutralization(Stage stage, Overlay overlay) {
+    public rAcidNeutralization(Stage stage) {
         this.stage = stage;
-        this.overlay = overlay;
+        this.overlay = GameController.getOver();
     }
 
     public Scene getMainScene() {
@@ -45,7 +46,7 @@ public class rAcidNeutralization {
         Button b = new Button("Skip");
         FlameLab flameLab = new FlameLab();
         b.setOnAction(e -> {
-            flameLab.startLab(stage, overlay);
+            flameLab.startLab(stage);
         });
 
         arenaPane = new Pane();

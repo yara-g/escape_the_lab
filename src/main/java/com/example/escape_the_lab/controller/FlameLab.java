@@ -3,9 +3,11 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
+import com.example.escape_the_lab.ui.rAcidNeutralization;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -134,13 +136,13 @@ public class FlameLab {
     private Item chosenItem;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
     // </editor-fold>
+    Button b;
 
     /**
      * Call this to start the flame lab!
      * @param stage Stage of game.
-     * @param overlay Overlay of inventory.
      */
-    public void startLab(Stage stage, Overlay overlay) {
+    public void startLab(Stage stage) {
         /// Set up language system.
         if (GameController.language) {
             monologuesL.clear();
@@ -152,7 +154,7 @@ public class FlameLab {
         monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab, monoPaper, fail, goBack));
         monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF, monoPaperF, failF, retourner));
         /// Set up inventory.
-        this.overlay = overlay;
+        this.overlay = GameController.getOver();
         this.inventory = overlay.getInventory();
         this.inventoryPane = overlay.getOverlayPane();
         this.lifeManager = GameController.getLifeManager();
@@ -160,7 +162,15 @@ public class FlameLab {
         scareBat();
         initialize();
         this.mainLayout = new StackPane();
-        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly);
+
+        // Temp button for acid.
+        b = new Button("skip");
+        b.setOnAction(e -> {
+            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
+            a.startLab();
+        });
+
+        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly, b);
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
@@ -174,7 +184,7 @@ public class FlameLab {
      */
     private void back(Stage stage) {
         this.mainLayout = new StackPane();
-        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly);
+        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly, b);
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
