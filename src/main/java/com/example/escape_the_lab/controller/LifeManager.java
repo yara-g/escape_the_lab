@@ -53,10 +53,7 @@ public class LifeManager {
             }
         }
     }
-//    public int getLives() {
-//        return lives;
-//    }
-//
+
     public void decreaseLife() {
         if (lives > 0) {
             lives--;

@@ -15,15 +15,31 @@ import java.util.Objects;
 public class KillPlayer {
     static ImageView deathScreen = new ImageView(new Image(Objects.requireNonNull(KillPlayer.class.getResource("/images/death-screen.png")).toExternalForm()));
     public static void killPlayer(String message, Stage stage, Scene newScene, Overlay overlay) {
-        Button restart = new Button("Restart lab?");
-        restart.setOnAction(e -> {
-            overlay.getInventory().resetInventory();
-            stage.setScene(newScene);
-        });
-        Label cause = new Label(message);
-        cause.setTextFill(Color.RED);
-        cause.setTranslateY(-50);
-        stage.setScene(new Scene(new StackPane(deathScreen, restart, cause)));
+        if (overlay.getLifeManager().getLives() == 1) {
+            Button restart = new Button("Go back to the main menu?");
+            restart.setOnAction(e -> {
+                GameController gameController = new GameController();
+                try {
+                    gameController.start(stage);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            Label cause = new Label("Looks like you ran out of lives...");
+            cause.setTextFill(Color.RED);
+            cause.setTranslateY(-50);
+            stage.setScene(new Scene(new StackPane(deathScreen, restart, cause)));
+        } else {
+            Button restart = new Button("Restart lab?");
+            restart.setOnAction(e -> {
+                overlay.getInventory().resetInventory();
+                stage.setScene(newScene);
+            });
+            Label cause = new Label(message);
+            cause.setTextFill(Color.RED);
+            cause.setTranslateY(-50);
+            stage.setScene(new Scene(new StackPane(deathScreen, restart, cause)));
+        }
         overlay.getLifeManager().decreaseLife();
     }
 }
