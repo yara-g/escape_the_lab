@@ -1,5 +1,6 @@
 package com.example.escape_the_lab.controller;
 
+import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Substance;
 import com.example.escape_the_lab.ui.Overlay;
@@ -13,9 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
@@ -49,6 +48,14 @@ public class AcidNeutralizationLab extends Lab {
     boolean succeedLab =  false;
     Button doorButton = new Button();
     rAcidNeutralization acidNeutralizationLabUI;
+    private LifeManager lifeManager;
+   Item chosenItem;
+    Item substanceItem1 = new Item("Hydrochloric Acid", "/images/pt6.png");
+    Item substanceItem2 = new Item("Sulfuric Acid", "/images/pt6.png");
+    Item substanceItem3 = new Item("Sodium Hydroxide", "/images/pt6.png");
+    Item substanceItem4 = new Item("Ammonia", "/images/pt6.png");
+    Item substanceItem5 = new Item("Acetic Acid", "/images/pt6.png");
+
 
     public Overlay overlay;
     private final ImageView backGroundA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/bgA.png")).toExternalForm()));
@@ -64,16 +71,18 @@ public class AcidNeutralizationLab extends Lab {
         this.primaryStage = stage;
         this.overlay = GameController.getOver();
         this.acidNeutralizationLabUI = new rAcidNeutralization(stage);
+        this.lifeManager = GameController.getLifeManager();
     }
 
     @FXML
     private void initialize() {
         initializeLab(lab);
-        AcidSprite1.setOpacity(0);
+       AcidSprite1.setOpacity(0);
         AcidSprite2.setOpacity(0);
         AcidSprite3.setOpacity(0);
         AcidSprite4.setOpacity(0);
         AcidSprite5.setOpacity(0);
+
         setupDrag();
         setTarget();
         if (AcidBank == null) {
@@ -125,6 +134,9 @@ public class AcidNeutralizationLab extends Lab {
             doorOpen(primaryStage);
             bigFlowerA.setOnMouseClicked(mouseEvent ->
                     pressBigFlower());
+            houseA.setOnMouseClicked(event -> {
+                primaryStage.setScene(createCollectionRoomScene());
+            });
 
             arenaPane.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, overlay.getOverlayPane());
 
@@ -434,6 +446,8 @@ public class AcidNeutralizationLab extends Lab {
             // Add logic to proceed to the next level
         } else if (droppedSubstances.size() >= 2) {
             showFailedScreen();
+            lifeManager.decreaseLife();
+
             System.out.println("Incorrect substances! You lose a life.");
             // Add logic to reduce player lives
         }
@@ -510,16 +524,100 @@ public class AcidNeutralizationLab extends Lab {
         }
     }
 
-    public void openHouse() {
-        houseA.setOnMouseClicked((event) -> {
-            Button goBack = new Button("Go back");
-            goBack.setOnAction(e -> {
-                createScene();
-            });
-            Parent root = new Pane();
-            primaryStage.setScene(new Scene(root));
+
+    private Scene createCollectionRoomScene() {
+        // Main root is a Pane to allow manual positioning and layering
+        Pane root = new Pane();
+
+        // ----- Table and substances -----
+        StackPane centerPane = new StackPane();
+        centerPane.setPrefSize(800, 650);
+        centerPane.setLayoutX(100);  // Position in scene
+        centerPane.setLayoutY(100);  // You can tweak these values
+
+        ImageView table = new ImageView(new Image(
+                Objects.requireNonNull(getClass().getResource("/images/table.png")).toExternalForm()
+        ));
+        table.setFitWidth(500);
+        table.setPreserveRatio(true);
+
+        HBox substanceRow = new HBox(10);
+        substanceRow.setAlignment(Pos.CENTER);
+        substanceRow.setTranslateY(-130); // Slightly above center of table
+        addSubstanceToRow(substanceRow, substanceItem1);
+        addSubstanceToRow(substanceRow, substanceItem2);
+        addSubstanceToRow(substanceRow, substanceItem3);
+        addSubstanceToRow(substanceRow, substanceItem4);
+        addSubstanceToRow(substanceRow, substanceItem5);
+
+        centerPane.getChildren().addAll(table, substanceRow);
+
+
+        Label instructionLabel = new Label("Click on the substances to collect them:");
+        instructionLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        instructionLabel.setLayoutX(10);
+        instructionLabel.setLayoutY(10);
+
+        Button returnButton = new Button("Return to Lab");
+        returnButton.setLayoutX(200);
+       returnButton.setLayoutY(200);
+        returnButton.setOnAction(e -> primaryStage.setScene(createScene()));
+
+handleSubstanceCollection(substanceItem1);
+        handleSubstanceCollection(substanceItem2);
+        handleSubstanceCollection(substanceItem3);
+        handleSubstanceCollection(substanceItem4);
+        handleSubstanceCollection(substanceItem5);
+        root.getChildren().addAll(centerPane, instructionLabel, returnButton, inventory, overlay.getOverlayPane());
+
+
+        return new Scene(root, 1000, 650);
+    }
+
+
+
+    private void addSubstanceToRow(HBox row, Item item) {
+        ImageView iv = item.getImageView();
+        iv.setFitWidth(60); // adjust width
+        iv.setPreserveRatio(true); // maintain aspect ratio
+        iv.setOnMouseClicked(e -> {
+            chosenItem = item;
+            overlay.getInventory().addItem(item);
+            overlay.updateInventory();
+        });
+        row.getChildren().add(iv);
+    }
+    private void handleSubstanceCollection(Item substanceItem) {
+        substanceItem.getImageView().setOnMouseClicked(e -> {
+            // Add the substance to the inventory
+            overlay.getInventory().addItem(substanceItem);
+            overlay.updateInventory();  // Update the inventory to show the added substance
+
+            // Make the corresponding image in the lab visible
+            showCollectedSubstanceInLab(substanceItem);
         });
     }
+
+    private void showCollectedSubstanceInLab(Item substanceItem) {
+        // Assuming the images are stored as fx:id properties in the lab scene
+        if (substanceItem == substanceItem1) {
+            AcidImage1.setOpacity(1.0);  // Make the image visible
+        } else if (substanceItem == substanceItem2) {
+            AcidImage2.setOpacity(1.0);  // Make the image visible
+        } else if (substanceItem == substanceItem3) {
+            AcidImage3.setOpacity(1.0);  // Make the image visible
+        } else if (substanceItem == substanceItem4) {
+            AcidImage4.setOpacity(1.0);  // Make the image visible
+        } else if (substanceItem == substanceItem5) {
+            AcidImage5.setOpacity(1.0);  // Make the image visible
+        }
+    }
+
+
+
+
+
+
     //    private Substance findExistingSubstance(StackPane substanceDisplay) {
 //    ImageView substanceImage = null;
 //
