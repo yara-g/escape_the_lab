@@ -1,6 +1,5 @@
 package com.example.escape_the_lab.ui;
 
-import com.example.escape_the_lab.controller.AcidNeutralizationLab;
 import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.KillPlayer;
 import com.example.escape_the_lab.controller.SpringLab;
@@ -65,7 +64,7 @@ public class rCircuit {
 
     public rCircuit(Stage stage) {
         this.stage = stage;
-        this.overlay = GameController.getOver();
+        this.overlay = GameController.getOverlay();
         head.setVisible(false);
         placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
         makeScene();

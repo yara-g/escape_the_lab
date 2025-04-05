@@ -49,7 +49,7 @@ public class rSpring {
     public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
         this.springLab = springLab;
-        this.overlay = GameController.getOver();
+        this.overlay = GameController.getOverlay();
     }
 
     // Main scene

@@ -18,7 +18,7 @@ public class SpringLab extends Lab {
 
     public SpringLab(Stage stage) {
         this.stage = stage;
-        Overlay overlay = GameController.getOver();
+        Overlay overlay = GameController.getOverlay();
         this.springLabUI = new rSpring(stage, this);
         this.springModel = new SpringModel(-1, -1); // Default values
     }

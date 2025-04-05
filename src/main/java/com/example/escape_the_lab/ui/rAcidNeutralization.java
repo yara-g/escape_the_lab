@@ -30,7 +30,7 @@ public class rAcidNeutralization {
 
     public rAcidNeutralization(Stage stage) {
         this.stage = stage;
-        this.overlay = GameController.getOver();
+        this.overlay = GameController.getOverlay();
     }
 
     public Scene getMainScene() {
