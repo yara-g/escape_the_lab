@@ -33,6 +33,7 @@ public class KillPlayer {
             Button restart = new Button("Restart lab?");
             restart.setOnAction(e -> {
                 overlay.getInventory().resetInventory();
+                overlay.updateInventory();
                 stage.setScene(newScene);
             });
             Label cause = new Label(message);

@@ -4,7 +4,6 @@ import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -171,7 +170,7 @@ public class GameController extends Application {
         return primaryStage;
     }
 
-    public static Overlay getOver() {
+    public static Overlay getOverlay() {
         return overlay;
     }
 }

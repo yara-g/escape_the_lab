@@ -69,7 +69,7 @@ public class AcidNeutralizationLab extends Lab {
 
     public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
-        this.overlay = GameController.getOver();
+        this.overlay = GameController.getOverlay();
         this.acidNeutralizationLabUI = new rAcidNeutralization(stage);
         this.lifeManager = GameController.getLifeManager();
     }

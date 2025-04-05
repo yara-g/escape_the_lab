@@ -3,7 +3,6 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
-import com.example.escape_the_lab.ui.rAcidNeutralization;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -154,7 +153,7 @@ public class FlameLab {
         monologues.addAll(List.of(monoPass, monoFail, monoFind, monoLab, monoPaper, fail, goBack));
         monologuesF.addAll(List.of(monoPassF, monoFailF, monoFindF, monoLabF, monoPaperF, failF, retourner));
         /// Set up inventory.
-        this.overlay = GameController.getOver();
+        this.overlay = GameController.getOverlay();
         this.inventory = overlay.getInventory();
         this.inventoryPane = overlay.getOverlayPane();
         this.lifeManager = GameController.getLifeManager();
