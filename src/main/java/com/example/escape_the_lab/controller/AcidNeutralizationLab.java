@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -19,12 +20,14 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
+
 import java.util.Objects;
 
 public class AcidNeutralizationLab extends Lab {
@@ -45,17 +48,15 @@ public class AcidNeutralizationLab extends Lab {
     Substance substance3;
     Substance substance4;
     Substance substance5;
-    boolean succeedLab =  false;
-    Button doorButton = new Button();
+    boolean succeedLab = false;
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
-   Item chosenItem;
+    Item chosenItem;
     Item substanceItem1 = new Item("Hydrochloric Acid", "/images/pt6.png");
     Item substanceItem2 = new Item("Sulfuric Acid", "/images/pt6.png");
     Item substanceItem3 = new Item("Sodium Hydroxide", "/images/pt6.png");
     Item substanceItem4 = new Item("Ammonia", "/images/pt6.png");
     Item substanceItem5 = new Item("Acetic Acid", "/images/pt6.png");
-
 
     public Overlay overlay;
     private final ImageView backGroundA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/bgA.png")).toExternalForm()));
@@ -77,7 +78,7 @@ public class AcidNeutralizationLab extends Lab {
     @FXML
     private void initialize() {
         initializeLab(lab);
-       AcidSprite1.setOpacity(0);
+        AcidSprite1.setOpacity(0);
         AcidSprite2.setOpacity(0);
         AcidSprite3.setOpacity(0);
         AcidSprite4.setOpacity(0);
@@ -138,7 +139,8 @@ public class AcidNeutralizationLab extends Lab {
                 primaryStage.setScene(createCollectionRoomScene());
             });
 
-            arenaPane.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, overlay.getOverlayPane());
+            arenaPane.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA);
+            arenaPane.getChildren().addAll(inventory, overlay.getOverlayPane());
 
             return new Scene(labRoot, 1000, 650);
         } catch (IOException e) {
@@ -148,24 +150,100 @@ public class AcidNeutralizationLab extends Lab {
     }
 
     private void pressBigFlower() {
-        Stage flowerStage = new Stage();
+ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/scientist.jpg")).toExternalForm()));
+        scientistImage.setFitHeight(200);
+        scientistImage.setPreserveRatio(true);
+        scientistImage.setLayoutX(100);
+        scientistImage.setLayoutY(120);
 
-        Label failedLabel = new Label("A scientist accidentally spilled some very highly concentrated\n" +
-                "HCl on the ground. Neutralize it to be able to pass!");
-        failedLabel.setStyle("-fx-font-size: 16px;");
-        failedLabel.setWrapText(true); // Allow automatic text wrapping
-        failedLabel.setMaxWidth(450);
-        Button closeButton = new Button("OK");
-        closeButton.setOnAction(e -> flowerStage.close());
+        Label contextLabel = new Label("A scientist accidentally spilled some HCl with a concentration\n" +
+                "of 0.1 M on the ground. Neutralize it to be able to pass and unlock the door!\n What is the pH of this solution of HCl?");
+        contextLabel.setStyle("""
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 15px;
+    -fx-font-size: 16px;
+""");
+        contextLabel.setWrapText(true);
+        contextLabel.setMaxWidth(400);
+        contextLabel.setLayoutX(250);
+        contextLabel.setLayoutY(100);
 
-        VBox layout = new VBox(10, failedLabel, closeButton);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets(20));
+        StackPane speechBubble = new StackPane(contextLabel);
+        speechBubble.setLayoutX(250);
+        speechBubble.setLayoutY(100);
 
-        Scene failedScene = new Scene(layout, 500, 300);
-        flowerStage.setScene(failedScene);
-        flowerStage.show();
+        Slider phSlider = new Slider(0, 14, 0);
+        phSlider.setShowTickMarks(true);
+        phSlider.setShowTickLabels(true);
+        phSlider.setBlockIncrement(0.1);
+        phSlider.setMajorTickUnit(1);
+        phSlider.setMinorTickCount(1);
+        phSlider.setLayoutX(300);
+        phSlider.setLayoutY(280);
+        phSlider.setMaxWidth(350);
+        phSlider.setPrefWidth(350);
 
+        Label phValueLabel = new Label("pH: 0.0");
+        phValueLabel.setStyle("-fx-font-size: 14px;");
+        phValueLabel.setLayoutX(300);
+        phValueLabel.setLayoutY(325);
+
+        phSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            phValueLabel.setText(String.format("pH: %.1f", newValue));
+        });
+
+        Button submitButton = new Button("Enter");
+        submitButton.setLayoutX(300);
+        submitButton.setLayoutY(350);
+
+        Label resultLabel = new Label();
+        resultLabel.setStyle("-fx-font-size: 14px;");
+        resultLabel.setLayoutX(300);
+        resultLabel.setLayoutY(375);
+
+        VBox substanceContainer = new VBox(10);
+        substanceContainer.setAlignment(Pos.CENTER);
+        substanceContainer.setLayoutX(300);
+        substanceContainer.setLayoutY(400);
+
+        submitButton.setOnAction(e -> {
+            double pH = phSlider.getValue();
+
+            if (Math.abs(pH - 1.0) < 0.1) { // pH should be around 1 for HCl
+                resultLabel.setText("Correct! You unlocked a new substance.");
+                resultLabel.setStyle("-fx-text-fill: green;");
+
+                Item substanceUnlocked = new Item("substance unlocked", "/images/substanceUnlocked.png");
+                ImageView iv = substanceUnlocked.getImageView();
+                iv.setFitWidth(60); // Adjust width
+                iv.setPreserveRatio(true);
+                handleSubstanceCollection(substanceUnlocked);
+
+                substanceContainer.getChildren().add(iv);
+            } else {
+                resultLabel.setText("Incorrect! Try again.");
+                resultLabel.setStyle("-fx-text-fill: red;");
+            }
+        });
+
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(event -> {
+            primaryStage.setScene(createScene());
+
+        });
+        closeButton.setLayoutX(300);
+        closeButton.setLayoutY(475);
+
+        Pane layout = new Pane();
+
+        layout.getChildren().addAll(scientistImage, speechBubble, phSlider, phValueLabel, submitButton, resultLabel, substanceContainer, closeButton, inventory, overlay.getOverlayPane());
+
+        Scene flowerScene = new Scene(layout, 1000, 650);
+        primaryStage.setScene(flowerScene);
+        primaryStage.show();
     }
 
     public void initializeLab(Lab lab) {
@@ -340,16 +418,11 @@ public class AcidNeutralizationLab extends Lab {
         substance.sprite.setFitHeight(100);
 
         switch (substance.substanceNumber()) {
-            case 1 ->
-                    AcidHome1.getChildren().addLast(substance.display);
-            case 2 ->
-                    AcidHome2.getChildren().addLast(substance.display);
-            case 3 ->
-                    AcidHome3.getChildren().addLast(substance.display);
-            case 4 ->
-                    AcidHome4.getChildren().addLast(substance.display);
-            case 5 ->
-                    AcidHome5.getChildren().addLast(substance.display);
+            case 1 -> AcidHome1.getChildren().addLast(substance.display);
+            case 2 -> AcidHome2.getChildren().addLast(substance.display);
+            case 3 -> AcidHome3.getChildren().addLast(substance.display);
+            case 4 -> AcidHome4.getChildren().addLast(substance.display);
+            case 5 -> AcidHome5.getChildren().addLast(substance.display);
 
         }
 
@@ -378,29 +451,19 @@ public class AcidNeutralizationLab extends Lab {
         if (!Substance.existsIn(activeSubstances, substanceImage)) {
             Substance newSubstance = new Substance(substanceImage);
             switch (newSubstance.substanceNumber()) {
-                case 1 ->
-                        newSubstance = substance1;
-                case 2 ->
-                        newSubstance = substance2;
-                case 3 ->
-                        newSubstance = substance3;
-                case 4 ->
-                        newSubstance = substance4;
-                case 5 ->
-                        newSubstance = substance5;
+                case 1 -> newSubstance = substance1;
+                case 2 -> newSubstance = substance2;
+                case 3 -> newSubstance = substance3;
+                case 4 -> newSubstance = substance4;
+                case 5 -> newSubstance = substance5;
 
             }
             switch (newSubstance.substanceNumber()) {
-                case 1 ->
-                        newSubstance.setHome(AcidSprite1);
-                case 2 ->
-                        newSubstance.setHome(AcidSprite2);
-                case 3 ->
-                        newSubstance.setHome(AcidSprite3);
-                case 4 ->
-                        newSubstance.setHome(AcidSprite4);
-                case 5 ->
-                        newSubstance.setHome(AcidSprite5);
+                case 1 -> newSubstance.setHome(AcidSprite1);
+                case 2 -> newSubstance.setHome(AcidSprite2);
+                case 3 -> newSubstance.setHome(AcidSprite3);
+                case 4 -> newSubstance.setHome(AcidSprite4);
+                case 5 -> newSubstance.setHome(AcidSprite5);
             }
 
             for (Substance other : activeSubstances) {
@@ -473,7 +536,7 @@ public class AcidNeutralizationLab extends Lab {
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
 
-        Scene successScene = new Scene(layout, 500, 300);
+        Scene successScene = new Scene(layout, 1000, 650);
         successStage.setScene(successScene);
         successStage.show();
     }
@@ -495,29 +558,36 @@ public class AcidNeutralizationLab extends Lab {
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
 
-        Scene failedScene = new Scene(layout, 500, 300);
+        Scene failedScene = new Scene(layout, 1000, 650);
         failedStage.setScene(failedScene);
         failedStage.show();
     }
 
     public void doorOpen(Stage stage) {
         if (succeedLab) {
-//            doorButton.setOnAction((event) -> {
-//                System.out.println("Opening door");
-//            });
             doorA.setOnMouseClicked((event) -> {
                         System.out.println("Opening door");
-                        doorA.setOnMouseClicked(e -> {
-                            FlameLab f = new FlameLab();
-                            f.startLab(stage);
-                        });
+                        Label congratsLabel = new Label("🎉 Congrats! You escaped the lab! 🎉");
+                        congratsLabel.setStyle("""
+                                    -fx-font-size: 36px;
+                                    -fx-text-fill: black;
+                                    -fx-font-weight: bold;
+                                """);
+
+                        Button exitButton = new Button("Exit");
+                        exitButton.setStyle("-fx-font-size: 18px;");
+                        exitButton.setOnAction(e -> stage.close());
+
+                        VBox layout = new VBox(30, congratsLabel, exitButton);
+                        layout.setAlignment(Pos.CENTER);
+                        layout.setStyle("-fx-background-color: #f0f8ff;");
+
+                        Scene congratsScene = new Scene(layout, 800, 600);
+                        stage.setScene(congratsScene);
                     }
             );
         }
         if (!succeedLab) {
-//            doorButton.setOnAction((event) -> {
-//                System.out.println("Door is locked");
-//            });
             doorA.setOnMouseClicked((event) -> {
                 System.out.println("Door is locked...");
             });
@@ -526,14 +596,12 @@ public class AcidNeutralizationLab extends Lab {
 
 
     private Scene createCollectionRoomScene() {
-        // Main root is a Pane to allow manual positioning and layering
         Pane root = new Pane();
 
-        // ----- Table and substances -----
         StackPane centerPane = new StackPane();
         centerPane.setPrefSize(800, 650);
-        centerPane.setLayoutX(100);  // Position in scene
-        centerPane.setLayoutY(100);  // You can tweak these values
+        centerPane.setLayoutX(100);
+        centerPane.setLayoutY(100);
 
         ImageView table = new ImageView(new Image(
                 Objects.requireNonNull(getClass().getResource("/images/table.png")).toExternalForm()
@@ -543,12 +611,12 @@ public class AcidNeutralizationLab extends Lab {
 
         HBox substanceRow = new HBox(10);
         substanceRow.setAlignment(Pos.CENTER);
-        substanceRow.setTranslateY(-130); // Slightly above center of table
+        substanceRow.setTranslateY(-130);
         addSubstanceToRow(substanceRow, substanceItem1);
         addSubstanceToRow(substanceRow, substanceItem2);
         addSubstanceToRow(substanceRow, substanceItem3);
         addSubstanceToRow(substanceRow, substanceItem4);
-        addSubstanceToRow(substanceRow, substanceItem5);
+
 
         centerPane.getChildren().addAll(table, substanceRow);
 
@@ -559,15 +627,14 @@ public class AcidNeutralizationLab extends Lab {
         instructionLabel.setLayoutY(10);
 
         Button returnButton = new Button("Return to Lab");
-        returnButton.setLayoutX(200);
-       returnButton.setLayoutY(200);
+        returnButton.setLayoutX(150);
+        returnButton.setLayoutY(150);
         returnButton.setOnAction(e -> primaryStage.setScene(createScene()));
 
-handleSubstanceCollection(substanceItem1);
+        handleSubstanceCollection(substanceItem1);
         handleSubstanceCollection(substanceItem2);
         handleSubstanceCollection(substanceItem3);
         handleSubstanceCollection(substanceItem4);
-        handleSubstanceCollection(substanceItem5);
         root.getChildren().addAll(centerPane, instructionLabel, returnButton, inventory, overlay.getOverlayPane());
 
 
@@ -575,93 +642,36 @@ handleSubstanceCollection(substanceItem1);
     }
 
 
-
     private void addSubstanceToRow(HBox row, Item item) {
         ImageView iv = item.getImageView();
-        iv.setFitWidth(60); // adjust width
-        iv.setPreserveRatio(true); // maintain aspect ratio
+        iv.setFitWidth(60);
+        iv.setPreserveRatio(true);
         iv.setOnMouseClicked(e -> {
             chosenItem = item;
+            iv.setVisible(false);
             overlay.getInventory().addItem(item);
             overlay.updateInventory();
         });
         row.getChildren().add(iv);
     }
+
     private void handleSubstanceCollection(Item substanceItem) {
         substanceItem.getImageView().setOnMouseClicked(e -> {
-            // Add the substance to the inventory
             overlay.getInventory().addItem(substanceItem);
-            overlay.updateInventory();  // Update the inventory to show the added substance
-
-            // Make the corresponding image in the lab visible
+            overlay.updateInventory();
             showCollectedSubstanceInLab(substanceItem);
         });
     }
 
     private void showCollectedSubstanceInLab(Item substanceItem) {
-        // Assuming the images are stored as fx:id properties in the lab scene
         if (substanceItem == substanceItem1) {
-            AcidImage1.setOpacity(1.0);  // Make the image visible
+            AcidImage1.setOpacity(1.0);
         } else if (substanceItem == substanceItem2) {
-            AcidImage2.setOpacity(1.0);  // Make the image visible
+            AcidImage2.setOpacity(1.0);
         } else if (substanceItem == substanceItem3) {
-            AcidImage3.setOpacity(1.0);  // Make the image visible
+            AcidImage3.setOpacity(1.0);
         } else if (substanceItem == substanceItem4) {
-            AcidImage4.setOpacity(1.0);  // Make the image visible
-        } else if (substanceItem == substanceItem5) {
-            AcidImage5.setOpacity(1.0);  // Make the image visible
+            AcidImage4.setOpacity(1.0);
         }
     }
-
-
-
-
-
-
-    //    private Substance findExistingSubstance(StackPane substanceDisplay) {
-//    ImageView substanceImage = null;
-//
-//    // Extract the ImageView from the StackPane
-//    for (Node node : substanceDisplay.getChildren()) {
-//        if (node instanceof ImageView) {
-//            substanceImage = (ImageView) node;
-//        }
-//    }
-//
-//    // If no image was found, return null
-//    if (substanceImage == null) {
-//        return null;
-//    }
-//
-//    // Search for the existing substance that matches the image
-//    for (Substance substance : activeSubstances) {
-//        if (substance.sprite.equals(substanceImage)) {
-//            return substance;  // Found the existing substance, return it
-//        }
-//    }System.out.println("Active substances:");
-//for (Substance substance : activeSubstances) {
-//    System.out.println(substance.getName() + " - " + substance.getSprite());
-//}
-//if (substanceImage == null) {
-//    System.out.println("Error: No ImageView found in StackPane.");
-//    return null;
-//}
-//System.out.println("Extracted ImageView: " + substanceImage);
-//for (Substance substance : activeSubstances) {
-//    System.out.println("Comparing with: " + substance.getSprite());
-//    if (substance.getSprite() == substanceImage) {  // Using '==' for reference comparison
-//        System.out.println("Match found: " + substance.getName());
-//        return substance;
-//    }
-//}
-//for (Substance substance : activeSubstances) {
-//    if (substance.getSprite().getImage().getUrl().equals(substanceImage.getImage().getUrl())) {
-//        System.out.println("Match found based on image URL: " + substance.getName());
-//        return substance;
-//    }
-//}
-//
-//
-//    return null;  // No existing substance was found
-//    }
 }

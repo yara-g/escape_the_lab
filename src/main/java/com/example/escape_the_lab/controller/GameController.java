@@ -137,26 +137,6 @@ public class GameController extends Application {
 //        primaryStage.setScene(labScene); // Use the stored primaryStage
 //    }
 
-    public void loadAcidNeutralizationFXML() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AcidNeutralizationLab_layout.fxml"));
-            Parent labRoot = loader.load();
-
-            AcidNeutralizationLab labController = loader.getController();
-
-            labController.initializeLab(currentLab);
-
-            Scene labScene = new Scene(labRoot, 1000, 650);
-            primaryStage.setScene(labScene);
-            primaryStage.setAlwaysOnTop(true);
-            primaryStage.show();
-            primaryStage.setAlwaysOnTop(false);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
 
     public static LifeManager getLifeManager() {
         return lifeManager;
