@@ -1,14 +1,11 @@
 package com.example.escape_the_lab.ui;
 
-import com.example.escape_the_lab.controller.FlameLab;
-import com.example.escape_the_lab.controller.GameController;
-import com.example.escape_the_lab.controller.SpringLab;
+import com.example.escape_the_lab.controller.*;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,101 +13,155 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.Timeline;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
 
 import java.util.Objects;
 
 
 public class rSpring {
     private Stage stage;
+    Pane root;
     private SpringLab springLab;
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     Overlay overlay;
     private Timeline timeline;
+    private boolean isDoorUnlocked = false;
+    private boolean springPlaced = false;
+    private boolean massPlaced = false;
+
+    private Item placedSpringItem = null;
+    private Item placedMassItem = null;
 
     private Item chosenItem;
+    private ImageView selectedSpring = new ImageView();
+    private ImageView selectedMass = new ImageView();
+
     //private Item placeHolder;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
 
+    ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
     ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 1.0, 390, 150); //book
     ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 2.0, 500, 340);  // Correct choice
     ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 3.0, 240, 420);
 
+    ImageView chair = createImageView("/images/AAASpringLab/chair.png", 120, 70, 800, 600);
     ImageView spring1 = createSpringImage("/images/spring1.png", 30, 150, 390);
     ImageView spring2 = createSpringImage("/images/spring2.png", 50, 270, 390);  // Correct choice
     ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
 
-    Item spring1Item = new Item("1k", "/images/spring1.png");
-    Item spring2Item = new Item("2k", "/images/spring2.png");
-    Item spring3Item = new Item("3k", "/images/spring3.png");
+    Item spring1Item = new Item("100N/m", "/images/spring1.png");
+    Item spring2Item = new Item("200N/m", "/images/spring2.png");
+    Item spring3Item = new Item("300N/m", "/images/spring3.png");
+
+    Item mass1Item = new Item("4kg", "/images/AAASpringLab/clockStatue.png");
+    Item mass2Item = new Item("3kg", "/images/AAASpringLab/books.png");
+    Item mass3Item = new Item("5kg", "/images/AAASpringLab/globe.png");
+
+    //lab scene
+    ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 180, 95, 500, 500);
+    ImageView table = createImageView("/images/AAASpringLab/table.png", 5, 400, 1000, 1000);
 
     // Constructor
     public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
         this.springLab = springLab;
         this.overlay = GameController.getOverlay();
+        selectedSpring = new ImageView();
+        selectedMass = new ImageView();
     }
 
-    // Main scene
-    public Scene getMainScene() {
-        Pane root = new Pane();
-        // Add UI elements here
-        chosenItem = placeHolder;
-        return new Scene(root, 1000, 650);
+    public void showIntroScene() {
+        ImageView bg = createImageView("/images/AAASpringLab/1stBg.png", 0, 0, 1000, 650);
+        bg.setPreserveRatio(false);
+
+        // Mysterious Message
+        Label introLabel = new Label("Something must fall.\nSomething must stretch.\n\n"
+                + "Choose wisely.\nOr stay... forever oscillating.");
+        introLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-alignment: center;");
+        introLabel.setLayoutX(380);
+        introLabel.setLayoutY(180);
+
+        // Button to start
+        Button beginButton = new Button("Enter");
+        beginButton.setLayoutX(470);
+        beginButton.setLayoutY(400);
+        beginButton.setOnAction(e -> showMainScene());
+
+        Pane introRoot = new Pane();
+        introRoot.getChildren().addAll(bg, introLabel, beginButton);
+        Scene introScene = new Scene(introRoot, 1000, 650);
+        stage.setScene(introScene);
     }
 
-    // Show main scene with interactive components
     public void showMainScene() {
         ImageView bg = createImageView("/images/AAASpringLab/bg.jpg", 10, 10, 1000, 950);
 
         ImageView chandelier = createImageView("/images/AAASpringLab/chandelier.png", 330, 40, 200, 200);
 
         ImageView door = createImageView("/images/AAASpringLab/door..png", 100, 170, 200, 600);
-        door.setOnMouseClicked(event -> showDoorScene()); // Shows spring selection
+        Label doorLockedMessage = new Label("The door is locked. Try oscillating around!");
+        doorLockedMessage.setStyle("-fx-font-size: 18px; -fx-text-fill: red;");
+        doorLockedMessage.setLayoutX(250);
+        doorLockedMessage.setLayoutY(500);
+        doorLockedMessage.setVisible(false);
+        door.setOnMouseClicked(event -> {
+            if (isDoorUnlocked) {
+                showDoorOpenScene();
+            } else {
+                doorLockedMessage.setVisible(true);
+
+                FadeTransition fade = new FadeTransition(Duration.seconds(3), doorLockedMessage);
+                fade.setFromValue(1.0);
+                fade.setToValue(0.0);
+                fade.setOnFinished(e -> root.getChildren().remove(doorLockedMessage));
+                fade.play();
+            }
+        });
 
         ImageView chair = createImageView("/images/AAASpringLab/chair.png", 450, 300, 200, 200);
         chair.setOnMouseClicked(event -> showSpringsScene());
 
+//        ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 250, 300, 200, 200);
+//        chair.setOnMouseClicked(event -> showLabScene());
+
         ImageView drawer = createImageView("/images/AAASpringLab/drawer.png", 600, 300, 200, 400);
-        drawer.setOnMouseClicked(event -> showLabScene()); // Opens drawer/mass selection
+        drawer.setOnMouseClicked(event -> showLabScene());
 
         ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 600, 160, 200, 400);
-        shelves.setOnMouseClicked(event -> showShelvesScene()); // Opens drawer/mass selection
-
-//        ImageView table = createImageView("/images/table.png", 600, 150, 200, 300);
-//        shelves.setOnMouseClicked(event -> showLabScene()); // Opens drawer/mass selection
+        shelves.setOnMouseClicked(event -> showShelvesScene());
 
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Skip to next");
         skipToNext.setOnAction(e -> {
             FlameLab f = new FlameLab();
             f.startLab(stage);
+            overlay.getInventory().resetInventory();
+            overlay.updateInventory();
         });
 
         Pane root = new Pane();
-        root.getChildren().addAll(bg, chandelier, door, chair, drawer, shelves, inventoryImage, overlay.getOverlayPane(), skipToNext);
+        root.getChildren().addAll(bg, chandelier, door, chair, drawer, shelves, inventoryImage, overlay.getOverlayPane(), skipToNext, doorLockedMessage);
+
         stage.setScene(new Scene(root, 1000, 650));
 
         // Start an animation timer to continuously check the solution
         startSolutionCheck();
     }
 
-    private void showDoorScene() {
+    private void showDoorOpenScene() {
         ImageView door = createImageView("/images/AAASpringLab/door..png", 120, 70, 800, 500);
+
+        Button goBack = new Button("Go back");
+        goBack.setLayoutX(20);
+        goBack.setLayoutY(600);
+        goBack.setOnAction(e -> showMainScene());
+
+        Pane root = new Pane();
+        root.getChildren().addAll(door, goBack);
+        stage.setScene(new Scene(root, 1000, 650));
     }
 
     // Show springs scene with different types of springs
     private void showSpringsScene() {
-        ImageView bedSprings = createImageView("/images/AAASpringLab/chair.png", 120, 70, 800, 600);
-
-        ImageView spring1 = createSpringImage("/images/spring1.png", 30, 150, 390);
-        ImageView spring2 = createSpringImage("/images/spring2.png", 50, 270, 390);  // Correct choice
-        ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
-
-//        Item spring1Item = new Item("1k", "/images/spring1.png");
-//        Item spring2Item = new Item("2k", "/images/spring2.png");
-//        Item spring3Item = new Item("3k", "/images/spring3.png");
 
         spring1Item.getImageView().setOnMouseClicked(e -> {
             chosenItem = spring1Item;
@@ -148,7 +199,7 @@ public class rSpring {
         });
 
         Pane root = new Pane();
-        root.getChildren().addAll(bedSprings, spring1, spring2, spring3, inventoryImage, goBack, overlay.getOverlayPane());
+        root.getChildren().addAll(chair, spring1, spring2, spring3, inventoryImage, goBack, overlay.getOverlayPane());
         stage.setScene(new Scene(root, 1000, 650));
 
         startSolutionCheck();
@@ -156,11 +207,36 @@ public class rSpring {
 
     // Show drawers scene with different masses
     private void showShelvesScene() {
-        ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
 
-        ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 1.0, 390, 150); //book
-        ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 2.0, 500, 340);  // Correct choice
-        ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 3.0, 240, 420);
+        mass1Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = mass1Item;
+        });
+
+        mass2Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = mass2Item;
+        });
+
+        mass3Item.getImageView().setOnMouseClicked(e -> {
+            chosenItem = mass3Item;
+        });
+
+        mass1.setOnMouseClicked(e -> {
+            mass1.setVisible(false);
+            overlay.getInventory().addItem(mass1Item);
+            overlay.updateInventory();
+        });
+
+        mass2.setOnMouseClicked(e -> {
+            mass2.setVisible(false);
+            overlay.getInventory().addItem(mass2Item);
+            overlay.updateInventory();
+        });
+
+        mass3.setOnMouseClicked(e -> {
+            mass3.setVisible(false);
+            overlay.getInventory().addItem(mass3Item);
+            overlay.updateInventory();
+        });
 
         Button goBack = new Button("Go back");
         goBack.setLayoutX(20);
@@ -177,139 +253,248 @@ public class rSpring {
     }
 
     private void showLabScene() {
-        ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 180, 95, 500, 500);
-        ImageView table = createImageView("/images/AAASpringLab/table.png", 5, 400, 1000, 1000);
-        ImageView selectedSpring = new ImageView();
-                //createImageView("/images/spring2.png", 440, 200, 100, 300);
-
-        // Lab table setup for drag-and-drop
-//        ImageView labTable = createImageView("/images/table.png", 400, 250, 200, 300);
-
-        Slider compressionSlider = new Slider(0, 100, 0);
-        compressionSlider.setLayoutX(90);
-        compressionSlider.setLayoutY(130);
-        compressionSlider.setPrefHeight(300);
-        compressionSlider.setRotate(-90);
-
-        Label sliderLabel = new Label("Spring Compression");
-        sliderLabel.setLayoutX(100);
-        sliderLabel.setLayoutY(150);
-
-        compressionSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            double scale = 1 - (newVal.doubleValue() / 200);
-            //selectedSpring.setPivotY(selectedSpring.getLayoutY() + selectedSpring.getFitHeight());
-            selectedSpring.setScaleY(scale);
-            selectedSpring.setLayoutY(200 - (newVal.doubleValue() / 2));  // Move bottom of spring UP
-
-        });
-
         Button goBack = new Button("Go back");
         goBack.setLayoutX(20);
         goBack.setLayoutY(600);
         goBack.setOnAction(e -> showMainScene());
 
-        Button playButton = new Button("Play");
-        playButton.setLayoutX(400);
-        playButton.setLayoutY(600);
-        playButton.setOnAction(e -> startSpringOscillation(selectedSpring, compressionSlider.getValue()));
-
-//        Button attemptEscapeButton = new Button("Attempt Escape");
-//        attemptEscapeButton.setLayoutX(850);
-//        attemptEscapeButton.setLayoutY(500);
-//        attemptEscapeButton.setOnAction(event -> springLab.attemptEscape());
-
-        Button stopButton = new Button("Stop");
-        stopButton.setLayoutX(450);
-        stopButton.setLayoutY(600);
-        stopButton.setOnAction(e -> stopSpringOscillation());
-
-        Button replayButton = new Button("Replay");
-        replayButton.setLayoutX(500);
-        replayButton.setLayoutY(600);
-        replayButton.setOnAction(e -> {
-            stopSpringOscillation();
-            startSpringOscillation(selectedSpring, compressionSlider.getValue());
-        });
-
         springStand.setOnMouseClicked(e -> {
-            if (chosenItem != null && chosenItem != placeHolder) {
-//                useItem(e);
-//                System.out.println("spring selected");
-//                selectedSpring.setImage(new Image(getClass().getResource(chosenItem.getImagePath()).toExternalForm()));
-//                String imagePath = chosenItem.getImagePath();
-//                if (imagePath != null && getClass().getResource(imagePath) != null) {
-//                    selectedSpring.setImage(new Image(getClass().getResource(imagePath).toExternalForm()));
-//                } else {
-//                    System.out.println("Error: Image path is invalid or file not found: " + imagePath);
-//                }
-                selectedSpring.setFitWidth(100);
-                selectedSpring.setFitHeight(300);
-                selectedSpring.setLayoutX(440);
-                selectedSpring.setLayoutY(200);
+            if (chosenItem != null && !chosenItem.getName().equals("placeholder")) {
+                //useItem(e);
+                if (chosenItem.getName().contains("N")){
+                    selectedSpring.setImage(chosenItem.getImage());
+                    selectedSpring.setFitWidth(100);
+                    selectedSpring.setFitHeight(100);
+                    selectedSpring.setLayoutX(440);
+                    selectedSpring.setLayoutY(200);
+                    placedSpringItem = chosenItem;
+                    springPlaced = true;
+
+                    if (massPlaced) {
+                        selectedMass.setLayoutY(250);
+                    }
+
+                } else if (chosenItem.getName().contains("g")) {
+                    selectedMass.setImage(chosenItem.getImage());
+                    selectedMass.setFitWidth(100);
+                    selectedMass.setFitHeight(100);
+                    selectedMass.setLayoutX(440);
+
+                    if (springPlaced) {
+                        // If spring is placed, offset mass below
+                        selectedMass.setLayoutY(250);
+                    } else {
+                        // If spring hasn't been placed yet, put mass at the spring's default position
+                        selectedMass.setLayoutY(200);
+                    }
+
+                    placedMassItem = chosenItem;
+                    massPlaced = true;
+
+                } else {
+                    System.out.println("Invalid item type.");
+                    return;
+                }
+
                 overlay.getInventory().removeItem(chosenItem);
                 overlay.updateInventory();
                 chosenItem = placeHolder;
             }
         });
 
+        selectedSpring.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2 && placedSpringItem != null) {
+                selectedSpring.setImage(null);
+                overlay.getInventory().addItem(placedSpringItem);
+                overlay.updateInventory();
+                placedSpringItem = null;
+                springPlaced = false;
+
+                if (massPlaced) {
+                    // Move the mass up to where the spring was
+                    selectedMass.setLayoutY(200);
+                }
+            }
+        });
+
+        selectedMass.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2 && placedMassItem != null) {
+                selectedMass.setImage(null);
+                overlay.getInventory().addItem(placedMassItem);
+                overlay.updateInventory();
+                placedMassItem = null;
+                massPlaced = false;
+            }
+        });
+
+        Label nothingPlacedMessage = new Label("You haven’t placed anything on the stand...");
+        nothingPlacedMessage.setStyle("-fx-font-size: 18px; -fx-text-fill: red;");
+        nothingPlacedMessage.setLayoutX(250); // adjust as needed
+        nothingPlacedMessage.setLayoutY(500);
+        nothingPlacedMessage.setOpacity(1.0);
+        nothingPlacedMessage.setVisible(false);
+
+        Button playButton = new Button("Target");
+        playButton.setLayoutX(400);
+        playButton.setLayoutY(600);
+        playButton.setOnAction(e -> {
+            boolean springMissing = selectedSpring.getImage() == null;
+            boolean massMissing = selectedMass.getImage() == null;
+
+            if (springMissing && massMissing) {
+                nothingPlacedMessage.setVisible(true);
+
+                FadeTransition fade = new FadeTransition(Duration.seconds(3), nothingPlacedMessage);
+                fade.setFromValue(1.0);
+                fade.setToValue(0.0);
+                fade.setOnFinished(event2 -> root.getChildren().remove(nothingPlacedMessage));
+                fade.play();
+            } else if (!springMissing && massMissing) {
+                //if only mass is placed
+                int currentLives = overlay.getLifeManager().getLives();
+
+                if (currentLives == 1) {
+                    KillPlayer.killPlayer("You didn’t oscillate your mind hard enough...\n" +
+                            "and so you’ve been stranded as the days swing back and forth",
+                            stage, stage.getScene(), overlay);
+                } else{
+                    showFailureScene("You didn’t even attempt to oscillate an object...\n\n" +
+                            "And so you’ve been stranded...\nAs the days oscillate endlessly.");
+                }
+
+            } else {
+                // TODO: create springOscillation
+                startSpringOscillation(selectedSpring, selectedMass);
+            }
+        });
+
+//        Button attemptEscapeButton = new Button("Attempt Escape");
+//        attemptEscapeButton.setLayoutX(850);
+//        attemptEscapeButton.setLayoutY(500);
+//        attemptEscapeButton.setOnAction(event -> springLab.attemptEscape());
+
         Pane root = new Pane();
-        root.getChildren().addAll(table, springStand, selectedSpring, sliderLabel, compressionSlider, inventoryImage,
-                overlay.getOverlayPane(), playButton, stopButton, replayButton, goBack);
+        root.getChildren().addAll(table, springStand, selectedSpring, selectedMass, inventoryImage,
+                overlay.getOverlayPane(), playButton, goBack, nothingPlacedMessage);
         stage.setScene(new Scene(root, 1000, 650));
     }
 
-    private void startSpringOscillation(ImageView spring, double compressionValue) {
-        double maxCompression = compressionValue;  // Max compression value (same as slider)
-        //double originalY = spring.getLayoutY();
-        double period = 2.0;  // One full oscillation (milliseconds)
-        //spring.setLayoutY(200);
+    private void showFailureScene(String message) {
+        //"You tried...\nBut your aim was off.\n\n The button was never pressed...\n Now the chamber sways without end."
 
-        stopSpringOscillation();
+        int currentLives = overlay.getLifeManager().getLives();
 
-        timeline = new Timeline(
-            new KeyFrame(Duration.seconds(0), new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH)),
-            new KeyFrame(Duration.seconds(period / 2), new KeyValue(spring.scaleYProperty(), 1 - maxCompression / 200, Interpolator.EASE_BOTH)),
-            new KeyFrame(Duration.seconds(period), new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH))
+        if (currentLives == 1) {
+            KillPlayer.killPlayer(
+                    message,
+                    stage,
+                    stage.getScene(),
+                    overlay
+            );
+            return;
+        } else {
+            overlay.getLifeManager().decreaseLife();
+        }
 
-//            new KeyFrame(Duration.ZERO, event -> {
-//                double newVal = 0;  // Start at uncompressed state
-//                double scale = 1 - (newVal / 200);
-//                spring.setScaleY(scale);
-//                spring.setLayoutY(originalY + (newVal / 2));
-//            }, new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH)),
-//
-//            new KeyFrame(Duration.millis(period / 4), event -> {
-//                double newVal = maxCompression / 2;  // Fully compressed state
-//                double scale = 1 - (newVal / 200);
-//                spring.setScaleY(scale);
-//                spring.setLayoutY(originalY + (newVal / 2));
-//            }, new KeyValue(spring.scaleYProperty(), 0.5, Interpolator.EASE_BOTH)),
-//
-//            new KeyFrame(Duration.millis(period / 2), event -> {
-//                double newVal = maxCompression;  // Fully compressed state
-//                double scale = 1 - (newVal / 200);
-//                spring.setScaleY(scale);
-//                spring.setLayoutY(originalY + (newVal / 2));
-//            }, new KeyValue(spring.scaleYProperty(), 0.25, Interpolator.EASE_BOTH)),
-//
-//            new KeyFrame(Duration.millis(3 * period / 4), event -> {
-//                double newVal = maxCompression / 2;  // Partially decompressed
-//                double scale = 1 - (newVal / 200);
-//                spring.setScaleY(scale);
-//                spring.setLayoutY(originalY + (newVal / 2));
-//            }, new KeyValue(spring.scaleYProperty(), 0.5, Interpolator.EASE_BOTH)),
-//
-//            new KeyFrame(Duration.millis(period), event -> {
-//                double newVal = 0;  // Back to uncompressed state
-//                double scale = 1 - (newVal / 200);
-//                spring.setScaleY(scale);
-//                spring.setLayoutY(originalY + (newVal / 2));
-//            }, new KeyValue(spring.scaleYProperty(), 1, Interpolator.EASE_BOTH))
-        );
+        ImageView bg = createImageView("/images/AAASpringLab/1stBg.png", 0, 0, 1000, 650);
+        bg.setPreserveRatio(false);
 
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setAutoReverse(true);
-        timeline.play();
+        Label label = new Label(message);
+        label.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-alignment: center;");
+        label.setLayoutX(350);
+        label.setLayoutY(180);
+
+        Button retryButton = new Button("Retry");
+        retryButton.setLayoutX(470);
+        retryButton.setLayoutY(400);
+        retryButton.setOnAction(e -> {
+//            LifeManager.getInstance().decreaseLife();
+            showMainScene();
+        });
+
+        Pane root = new Pane(bg, label, retryButton);
+        Scene scene = new Scene(root, 1000, 650);
+        stage.setScene(scene);
+    }
+
+    private double getSpringConstantFromName(String name) {
+        switch (name) {
+            case "100N": return 100;
+            case "200N": return 200;
+            case "300N": return 300;
+            default: return 0;
+        }
+    }
+
+    private double getMassFromName(String name) {
+        switch (name) {
+            case "3g": return 3;
+            case "4g": return 4;
+            case "5g": return 5;
+            default: return 0;
+        }
+    }
+
+    private String getItemNameFromImage(Image img) {
+        if (img == mass1Item.getImage()) return mass1Item.getName();
+        if (img == mass2Item.getImage()) return mass2Item.getName();
+        if (img == mass3Item.getImage()) return mass3Item.getName();
+        if (img == spring1Item.getImage()) return spring1Item.getName();
+        if (img == spring2Item.getImage()) return spring2Item.getName();
+        if (img == spring3Item.getImage()) return spring3Item.getName();
+        return "";
+    }
+
+    private void startSpringOscillation(ImageView selectedSpring, ImageView selectedMass) {
+        if (selectedSpring.getImage() == null || selectedMass.getImage() == null) return;
+
+        String springName = getItemNameFromImage(selectedSpring.getImage());
+        String massName = getItemNameFromImage(selectedMass.getImage());
+
+        double k = getSpringConstantFromName(springName);
+        double m = getMassFromName(massName);
+        double omega = Math.sqrt(k / m); // Angular frequency
+
+        // mass oscillation
+        TranslateTransition massOscillation = new TranslateTransition();
+        massOscillation.setNode(selectedMass);
+        massOscillation.setDuration(Duration.seconds(2));
+        massOscillation.setCycleCount(TranslateTransition.INDEFINITE);
+        massOscillation.setAutoReverse(true);
+        massOscillation.setByY(50); // amplitude swing
+
+        //spring oscillation
+        ScaleTransition springOscillation = new ScaleTransition();
+        massOscillation.setNode(selectedMass);
+        massOscillation.setDuration(Duration.seconds(2));
+        springOscillation.setCycleCount(ScaleTransition.INDEFINITE);
+        springOscillation.setAutoReverse(true);
+        springOscillation.setFromY(1.0);
+        springOscillation.setToY(1.3);
+
+        massOscillation.play();
+        springOscillation.play();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        pause.setOnFinished(e -> {
+            massOscillation.stop();
+            springOscillation.stop();
+
+            if (placedSpringItem != null && placedMassItem != null &&
+                    placedSpringItem.getName().contains("200") &&
+                    placedMassItem.getName().contains("4")) {
+                isDoorUnlocked = true;
+                showDoorOpenScene();
+//            (Math.abs(omega - Math.sqrt(200 / 4.0)) < 0.1) {
+//                isDoorUnlocked = true;
+//                showDoorOpenScene(); // Only open door if correct
+            } else {
+                isDoorUnlocked = false;
+                showFailureScene("You missed the target...\n\nThe oscillations carried on without purpose.\nTrapped in repetition, you remain.");
+            }
+        });
+
+        pause.play();
     }
 
     private void stopSpringOscillation() {
@@ -329,12 +514,12 @@ public class rSpring {
     }
 
     //create a spring image and handle click events
-    private ImageView createSpringImage(String imagePath, double k, double x, double y) {
+    private ImageView createSpringImage(String imagePath, double springConstant, double x, double y) {
         ImageView spring = createImageView(imagePath, x, y, 50, 100);
 
         spring.setOnMouseClicked(event -> {
-            springLab.setSelectedSpringConstant(k);  // Call controller to set value
-            System.out.println("Spring selected: " + k + " N/m");
+            springLab.setSelectedSpringConstant(springConstant);  // Call controller to set value
+            System.out.println("Spring selected: " + springConstant + " N/m");
         });
         return spring;
     }
@@ -375,12 +560,47 @@ public class rSpring {
     }
 
     private void useItem(MouseEvent event) {
-        if (chosenItem != null && chosenItem.equals(spring1Item)) {
-            spring1Item.getImageView().setMouseTransparent(false);
-            spring1Item.getImageView().setVisible(true);
-            chosenItem = placeHolder;
-            overlay.getInventory().removeItem(spring1Item);
-            overlay.updateInventory();
+        if (chosenItem == null || chosenItem.getName().equals("placeholder")) {
+            System.out.println("No valid item selected.");
+            return;
         }
+
+        ImageView targetView = chosenItem.getImageView();
+
+        // Ensure selectedSpring exists
+        if (targetView == null) {
+            System.out.println("Error: No ImageView associated with this item.");
+            return;
+        }
+
+        // Determine if the item is a spring (k) or a mass (g)
+        if (chosenItem.getName().startsWith("k")) {
+            //targetView = new ImageView();
+            targetView.setFitWidth(100);
+            targetView.setFitHeight(100);
+            targetView.setLayoutX(440);
+            targetView.setLayoutY(200);
+            //selectedSpring.setImage(chosenItem.getImage());
+        } else if (chosenItem.getName().startsWith("g")) {
+            //selectedMass.setImage(chosenItem.getImage());
+            //targetView = new ImageView();
+            targetView.setFitWidth(50);
+            targetView.setFitHeight(50);
+            targetView.setLayoutX(440);
+            targetView.setLayoutY(300);
+        } else {
+            System.out.println("Invalid item type.");
+            return;
+        }
+        // Add the ImageView to the UI
+        //overlay.getChildren().add(targetView);
+        targetView.setVisible(true);
+
+        // Remove item from inventory and update UI
+        overlay.getInventory().removeItem(chosenItem);
+        overlay.updateInventory();
+
+        // Reset chosenItem to a placeholder
+        chosenItem = new Item("placeholder", "/images/placeholder.png");
     }
 }

@@ -25,7 +25,7 @@ public class SpringLab extends Lab {
 
     @Override
     public void startLab() {
-        springLabUI.showMainScene();
+        springLabUI.showIntroScene();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SpringLab extends Lab {
 
     @Override
     public Scene createScene() {
-        return springLabUI.getMainScene(); //UI class does this
+        return null; //UI class does this
     }
 
     public void setSelectedMass(double mass) {
