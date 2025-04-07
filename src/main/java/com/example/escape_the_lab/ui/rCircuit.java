@@ -30,33 +30,35 @@ public class rCircuit {
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
 
     // whole room
-    ImageView panel = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/panel.png")).toExternalForm()));
-    ImageView mainBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/main-bg.png")).toExternalForm()));
-    ImageView glassThing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/glass-thing.png")).toExternalForm()));
-    ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/door.png")).toExternalForm()));
-    ImageView openedDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/door-open.png")).toExternalForm()));
+    ImageView panel = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/paneC.png")).toExternalForm()));
+    ImageView mainBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bgC.png")).toExternalForm()));
+    ImageView glassThing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/smallC.png")).toExternalForm()));
+    ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/doorC.png")).toExternalForm()));
+    ImageView openedDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/doorOpenC.png")).toExternalForm()));
+    ImageView crack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bigC.png")).toExternalForm()));
+    ImageView body = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bodyC.png")).toExternalForm()));
     ImageView dialogue3 = new ImageView(new Image(Objects.requireNonNull((getClass().getResource("/images/AAACircuitLab/dialogue3.png")).toExternalForm())));
 
     // panel scene
-    ImageView panelBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/panel-bg.png")).toExternalForm()));
-    ImageView note = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note.png")).toExternalForm()));
+    ImageView panelBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomPaneC.png")).toExternalForm()));
+    ImageView note = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/noteC.png")).toExternalForm()));
     ImageView noteZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note-zoomed.png")).toExternalForm()));
-    ImageView ledOff = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-off.png")).toExternalForm()));
+    //ImageView ledOff = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-off.png")).toExternalForm()));
     ImageView ledBroken = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-broken.png")).toExternalForm()));
-    ImageView head = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/head.png")).toExternalForm()));
-    ImageView ledOn = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-on.png")).toExternalForm()));
-    ImageView unattachedWire = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/unattached-wire.png")).toExternalForm()));
-    ImageView attachedWire = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/attached-wire.png")).toExternalForm()));
-    ImageView clickableSection = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/clickable-section.png")).toExternalForm()));
+    ImageView head = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/headC.png")).toExternalForm()));
+    ImageView ledOn = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/lightC.png")).toExternalForm()));
+    //ImageView unattachedWire = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/unattached-wire.png")).toExternalForm()));
+    //ImageView attachedWire = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/attached-wire.png")).toExternalForm()));
+    ImageView clickableSection = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/placeC.png")).toExternalForm()));
     ImageView dialogue2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/dialogue2.png")).toExternalForm()));
 
     // head scene
-    ImageView headBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/head-zoomed.png")).toExternalForm()));
+    ImageView headBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomHeadC.png")).toExternalForm()));
     ImageView dialogue = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/dialogue.png")).toExternalForm()));
-    ImageView res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/res1.png")).toExternalForm()));
-    ImageView res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/res2.png")).toExternalForm()));
-    ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/res3.png")).toExternalForm()));
-    ImageView res4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/res4.png")).toExternalForm()));
+    ImageView res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r1.png")).toExternalForm()));
+    ImageView res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r2.png")).toExternalForm()));
+    ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r3.png")).toExternalForm()));
+    ImageView res4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r4.png")).toExternalForm()));
 
     // items
     Item res1Item = new Item("160 Ohm Resistor", "/images/AAACircuitLab/res1item.png");
@@ -101,12 +103,18 @@ public class rCircuit {
 
         head.setOnMouseClicked(e -> inspectHead());
 
+        crack.setMouseTransparent(true);
+        crack.setVisible(false);
+        body.setMouseTransparent(true);
+        body.setVisible(false);
+        inventoryImage.setMouseTransparent(true);
+
         res1Item.getImageView().setOnMouseClicked(e -> chosenItem = res1Item);
         res2Item.getImageView().setOnMouseClicked(e -> chosenItem = res2Item);
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
-        stackPane.getChildren().addAll(mainBG, panel, glassThing, head, inventoryImage, skipToNext);
+        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, body, head, inventoryImage, skipToNext);
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
         } else {
@@ -126,18 +134,19 @@ public class rCircuit {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
         if (isLedOn || resTooLow || resTooHigh) {
-            stackPane.getChildren().add(attachedWire);
-        } else {
-            stackPane.getChildren().add(unattachedWire);
-        }
+            //stackPane.getChildren().add(attachedWire);
+            System.out.println("Attached wire");
+        } //else {
+            //stackPane.getChildren().add(unattachedWire);
+        //}
 
         if (isLedOn) {
             stackPane.getChildren().addAll(ledOn);
         } else if (resTooLow) {
             stackPane.getChildren().add(ledBroken);
-        } else {
-            stackPane.getChildren().add(ledOff);
-        }
+        }// else {
+            //stackPane.getChildren().add(ledOff);
+        //}
 
         if (resTooHigh) {
             stackPane.getChildren().add(dialogue2);
@@ -191,7 +200,7 @@ public class rCircuit {
     }
 
     private void readNote() {
-        StackPane stackPane = new StackPane(panelBG, note, ledOff, unattachedWire, inventoryImage, back, noteZoom);
+        StackPane stackPane = new StackPane(panelBG, note, inventoryImage, back, noteZoom);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> panelScene());
@@ -199,9 +208,13 @@ public class rCircuit {
     }
 
     private void breakGlass() {
-        glassThing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/glass-thing-broken.png")).toExternalForm()));
         head.setVisible(true);
+        head.setMouseTransparent(false);
+        body.setVisible(true);
+        crack.setVisible(true);
         stage.setScene(makeScene());
+        glassThing.setVisible(false);
+        glassThing.setMouseTransparent(true);
     }
 
     private void passLab() {

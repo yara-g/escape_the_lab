@@ -510,11 +510,11 @@ public class rSpring {
 
     private ImageView createImageView(String path, double x, double y, double width, double height) {
         ImageView imageView = new ImageView(new Image(getClass().getResource(path).toExternalForm()));
+        imageView.setLayoutX(x);
+        imageView.setLayoutY(y);
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
         imageView.setPreserveRatio(true);
-        imageView.setLayoutX(x);
-        imageView.setLayoutY(y);
         return imageView;
     }
 
