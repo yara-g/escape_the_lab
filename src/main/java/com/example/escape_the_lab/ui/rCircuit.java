@@ -74,6 +74,10 @@ public class rCircuit {
         placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
         makeScene();
         chosenItem = placeHolder;
+        crack.setMouseTransparent(true);
+        crack.setVisible(false);
+        body.setMouseTransparent(true);
+        body.setVisible(false);
     }
 
     public void start() {
@@ -107,10 +111,6 @@ public class rCircuit {
 
         head.setOnMouseClicked(e -> inspectHead());
 
-        crack.setMouseTransparent(true);
-        crack.setVisible(false);
-        body.setMouseTransparent(true);
-        body.setVisible(false);
         inventoryImage.setMouseTransparent(true);
 
         res1Item.getImageView().setOnMouseClicked(e -> chosenItem = res1Item);
@@ -118,7 +118,7 @@ public class rCircuit {
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
-        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, body, head, inventoryImage, skipToNext);
+        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, head, inventoryImage, body, skipToNext);
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
         } else {
