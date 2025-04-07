@@ -52,10 +52,10 @@ public class AcidNeutralizationLab extends Lab {
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
     Item chosenItem;
-    Item substanceItem1 = new Item("Hydrochloric Acid", "/images/pt6.png");
-    Item substanceItem2 = new Item("Sulfuric Acid", "/images/pt6.png");
-    Item substanceItem3 = new Item("Sodium Hydroxide", "/images/pt6.png");
-    Item substanceItem4 = new Item("Ammonia", "/images/pt6.png");
+    Item substanceItem1 = new Item("Hydrochloric Acid", "/images/pt2.png");
+    Item substanceItem2 = new Item("Sulfuric Acid", "/images/pt3.png");
+    Item substanceItem3 = new Item("Sodium Hydroxide", "/images/pt4.png");
+    Item substanceItem4 = new Item("Ammonia", "/images/pt5.png");
     Item substanceItem5 = new Item("Acetic Acid", "/images/pt6.png");
 
     public Overlay overlay;
@@ -219,7 +219,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
 
                 Item substanceUnlocked = new Item("substance unlocked", "/images/substanceUnlocked.png");
                 ImageView iv = substanceUnlocked.getImageView();
-                iv.setFitWidth(60); // Adjust width
+                iv.setFitWidth(60); 
                 iv.setPreserveRatio(true);
                 handleSubstanceCollection(substanceUnlocked);
 
@@ -565,6 +565,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
         KillPlayer.killPlayer("You have mixed the wrong substances and dissolved in the acid!\n" +
                 "Hint: This is a special type of neutralization! HCl is a strong acid, it requires 2 different bases to" +
                 " be fully neutralized", primaryStage, primaryStage.getScene(), overlay);
+        arenaPane.getChildren().removeAll(substance1.getSprite(), substance2.getSprite(), substance3.getSprite(), substance4.getSprite(), substance5.getSprite());
     }
 
     public void doorOpen(Stage stage) {
