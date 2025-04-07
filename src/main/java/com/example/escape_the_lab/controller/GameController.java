@@ -6,15 +6,16 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Lab;
-import java.io.IOException;
-import java.util.Objects;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import java.util.Collection;
+import java.util.Objects;
 
 public class GameController extends Application {
 
@@ -34,6 +35,17 @@ public class GameController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        MenuBar menuBar = new MenuBar();
+        Menu fileMenu = new Menu("Settings");
+        //fileMenu.setGraphic();
+        MenuItem exitItem = new MenuItem("Exit");
+        fileMenu.getItems().add(exitItem);
+        exitItem.setOnAction(event -> {
+            stage.close();
+        });
+        menuBar.getMenus().addAll(fileMenu);
+        menuBar.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
+
         primaryStage = stage;
         stage.setResizable(false);
         //initialize lifeManager
@@ -62,7 +74,9 @@ public class GameController extends Application {
         startButtonFr.setOnMouseClicked(e -> startLab());
         root.getChildren().add(startButton);
 
-        scene = new Scene(root, 1000, 650);
+        VBox root1 = new VBox(menuBar, root);
+
+        scene = new Scene(root1, 1000, 650);
 
         // Set up language system.
         frButton.setOnMouseClicked(e -> {
