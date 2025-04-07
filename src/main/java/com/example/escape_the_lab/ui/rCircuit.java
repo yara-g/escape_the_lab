@@ -25,7 +25,6 @@ public class rCircuit {
     private boolean isLedOn = false;
     private boolean resTooLow = false;
     private boolean resTooHigh = false;
-
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
 
@@ -43,12 +42,9 @@ public class rCircuit {
     ImageView panelBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomPaneC.png")).toExternalForm()));
     ImageView note = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/noteC.png")).toExternalForm()));
     ImageView noteZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note-zoomed.png")).toExternalForm()));
-    //ImageView ledOff = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-off.png")).toExternalForm()));
     ImageView ledBroken = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-broken.png")).toExternalForm()));
     ImageView head = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/headC.png")).toExternalForm()));
     ImageView ledOn = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/lightC.png")).toExternalForm()));
-    //ImageView unattachedWire = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/unattached-wire.png")).toExternalForm()));
-    //ImageView attachedWire = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/attached-wire.png")).toExternalForm()));
     ImageView clickableSection = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/placeC.png")).toExternalForm()));
     ImageView dialogue2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/dialogue2.png")).toExternalForm()));
 
@@ -70,14 +66,12 @@ public class rCircuit {
     public rCircuit(Stage stage) {
         this.stage = stage;
         this.overlay = GameController.getOverlay();
-        head.setVisible(false);
         placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
         makeScene();
         chosenItem = placeHolder;
-        crack.setMouseTransparent(true);
-        crack.setVisible(false);
-        body.setMouseTransparent(true);
-        body.setVisible(false);
+        head.setVisible(false);
+        hideImage(crack);
+        hideImage(body);
     }
 
     public void start() {
@@ -94,24 +88,14 @@ public class rCircuit {
         skipToNext.setMinWidth(90);
         skipToNext.setOnAction(e -> passLab());
 
-        dialogue4.setVisible(false);
-        dialogue4.setMouseTransparent(true);
+        hideImage(dialogue4);
+        inventoryImage.setMouseTransparent(true);
 
         panel.setOnMouseClicked(e -> panelScene());
-
-        door.setOnMouseClicked(e -> {
-                    stackPane.getChildren().add(dialogue3);
-        });
-
-        openedDoor.setOnMouseClicked(e -> {
-            passLab();
-        });
-
+        door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
+        openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
-
         head.setOnMouseClicked(e -> inspectHead());
-
-        inventoryImage.setMouseTransparent(true);
 
         res1Item.getImageView().setOnMouseClicked(e -> chosenItem = res1Item);
         res2Item.getImageView().setOnMouseClicked(e -> chosenItem = res2Item);
@@ -278,5 +262,20 @@ public class rCircuit {
 
             failLab();
         }
+    }
+    /**
+     * Extracted repeated method for making an image view visible and clickable.
+     */
+    private void showImage(ImageView image) {
+        image.setMouseTransparent(false);
+        image.setVisible(true);
+    }
+
+    /**
+     * Extracted repeated method for making an image view not visible and not clickable.
+     */
+    private void hideImage(ImageView image) {
+        image.setMouseTransparent(true);
+        image.setVisible(false);
     }
 }

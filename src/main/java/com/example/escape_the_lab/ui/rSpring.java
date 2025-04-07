@@ -21,23 +21,18 @@ public class rSpring {
     private Stage stage;
     Pane root;
     private SpringLab springLab;
-    ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     Overlay overlay;
     private Timeline timeline;
     private boolean isDoorUnlocked = false;
     private boolean springPlaced = false;
     private boolean massPlaced = false;
-
     private Item placedSpringItem = null;
     private Item placedMassItem = null;
-
     private Item chosenItem;
-    private ImageView selectedSpring = new ImageView();
-    private ImageView selectedMass = new ImageView();
+    private ImageView selectedSpring;
+    private ImageView selectedMass;
 
-    //private Item placeHolder;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
-
     ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
     ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 390, 150); //book
     ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 500, 340);  // Correct choice
@@ -51,10 +46,10 @@ public class rSpring {
     Item spring1Item = new Item("100N/m", "/images/spring1.png");
     Item spring2Item = new Item("200N/m", "/images/spring2.png");
     Item spring3Item = new Item("300N/m", "/images/spring3.png");
-
     Item mass1Item = new Item("4kg", "/images/AAASpringLab/clockStatue.png");
     Item mass2Item = new Item("3kg", "/images/AAASpringLab/books.png");
     Item mass3Item = new Item("5kg", "/images/AAASpringLab/globe.png");
+    ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
 
     //lab scene
     ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 180, 95, 500, 500);
@@ -72,7 +67,12 @@ public class rSpring {
     public void showIntroScene() {
         ImageView bg = createImageView("/images/AAASpringLab/1stBg.png", 0, 0, 1000, 650);
         bg.setPreserveRatio(false);
-
+        spring1Item.size();
+        spring2Item.size();
+        spring3Item.size();
+        mass1Item.size();
+        mass2Item.size();
+        mass3Item.size();
         // Mysterious Message
         Label introLabel = new Label("Something must fall.\nSomething must stretch.\n\n"
                 + "Choose wisely.\nOr stay... forever oscillating.");
@@ -94,7 +94,7 @@ public class rSpring {
 
     public void showMainScene() {
         ImageView bg = createImageView("/images/AAASpringLab/bg.jpg", 10, 10, 1000, 950);
-
+        inventoryImage.setMouseTransparent(true);
         ImageView chandelier = createImageView("/images/AAASpringLab/chandelier.png", 330, 40, 200, 200);
 
         ImageView door = createImageView("/images/AAASpringLab/door..png", 100, 170, 200, 600);

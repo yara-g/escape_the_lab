@@ -34,6 +34,7 @@ public class rAcidNeutralization {
     }
 
     public Scene getMainScene() {
+        inventory.setMouseTransparent(true);
         Pane root = new Pane();
 
         ImageView acid1 = createSubstance("/images/substance.png", 50, 100);

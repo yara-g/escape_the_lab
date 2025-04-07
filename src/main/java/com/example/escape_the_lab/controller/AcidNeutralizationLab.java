@@ -99,6 +99,7 @@ public class AcidNeutralizationLab extends Lab {
     public void startLab() {
         primaryStage.setScene(createScene());
         primaryStage.show();
+        inventory.setMouseTransparent(true);
     }
 
     @Override
