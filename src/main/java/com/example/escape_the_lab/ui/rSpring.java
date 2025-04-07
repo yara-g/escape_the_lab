@@ -39,14 +39,14 @@ public class rSpring {
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
 
     ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
-    ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 1.0, 390, 150); //book
-    ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 2.0, 500, 340);  // Correct choice
-    ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 3.0, 240, 420);
+    ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 390, 150); //book
+    ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 500, 340);  // Correct choice
+    ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 240, 420);
 
     ImageView chair = createImageView("/images/AAASpringLab/chair.png", 120, 70, 800, 600);
-    ImageView spring1 = createSpringImage("/images/spring1.png", 30, 150, 390);
-    ImageView spring2 = createSpringImage("/images/spring2.png", 50, 270, 390);  // Correct choice
-    ImageView spring3 = createSpringImage("/images/spring3.png", 70, 410, 390);
+    ImageView spring1 = createSpringImage("/images/spring1.png", 150, 390);
+    ImageView spring2 = createSpringImage("/images/spring2.png", 270, 390);  // Correct choice
+    ImageView spring3 = createSpringImage("/images/spring3.png", 410, 390);
 
     Item spring1Item = new Item("100N/m", "/images/spring1.png");
     Item spring2Item = new Item("200N/m", "/images/spring2.png");
@@ -130,7 +130,7 @@ public class rSpring {
         shelves.setOnMouseClicked(event -> showShelvesScene());
 
         // TEMPORARY - remove the button
-        Button skipToNext = new Button("Skip to next");
+        Button skipToNext = new Button("Escape");
         skipToNext.setOnAction(e -> {
             FlameLab f = new FlameLab();
             f.startLab(stage);
@@ -148,15 +148,26 @@ public class rSpring {
     }
 
     private void showDoorOpenScene() {
-        ImageView door = createImageView("/images/AAASpringLab/door..png", 120, 70, 800, 500);
+        ImageView doorOpen = createImageView("/images/AAASpringLab/openDoor.jpg", 0, 0, 1000, 650);
+        doorOpen.setPreserveRatio(false);
 
         Button goBack = new Button("Go back");
         goBack.setLayoutX(20);
         goBack.setLayoutY(600);
         goBack.setOnAction(e -> showMainScene());
 
+        Button skipToNext = new Button("Skip to next");
+        skipToNext.setLayoutX(480);
+        skipToNext.setLayoutY(325);
+        skipToNext.setOnAction(e -> {
+            FlameLab f = new FlameLab();
+            f.startLab(stage);
+            overlay.getInventory().resetInventory();
+            overlay.updateInventory();
+        });
+
         Pane root = new Pane();
-        root.getChildren().addAll(door, goBack);
+        root.getChildren().addAll(doorOpen, goBack, skipToNext);
         stage.setScene(new Scene(root, 1000, 650));
     }
 
@@ -465,8 +476,8 @@ public class rSpring {
 
         //spring oscillation
         ScaleTransition springOscillation = new ScaleTransition();
-        massOscillation.setNode(selectedMass);
-        massOscillation.setDuration(Duration.seconds(2));
+        springOscillation.setNode(selectedSpring);
+        springOscillation.setDuration(Duration.seconds(2));
         springOscillation.setCycleCount(ScaleTransition.INDEFINITE);
         springOscillation.setAutoReverse(true);
         springOscillation.setFromY(1.0);
@@ -484,7 +495,7 @@ public class rSpring {
                     placedSpringItem.getName().contains("200") &&
                     placedMassItem.getName().contains("4")) {
                 isDoorUnlocked = true;
-                showDoorOpenScene();
+                //showDoorOpenScene();
 //            (Math.abs(omega - Math.sqrt(200 / 4.0)) < 0.1) {
 //                isDoorUnlocked = true;
 //                showDoorOpenScene(); // Only open door if correct
@@ -495,12 +506,6 @@ public class rSpring {
         });
 
         pause.play();
-    }
-
-    private void stopSpringOscillation() {
-        if (timeline != null) {
-            timeline.stop();
-        }
     }
 
     private ImageView createImageView(String path, double x, double y, double width, double height) {
@@ -514,24 +519,24 @@ public class rSpring {
     }
 
     //create a spring image and handle click events
-    private ImageView createSpringImage(String imagePath, double springConstant, double x, double y) {
+    private ImageView createSpringImage(String imagePath, double x, double y) {
         ImageView spring = createImageView(imagePath, x, y, 50, 100);
 
-        spring.setOnMouseClicked(event -> {
-            springLab.setSelectedSpringConstant(springConstant);  // Call controller to set value
-            System.out.println("Spring selected: " + springConstant + " N/m");
-        });
+//        spring.setOnMouseClicked(event -> {
+//            springLab.setSelectedSpringConstant(springConstant);  // Call controller to set value
+//            System.out.println("Spring selected: " + springConstant + " N/m");
+//        });
         return spring;
     }
 
     //create a mass image and handle click events
-    private ImageView createMassImage(String imagePath, double mass, double x, double y) {
+    private ImageView createMassImage(String imagePath, double x, double y) {
         ImageView massImage = createImageView(imagePath, x, y, 150, 150);
 
-        massImage.setOnMouseClicked(event -> {
-            springLab.setSelectedMass(mass);  // Call controller to set value
-            System.out.println("Mass selected: " + mass + " kg");
-        });
+//        massImage.setOnMouseClicked(event -> {
+//            springLab.setSelectedMass(mass);  // Call controller to set value
+//            System.out.println("Mass selected: " + mass + " kg");
+//        });
         return massImage;
     }
 
@@ -557,50 +562,5 @@ public class rSpring {
             }
         };
         solutionCheckTimer.start(); // Start the timer
-    }
-
-    private void useItem(MouseEvent event) {
-        if (chosenItem == null || chosenItem.getName().equals("placeholder")) {
-            System.out.println("No valid item selected.");
-            return;
-        }
-
-        ImageView targetView = chosenItem.getImageView();
-
-        // Ensure selectedSpring exists
-        if (targetView == null) {
-            System.out.println("Error: No ImageView associated with this item.");
-            return;
-        }
-
-        // Determine if the item is a spring (k) or a mass (g)
-        if (chosenItem.getName().startsWith("k")) {
-            //targetView = new ImageView();
-            targetView.setFitWidth(100);
-            targetView.setFitHeight(100);
-            targetView.setLayoutX(440);
-            targetView.setLayoutY(200);
-            //selectedSpring.setImage(chosenItem.getImage());
-        } else if (chosenItem.getName().startsWith("g")) {
-            //selectedMass.setImage(chosenItem.getImage());
-            //targetView = new ImageView();
-            targetView.setFitWidth(50);
-            targetView.setFitHeight(50);
-            targetView.setLayoutX(440);
-            targetView.setLayoutY(300);
-        } else {
-            System.out.println("Invalid item type.");
-            return;
-        }
-        // Add the ImageView to the UI
-        //overlay.getChildren().add(targetView);
-        targetView.setVisible(true);
-
-        // Remove item from inventory and update UI
-        overlay.getInventory().removeItem(chosenItem);
-        overlay.updateInventory();
-
-        // Reset chosenItem to a placeholder
-        chosenItem = new Item("placeholder", "/images/placeholder.png");
     }
 }

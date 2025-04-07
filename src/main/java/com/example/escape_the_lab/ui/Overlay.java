@@ -49,14 +49,14 @@ public class Overlay {
             vBox.getChildren().add(item.getImageView());
         }
 
-//        vBox.setSpacing(17);
-//        vBox.setTranslateY(75);
-//        vBox.setTranslateX(858);
+        vBox.setSpacing(17);
+        vBox.setTranslateY(75);
+        vBox.setTranslateX(858);
 
         //TEMPORARY this works for the rest of the labs
-        vBox.setSpacing(38);
-        vBox.setTranslateY(80);
-        vBox.setTranslateX(880);
+//        vBox.setSpacing(38);
+//        vBox.setTranslateY(80);
+//        vBox.setTranslateX(880);
 
         inventoryPane.getChildren().clear(); // Clear the shared inventory pane
         inventoryPane.getChildren().add(vBox); // Add the updated VBox
