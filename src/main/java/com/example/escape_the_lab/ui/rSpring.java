@@ -373,6 +373,19 @@ public class rSpring {
                             "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
                 }
 
+            } else if (springMissing && !massMissing) {
+                //if only mass is placed
+                int currentLives = overlay.getLifeManager().getLives();
+
+                if (currentLives == 1) {
+                    KillPlayer.killPlayer("You didn’t oscillate your mind hard enough...\n" +
+                                    "and so you’ve been stranded as the days swing back and forth",
+                            stage, stage.getScene(), overlay);
+                } else{
+                    KillPlayer.killPlayer("You didn’t even attempt to oscillate an object...\n" +
+                            "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
+                }
+
             } else {
                 // TODO: create springOscillation
                 startSpringOscillation(selectedSpring, selectedMass);
