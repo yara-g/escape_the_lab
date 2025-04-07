@@ -59,6 +59,7 @@ public class AcidNeutralizationLab extends Lab {
     Item substanceItem5 = new Item("Acetic Acid", "/images/pt6.png");
 
     public Overlay overlay;
+    KillPlayer killPlayer;
     private final ImageView backGroundA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/bgA.png")).toExternalForm()));
     private final ImageView treeA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/treeA.png")).toExternalForm()));
     private final ImageView houseA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/houseA.png")).toExternalForm()));
@@ -157,7 +158,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
         scientistImage.setLayoutY(120);
 
         Label contextLabel = new Label("A scientist accidentally spilled some HCl with a concentration\n" +
-                "of 0.1 M on the ground. Neutralize it to be able to pass and unlock the door!\n What is the pH of this solution of HCl?");
+                "of 0.1 M on the ground. Neutralize it to be able to pass and unlock the door!\n To unlock a substance, what is the pH of this solution of HCl?");
         contextLabel.setStyle("""
     -fx-background-color: white;
     -fx-border-color: black;
@@ -509,7 +510,6 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
             // Add logic to proceed to the next level
         } else if (droppedSubstances.size() >= 2) {
             showFailedScreen();
-            lifeManager.decreaseLife();
 
             System.out.println("Incorrect substances! You lose a life.");
             // Add logic to reduce player lives
@@ -542,25 +542,29 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
     }
 
     private void showFailedScreen() {
-        Stage failedStage = new Stage();
-        failedStage.setTitle("Lab Failed!");
+//        Stage failedStage = new Stage();
+//        failedStage.setTitle("Lab Failed!");
+//
+//        Label failedLabel = new Label("You have mixed the wrong substances!\n You just "
+//                + "lost a life. \n Hint: This is a special type of neutralization! Since "
+//                + "HCl is a strong acid, it requires two different bases to be fully neutralized");
+//        failedLabel.setStyle("-fx-font-size: 16px;");
+//        failedLabel.setWrapText(true); // Allow automatic text wrapping
+//        failedLabel.setMaxWidth(450);
+//        Button closeButton = new Button("OK");
+//        closeButton.setOnAction(e -> failedStage.close());
+//
+//        VBox layout = new VBox(10, failedLabel, closeButton);
+//        layout.setAlignment(Pos.CENTER);
+//        layout.setPadding(new Insets(20));
+//
+//        Scene failedScene = new Scene(layout, 1000, 650);
+//        failedStage.setScene(failedScene);
+//        failedStage.show();
 
-        Label failedLabel = new Label("You have mixed the wrong substances!\n You just "
-                + "lost a life. \n Hint: This is a special type of neutralization! Since "
-                + "HCl is a strong acid, it requires two different bases to be fully neutralized");
-        failedLabel.setStyle("-fx-font-size: 16px;");
-        failedLabel.setWrapText(true); // Allow automatic text wrapping
-        failedLabel.setMaxWidth(450);
-        Button closeButton = new Button("OK");
-        closeButton.setOnAction(e -> failedStage.close());
-
-        VBox layout = new VBox(10, failedLabel, closeButton);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets(20));
-
-        Scene failedScene = new Scene(layout, 1000, 650);
-        failedStage.setScene(failedScene);
-        failedStage.show();
+        KillPlayer.killPlayer("You have mixed the wrong substances and dissolved in the acid!\n" +
+                "Hint: This is a special type of neutralization! HCl is a strong acid, it requires 2 different bases to" +
+                " be fully neutralized", primaryStage, primaryStage.getScene(), overlay);
     }
 
     public void doorOpen(Stage stage) {
