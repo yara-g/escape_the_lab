@@ -373,6 +373,19 @@ public class rSpring {
                             "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
                 }
 
+            } else if (springMissing && !massMissing) {
+                //if only mass is placed
+                int currentLives = overlay.getLifeManager().getLives();
+
+                if (currentLives == 1) {
+                    KillPlayer.killPlayer("You didn’t oscillate your mind hard enough...\n" +
+                                    "and so you’ve been stranded as the days swing back and forth",
+                            stage, stage.getScene(), overlay);
+                } else{
+                    KillPlayer.killPlayer("You didn’t even attempt to oscillate an object...\n" +
+                            "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
+                }
+
             } else {
                 // TODO: create springOscillation
                 startSpringOscillation(selectedSpring, selectedMass);
@@ -510,11 +523,11 @@ public class rSpring {
 
     private ImageView createImageView(String path, double x, double y, double width, double height) {
         ImageView imageView = new ImageView(new Image(getClass().getResource(path).toExternalForm()));
+        imageView.setLayoutX(x);
+        imageView.setLayoutY(y);
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
         imageView.setPreserveRatio(true);
-        imageView.setLayoutX(x);
-        imageView.setLayoutY(y);
         return imageView;
     }
 

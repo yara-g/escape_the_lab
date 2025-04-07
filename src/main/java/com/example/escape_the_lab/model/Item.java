@@ -21,11 +21,15 @@ public class Item {
         this.image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         this.imageView = new ImageView(image);
         //TEMPORARY this works for the rest of the labs
-        this.imageView.setFitWidth(50); // Set a reasonable width
-        this.imageView.setFitHeight(50); // Set a reasonable height
-        this.imageView.setPreserveRatio(true);
-
+//        this.imageView.setFitWidth(50); // Set a reasonable width
+//        this.imageView.setFitHeight(50); // Set a reasonable height
+//        this.imageView.setPreserveRatio(true);
         imageView.setOnMouseClicked(e -> select());
+    }
+
+    public void size() {
+        imageView.setFitWidth(50);
+        imageView.setPreserveRatio(true);
     }
 
     public String getName() {
