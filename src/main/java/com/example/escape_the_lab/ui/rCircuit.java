@@ -54,7 +54,8 @@ public class rCircuit {
 
     // head scene
     ImageView headBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomHeadC.png")).toExternalForm()));
-    ImageView dialogue = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/dialogue.png")).toExternalForm()));
+    ImageView dialogue = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/resistorsC.png")).toExternalForm()));
+    ImageView dialogue4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/sorryC.png")).toExternalForm()));
     ImageView res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r1.png")).toExternalForm()));
     ImageView res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r2.png")).toExternalForm()));
     ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r3.png")).toExternalForm()));
@@ -88,6 +89,9 @@ public class rCircuit {
         skipToNext.setTranslateY(-300);
         skipToNext.setMinWidth(90);
         skipToNext.setOnAction(e -> passLab());
+
+        dialogue4.setVisible(false);
+        dialogue4.setMouseTransparent(true);
 
         panel.setOnMouseClicked(e -> panelScene());
 
@@ -166,31 +170,38 @@ public class rCircuit {
     }
 
     private void inspectHead() {
-        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, dialogue, inventoryImage, back);
+        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, inventoryImage, dialogue, dialogue4, back);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> goBack());
 
         res1.setOnMouseClicked(e -> {
             dialogue.setVisible(false);
+            dialogue4.setVisible(true);
             res1.setVisible(false);
             overlay.getInventory().addItem(res1Item);
             overlay.updateInventory();
         });
 
         res2.setOnMouseClicked(e -> {
+            dialogue.setVisible(false);
+            dialogue4.setVisible(true);
             res2.setVisible(false);
             overlay.getInventory().addItem(res2Item);
             overlay.updateInventory();
         });
 
         res3.setOnMouseClicked(e -> {
+            dialogue.setVisible(false);
+            dialogue4.setVisible(true);
             res3.setVisible(false);
             overlay.getInventory().addItem(res3Item);
             overlay.updateInventory();
         });
 
         res4.setOnMouseClicked(e -> {
+            dialogue.setVisible(false);
+            dialogue4.setVisible(true);
             res4.setVisible(false);
             overlay.getInventory().addItem(res4Item);
             overlay.updateInventory();
