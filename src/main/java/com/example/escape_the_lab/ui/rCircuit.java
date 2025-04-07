@@ -35,6 +35,7 @@ public class rCircuit {
     ImageView glassThing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/glass-thing.png")).toExternalForm()));
     ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/door.png")).toExternalForm()));
     ImageView openedDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/door-open.png")).toExternalForm()));
+    ImageView dialogue3 = new ImageView(new Image(Objects.requireNonNull((getClass().getResource("/images/AAACircuitLab/dialogue3.png")).toExternalForm())));
 
     // panel scene
     ImageView panelBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/panel-bg.png")).toExternalForm()));
@@ -57,6 +58,7 @@ public class rCircuit {
     ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/res3.png")).toExternalForm()));
     ImageView res4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/res4.png")).toExternalForm()));
 
+    // items
     Item res1Item = new Item("160 Ohm Resistor", "/images/AAACircuitLab/res1item.png");
     Item res2Item = new Item("200 Ohm Resistor", "/images/AAACircuitLab/res2item.png");
     Item res3Item = new Item("120 Ohm Resistor", "/images/AAACircuitLab/res3item.png");
@@ -87,9 +89,13 @@ public class rCircuit {
 
         panel.setOnMouseClicked(e -> panelScene());
 
-        door.setOnMouseClicked(e -> doorClicked());
+        door.setOnMouseClicked(e -> {
+                    stackPane.getChildren().add(dialogue3);
+        });
 
-        openedDoor.setOnMouseClicked(e -> doorClicked());
+        openedDoor.setOnMouseClicked(e -> {
+            passLab();
+        });
 
         glassThing.setOnMouseClicked(e -> breakGlass());
 
@@ -137,7 +143,6 @@ public class rCircuit {
             stackPane.getChildren().add(dialogue2);
         }
 
-
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> goBack());
@@ -149,14 +154,6 @@ public class rCircuit {
         });
 
         stage.setScene(currentScene);
-    }
-
-    private void doorClicked() {
-        if (!isLedOn) {
-            System.out.println("The power is cut and the door is way too heavy for you to push open.");
-        } else {
-            passLab();
-        }
     }
 
     private void inspectHead() {
@@ -219,6 +216,7 @@ public class rCircuit {
     private void failLab() {
         // new circuit lab created if we need to restart the lab
         rCircuit newRCircuit = new rCircuit(stage);
+
         if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
             resTooLow = true;
             panelScene();

@@ -369,8 +369,8 @@ public class rSpring {
                             "and so you’ve been stranded as the days swing back and forth",
                             stage, stage.getScene(), overlay);
                 } else{
-                    showFailureScene("You didn’t even attempt to oscillate an object...\n\n" +
-                            "And so you’ve been stranded...\nAs the days oscillate endlessly.");
+                    KillPlayer.killPlayer("You didn’t even attempt to oscillate an object...\n" +
+                            "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
                 }
 
             } else {
@@ -501,7 +501,7 @@ public class rSpring {
 //                showDoorOpenScene(); // Only open door if correct
             } else {
                 isDoorUnlocked = false;
-                showFailureScene("You missed the target...\n\nThe oscillations carried on without purpose.\nTrapped in repetition, you remain.");
+                KillPlayer.killPlayer("You missed the target...\nThe oscillations carried on without purpose. Trapped in repetition, you remain.", stage, stage.getScene(), overlay);
             }
         });
 
