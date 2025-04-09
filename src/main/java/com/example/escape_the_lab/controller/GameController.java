@@ -28,6 +28,7 @@ public class GameController extends Application {
     private StackPane root;
     private static Overlay overlay;
     private static Scene scene;
+    private static boolean soundEnabled = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,10 +38,15 @@ public class GameController extends Application {
     public void start(Stage stage) throws Exception {
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Settings");
-        //fileMenu.setGraphic();
+        MenuItem soundItem = new MenuItem("Sound: On");
         MenuItem exitItem = new MenuItem("Exit");
+        fileMenu.getItems().add(soundItem);
         fileMenu.getItems().add(exitItem);
-        exitItem.setOnAction(event -> {
+        soundItem.setOnAction(actionEvent -> {
+            soundEnabled = !soundEnabled;
+            soundItem.setText(soundEnabled ? "Sound: On" : "Sound: Off");
+        });
+        exitItem.setOnAction(actionEvent -> {
             stage.close();
         });
         menuBar.getMenus().addAll(fileMenu);
@@ -107,50 +113,6 @@ public class GameController extends Application {
             lifeManager.updateLives(player.getLives());
         }
     }
-//
-//    private void checkGameOver() {
-//        if (player.getLives() <= 0) {
-//            // Handle game over logic
-//            showGameOverScreen();
-//        }
-//    }
-
-//    private void showGameOverScreen() {
-//        // Shows the game over screen when lives run out
-//        Button restartButton = new Button("Restart");
-//
-//        restartButton.setOnAction(e -> {
-//            player = new Player();
-//            LifeManager.getInstance().updateLives(player.getLives());
-//
-//            // Transition back to the first lab scene
-//            currentLab = new CircuitLab();
-//            currentLab.startLab();
-//            transitionToLabScene(currentLab);
-//        });
-//        StackPane gameOverLayout = new StackPane();
-//        gameOverLayout.getChildren().addAll(restartButton);
-//        Scene gameOverScene = new Scene(gameOverLayout, 1000, 650);
-//        primaryStage.setScene(gameOverScene);
-//    }
-
-//    public void transitionToNextLab() {
-//        if (currentLab instanceof CircuitLab) {
-//        } else if (currentLab instanceof FlameLab) {
-//            currentLab = new SpringLab(primaryStage);
-//        } else if (currentLab instanceof AcidNeutralizationLab) {
-//            loadAcidNeutralization();
-//            currentLab = new AcidNeutralizationLab(primaryStage);
-//        }
-//        currentLab.setupLab();
-//        transitionToLabScene(currentLab);
-//    }
-
-//    private void transitionToLabScene(Lab lab) {
-//        Scene labScene = lab.createScene();
-//        primaryStage.setScene(labScene); // Use the stored primaryStage
-//    }
-
 
     public static LifeManager getLifeManager() {
         return lifeManager;
@@ -166,5 +128,9 @@ public class GameController extends Application {
 
     public static Overlay getOverlay() {
         return overlay;
+    }
+
+    public static boolean isSoundEnabled() {
+        return soundEnabled;
     }
 }

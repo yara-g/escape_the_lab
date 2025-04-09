@@ -223,7 +223,9 @@ public class FlameLab {
         stackPane.getChildren().add(back);
         /// Set up actions for all interactive image views.
         closedBig.setOnMouseClicked(e -> {
-            doorPlayer.play();
+            if (GameController.isSoundEnabled()) {
+                doorPlayer.play();
+            }
             openBig.setVisible(true);
             showImage(drawerBunsen);
             closedBig.setMouseTransparent(true);
@@ -318,9 +320,15 @@ public class FlameLab {
         /// Set on action.
         bats.setOnMouseClicked(e -> {
             bats.setMouseTransparent(true);
-            batPlayer.play();
+            if (GameController.isSoundEnabled()) {
+                batPlayer.play();
+            }
             Timeline batVisibleTime = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {bats.setVisible(false); batsFly.setVisible(true);}));
-            Timeline batSoundTime = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> batFlyPlayer.play()));
+            Timeline batSoundTime = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> {
+                if (GameController.isSoundEnabled()) {
+                    batFlyPlayer.play();
+                }
+            }));
             batTime.playFromStart();
             batSoundTime.playFromStart();
             batVisibleTime.playFromStart();
