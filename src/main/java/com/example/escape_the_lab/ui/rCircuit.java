@@ -2,6 +2,7 @@ package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.KillPlayer;
+import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.PauseTransition;
@@ -25,6 +26,7 @@ public class rCircuit {
     private boolean isLedOn = false;
     private boolean resTooLow = false;
     private boolean resTooHigh = false;
+    private LifeManager lifeManager = GameController.getLifeManager();
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
 
@@ -122,19 +124,14 @@ public class rCircuit {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
         if (isLedOn || resTooLow || resTooHigh) {
-            //stackPane.getChildren().add(attachedWire);
             System.out.println("Attached wire");
-        } //else {
-            //stackPane.getChildren().add(unattachedWire);
-        //}
+        }
 
         if (isLedOn) {
             stackPane.getChildren().addAll(ledOn);
         } else if (resTooLow) {
             stackPane.getChildren().add(ledBroken);
-        }// else {
-            //stackPane.getChildren().add(ledOff);
-        //}
+        }
 
         if (resTooHigh) {
             stackPane.getChildren().add(dialogue2);
@@ -215,8 +212,6 @@ public class rCircuit {
     private void passLab() {
         overlay.getInventory().resetInventory();
         SpringLab s = new SpringLab(stage);
-        //AcidNeutralizationLab acidLab = new AcidNeutralizationLab(stage, overlay); // Create a new instance
-        //rAcidNeutralization lab = new rAcidNeutralization(stage, acidLab, overlay); // Pass both stage and lab
         s.startLab();
         overlay.updateInventory();
     }
@@ -224,21 +219,17 @@ public class rCircuit {
     private void failLab() {
         // new circuit lab created if we need to restart the lab
         rCircuit newRCircuit = new rCircuit(stage);
-
         if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
             resTooLow = true;
             panelScene();
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.play();
-
             pause.setOnFinished(e -> KillPlayer.killPlayer("you were blinded by a shard that got into your eye.", stage, newRCircuit.makeScene(), overlay));
-
         } else {
             resTooHigh = true;
             panelScene();
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.play();
-
             pause.setOnFinished(e -> KillPlayer.killPlayer("you couldn't figure out how to get out, so you succumbed due to dehydration.", stage, newRCircuit.makeScene(), overlay));
         }
     }
@@ -250,18 +241,22 @@ public class rCircuit {
             chosenItem = placeHolder;
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
-
             isLedOn = true;
             panelScene();
-        } else {
+            return;
+        }
+
+        if(lifeManager.getLives() == 0) {
             assert chosenItem != null;
             chosenItem.getImageView().setMouseTransparent(false);
             chosenItem.getImageView().setVisible(true);
             overlay.getInventory().removeItem(chosenItem);
             overlay.updateInventory();
-
             failLab();
+            return;
         }
+
+        lifeManager.decreaseLife();
     }
     /**
      * Extracted repeated method for making an image view visible and clickable.

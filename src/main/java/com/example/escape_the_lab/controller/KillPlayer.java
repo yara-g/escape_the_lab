@@ -41,6 +41,6 @@ public class KillPlayer {
             cause.setTranslateY(-50);
             stage.setScene(new Scene(new StackPane(deathScreen, restart, cause)));
         }
-        overlay.getLifeManager().decreaseLife();
+        overlay.getLifeManager().resetLives();
     }
 }
