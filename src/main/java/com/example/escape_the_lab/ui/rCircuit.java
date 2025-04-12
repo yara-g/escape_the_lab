@@ -5,6 +5,7 @@ import com.example.escape_the_lab.controller.KillPlayer;
 import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
+import com.example.escape_the_lab.model.Player;
 import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,6 +28,8 @@ public class rCircuit {
     private boolean resTooLow = false;
     private boolean resTooHigh = false;
     private LifeManager lifeManager = GameController.getLifeManager();
+    private Player player = GameController.getPlayer();
+
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
 

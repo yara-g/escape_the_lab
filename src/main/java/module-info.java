@@ -2,6 +2,7 @@ module com.example.escape_the_lab {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
+    requires com.fasterxml.jackson.databind;
 
     // opens com.example.escape_the_lab to javafx.fxml;
     exports com.example.escape_the_lab.controller;

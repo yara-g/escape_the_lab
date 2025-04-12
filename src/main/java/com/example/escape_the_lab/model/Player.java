@@ -1,42 +1,104 @@
 package com.example.escape_the_lab.model;
 
-import com.example.escape_the_lab.ui.Inventory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Player {
-    private int lives;
-    private final Inventory inventory;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 
-    public Player() {
-        this.lives = 3;
-        this.inventory = new Inventory();
+public class Player implements Serializable {
+    boolean sound;
+    String language;
+    boolean autosave;
+    String username, password;
+    int lives, level;
+
+    @JsonIgnore
+    ObjectMapper objectMapper = new ObjectMapper();
+    @JsonIgnore
+    File file;
+
+    public Player(boolean sound, String language, boolean autosave, String username, String password, int lives, int level, String filePath) {
+        this.sound = sound;
+        this.language = language;
+        this.autosave = autosave;
+        this.username = username;
+        this.password = password;
+        this.lives = lives;
+        this.level = level;
+        file = new File(filePath);
+        writeToJSON();
     }
 
-    public void loseLife() {
-        if (lives > 0) {
-            lives--;
+    private void writeToJSON() {
+        try {
+            String json = objectMapper.writeValueAsString(this);
+            FileWriter fw = new FileWriter(file);
+            fw.write(json);
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    //to increase lives (could be used for power-ups)
-    public void gainLife() {
-        if (lives < 3) {
-            lives++;
-        }
+    // getters and setters below
+    public void setSound(boolean sound) {
+        this.sound = sound;
     }
 
-    //to get the current number of lives
+    public boolean isSoundOn() {
+        return sound;
+    }
+
+    public void setAutosave(boolean autosave) {
+        this.autosave = autosave;
+    }
+
+    public boolean isAutosave() {
+        return autosave;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+        writeToJSON();
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     public int getLives() {
         return lives;
     }
 
-    //to use an item from the inventory
-//    public void useItem(String item) {
-//        inventory.useItem(item);
-//    }
-//
-//    // Getter for inventory (to interact with inventory)
-//    public Inventory getInventory() {
-//        return inventory;
-//    }
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
 

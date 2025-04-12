@@ -1,6 +1,7 @@
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Item;
+import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.*;
@@ -136,6 +137,7 @@ public class FlameLab {
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
     // </editor-fold>
     Button b;
+    private final Player player = GameController.getPlayer();
 
     /**
      * Call this to start the flame lab!
@@ -143,7 +145,7 @@ public class FlameLab {
      */
     public void startLab(Stage stage) {
         /// Set up language system.
-        if (GameController.language) {
+        if (Objects.equals(player.getLanguage(), "english")) {
             monologuesL.clear();
             monologuesL = monologues;
         } else {
@@ -223,7 +225,7 @@ public class FlameLab {
         stackPane.getChildren().add(back);
         /// Set up actions for all interactive image views.
         closedBig.setOnMouseClicked(e -> {
-            if (GameController.isSoundEnabled()) {
+            if (player.isSoundOn()) {
                 doorPlayer.play();
             }
             openBig.setVisible(true);
@@ -320,12 +322,12 @@ public class FlameLab {
         /// Set on action.
         bats.setOnMouseClicked(e -> {
             bats.setMouseTransparent(true);
-            if (GameController.isSoundEnabled()) {
+            if (player.isSoundOn()) {
                 batPlayer.play();
             }
             Timeline batVisibleTime = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {bats.setVisible(false); batsFly.setVisible(true);}));
             Timeline batSoundTime = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> {
-                if (GameController.isSoundEnabled()) {
+                if (player.isSoundOn()) {
                     batFlyPlayer.play();
                 }
             }));

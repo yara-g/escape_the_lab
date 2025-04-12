@@ -19,9 +19,7 @@ import java.util.Objects;
 
 public class GameController extends Application {
 
-    public static boolean language = true; // True English False French.
     private static LifeManager lifeManager;
-    private Player player;
     private Lab currentLab;
     private static Stage primaryStage;
     private Inventory inventory;
@@ -29,6 +27,7 @@ public class GameController extends Application {
     private static Overlay overlay;
     private static Scene scene;
     private static boolean soundEnabled = true;
+    private static final Player player = new Player(true, "english", false, "janedoe", "secure", 3, 1, "src/main/resources/json/jane-doe.json");
 
     public static void main(String[] args) {
         launch(args);
@@ -44,6 +43,7 @@ public class GameController extends Application {
         fileMenu.getItems().add(exitItem);
         soundItem.setOnAction(actionEvent -> {
             soundEnabled = !soundEnabled;
+            player.setSound(soundEnabled);
             soundItem.setText(soundEnabled ? "Sound: On" : "Sound: Off");
         });
         exitItem.setOnAction(actionEvent -> {
@@ -56,12 +56,9 @@ public class GameController extends Application {
         stage.setResizable(false);
         //initialize lifeManager
         lifeManager = LifeManager.getInstance();
-        // Initialize player and labs
-        player = new Player();
         inventory = new Inventory();
         overlay = new Overlay(inventory, lifeManager);
         currentLab = new CircuitLab();
-
         overlay.updateLifeManager();
 
         //Start screen setup
@@ -78,7 +75,11 @@ public class GameController extends Application {
         ImageView startButtonFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/reveiller.png")).toExternalForm()));
         startButton.setOnMouseClicked(e -> startLab());
         startButtonFr.setOnMouseClicked(e -> startLab());
-        root.getChildren().add(startButton);
+        if (Objects.equals(player.getLanguage(), "english")) {
+            root.getChildren().add(startButton);
+        } else if (Objects.equals(player.getLanguage(), "french")) {
+            root.getChildren().add(startButtonFr);
+        }
 
         VBox root1 = new VBox(menuBar, root);
 
@@ -91,7 +92,8 @@ public class GameController extends Application {
             root.getChildren().add(frButton);
             root.getChildren().add(startButtonFr);
             scene.setRoot(root);
-            GameController.language = false;
+
+            player.setLanguage("french");
         });
         enButton.setOnMouseClicked(e -> {
             root = new StackPane(startGame);
@@ -99,7 +101,8 @@ public class GameController extends Application {
             root.getChildren().add(frButton);
             root.getChildren().add(startButton);
             scene.setRoot(root);
-            GameController.language = true;
+
+            player.setLanguage("english");
         });
 
         stage.setScene(scene);
@@ -110,7 +113,6 @@ public class GameController extends Application {
         if (currentLab != null) {
             currentLab.startLab();
             lifeManager.showLives();
-            lifeManager.updateLives(player.getLives());
         }
     }
 
@@ -130,7 +132,7 @@ public class GameController extends Application {
         return overlay;
     }
 
-    public static boolean isSoundEnabled() {
-        return soundEnabled;
+    public static Player getPlayer() {
+        return player;
     }
 }
