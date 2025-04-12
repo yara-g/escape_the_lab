@@ -26,8 +26,8 @@ public class GameController extends Application {
     private StackPane root;
     private static Overlay overlay;
     private static Scene scene;
-    private static boolean soundEnabled = true;
-    private static final Player player = new Player(true, "english", false, "janedoe", "secure", 3, 1, "src/main/resources/json/jane-doe.json");
+    private static final Player player = Player.getLastPlayer(); // reload the same player as last time
+    MenuItem soundItem;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,15 +37,24 @@ public class GameController extends Application {
     public void start(Stage stage) throws Exception {
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Settings");
-        MenuItem soundItem = new MenuItem("Sound: On");
+        if (player.isSoundOn()) {
+            soundItem = new MenuItem("Sound: On");
+        } else {
+            soundItem = new MenuItem("Sound: Off");
+        }
         MenuItem exitItem = new MenuItem("Exit");
         fileMenu.getItems().add(soundItem);
         fileMenu.getItems().add(exitItem);
+
         soundItem.setOnAction(actionEvent -> {
-            soundEnabled = !soundEnabled;
-            player.setSound(soundEnabled);
-            soundItem.setText(soundEnabled ? "Sound: On" : "Sound: Off");
+            player.setSound(!player.isSoundOn());
+            if (player.isSoundOn()) {
+                soundItem.setText("Sound: On");
+            } else {
+                soundItem.setText("Sound: Off");
+            }
         });
+
         exitItem.setOnAction(actionEvent -> {
             stage.close();
         });
@@ -67,19 +76,19 @@ public class GameController extends Application {
         ImageView enButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/en.png")).toExternalForm()));
         ImageView frButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/fr.png")).toExternalForm()));
         // Set up initial UI
-        root = new StackPane(startGame);
-        root.getChildren().add(enButton);
-        root.getChildren().add(frButton);
-
+        root = new StackPane();
         ImageView startButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/start.png")).toExternalForm()));
         ImageView startButtonFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/reveiller.png")).toExternalForm()));
         startButton.setOnMouseClicked(e -> startLab());
         startButtonFr.setOnMouseClicked(e -> startLab());
+
         if (Objects.equals(player.getLanguage(), "english")) {
-            root.getChildren().add(startButton);
+            root.getChildren().addAll(startGame, startButton);
         } else if (Objects.equals(player.getLanguage(), "french")) {
-            root.getChildren().add(startButtonFr);
+            root.getChildren().addAll(startGameFr, startButtonFr);
         }
+        root.getChildren().add(enButton);
+        root.getChildren().add(frButton);
 
         VBox root1 = new VBox(menuBar, root);
 

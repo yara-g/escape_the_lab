@@ -1,6 +1,7 @@
 package com.example.escape_the_lab.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -43,9 +44,34 @@ public class Player implements Serializable {
         }
     }
 
+    public static Player getLastPlayer() {
+        boolean sound;
+        String language;
+        boolean autosave;
+        String username, password;
+        int lives, level;
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/resources/json/jane-doe.json"));
+            sound = jsonNode.get("soundOn").asBoolean();
+            language = jsonNode.get("language").asText();
+            autosave = jsonNode.get("autosaveOn").asBoolean();
+            username = jsonNode.get("username").asText();
+            password = jsonNode.get("password").asText();
+            lives = jsonNode.get("lives").asInt();
+            level = jsonNode.get("level").asInt();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new Player(sound, language, autosave, username, password, lives, level, "src/main/resources/json/jane-doe.json");
+    }
+
     // getters and setters below
     public void setSound(boolean sound) {
         this.sound = sound;
+        writeToJSON();
     }
 
     public boolean isSoundOn() {
@@ -54,9 +80,10 @@ public class Player implements Serializable {
 
     public void setAutosave(boolean autosave) {
         this.autosave = autosave;
+        writeToJSON();
     }
 
-    public boolean isAutosave() {
+    public boolean isAutosaveOn() {
         return autosave;
     }
 
@@ -83,6 +110,7 @@ public class Player implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
+        writeToJSON();
     }
 
     public String getUsername() {
@@ -91,14 +119,17 @@ public class Player implements Serializable {
 
     public void setLives(int lives) {
         this.lives = lives;
+        writeToJSON();
     }
 
     public void setPassword(String password) {
         this.password = password;
+        writeToJSON();
     }
 
     public void setUsername(String username) {
         this.username = username;
+        writeToJSON();
     }
 }
 
