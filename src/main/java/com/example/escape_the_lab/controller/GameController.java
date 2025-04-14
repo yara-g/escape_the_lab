@@ -3,18 +3,17 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Lab;
 
-import java.util.Collection;
 import java.util.Objects;
 
 public class GameController extends Application {
@@ -28,6 +27,7 @@ public class GameController extends Application {
     private static Scene scene;
     private static final Player player = Player.getLastPlayer(); // reload the same player as last time
     MenuItem soundItem;
+    VBox root1;
 
     public static void main(String[] args) {
         launch(args);
@@ -90,10 +90,10 @@ public class GameController extends Application {
         root.getChildren().add(enButton);
         root.getChildren().add(frButton);
 
-        VBox root1 = new VBox(menuBar, root);
+        root1 = new VBox(menuBar, root);
 
-        scene = new Scene(root1, 1000, 650);
-
+//        scene = new Scene(root1, 1000, 650);
+        scene = getLoginScreen();
         // Set up language system.
         frButton.setOnMouseClicked(e -> {
             root = new StackPane(startGameFr);
@@ -123,6 +123,60 @@ public class GameController extends Application {
             currentLab.startLab();
             lifeManager.showLives();
         }
+    }
+
+    private Scene getLoginScreen() {
+        GridPane grid = new GridPane();
+        VBox vBox = new VBox(grid);
+        HBox hBox = new HBox(vBox);
+
+        Label placeholder = new Label();
+        Label username = new Label("Username:");
+        Button enter = new Button("ENTER");
+        enter.setBackground(Background.fill(Color.RED));
+        enter.setStyle("-fx-text-fill: black");
+        TextField usernameInput = new TextField();
+        username.setTextFill(Color.RED);
+        usernameInput.setBackground(Background.fill(Color.RED));
+        usernameInput.setStyle("-fx-text-fill: black");
+        Label password = new Label("Password:");
+        PasswordField passwordField = new PasswordField();
+        passwordField.setBackground(Background.fill(Color.RED));
+        passwordField.setStyle("-fx-text-fill: black");
+        Button skip = new Button("skip");
+        password.setTextFill(Color.RED);
+        vBox.getChildren().addAll(enter, placeholder, skip);
+
+        skip.setOnAction(e -> {
+            primaryStage.setScene(new Scene(root1, 1000, 650));
+        });
+
+        enter.setOnAction(e -> {
+            String user = usernameInput.getText();
+            String pass = passwordField.getText();
+
+            if (user.equals(player.getUsername()) && pass.equals(player.getPassword())) {
+                primaryStage.setScene(new Scene(root1, 1000, 650));
+            } else {
+                Label label = new Label("Wrong password or username.");
+                label.setStyle("-fx-text-fill: red");
+                vBox.getChildren().set(2, label);
+            }
+        });
+
+        GridPane.setConstraints(username, 0, 0);
+        GridPane.setConstraints(usernameInput, 1, 0);
+        GridPane.setConstraints(password, 0, 1);
+        GridPane.setConstraints(passwordField, 1, 1);
+        grid.getChildren().addAll(username, password, usernameInput, passwordField);
+        vBox.setSpacing(20);
+        grid.setHgap(10);
+        grid.setVgap(5);
+
+        vBox.setAlignment(Pos.CENTER);
+        hBox.setStyle("-fx-background-color: black");
+        hBox.setAlignment(Pos.CENTER);
+        return new Scene(hBox, 1000, 650);
     }
 
     public static LifeManager getLifeManager() {
