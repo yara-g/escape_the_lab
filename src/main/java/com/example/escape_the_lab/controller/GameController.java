@@ -9,10 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Lab;
+import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -28,6 +31,9 @@ public class GameController extends Application {
     private static final Player player = Player.getLastPlayer(); // reload the same player as last time
     MenuItem soundItem;
     VBox root1;
+    static String clickSoundPath = Objects.requireNonNull(GameController.class.getResource("/sounds/click.mp3")).toExternalForm();
+    static Media clickMedia = new Media(clickSoundPath);
+    static MediaPlayer clickSoundPlayer = new MediaPlayer(clickMedia);
 
     public static void main(String[] args) {
         launch(args);
@@ -49,6 +55,7 @@ public class GameController extends Application {
         soundItem.setOnAction(actionEvent -> {
             player.setSound(!player.isSoundOn());
             if (player.isSoundOn()) {
+                playClick();
                 soundItem.setText("Sound: On");
             } else {
                 soundItem.setText("Sound: Off");
@@ -56,6 +63,7 @@ public class GameController extends Application {
         });
 
         exitItem.setOnAction(actionEvent -> {
+            playClick();
             stage.close();
         });
         menuBar.getMenus().addAll(fileMenu);
@@ -79,8 +87,14 @@ public class GameController extends Application {
         root = new StackPane();
         ImageView startButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/start.png")).toExternalForm()));
         ImageView startButtonFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/reveiller.png")).toExternalForm()));
-        startButton.setOnMouseClicked(e -> startLab());
-        startButtonFr.setOnMouseClicked(e -> startLab());
+        startButton.setOnMouseClicked(e -> {
+            playClick();
+            startLab();
+        });
+        startButtonFr.setOnMouseClicked(e -> {
+            playClick();
+            startLab();
+        });
 
         if (Objects.equals(player.getLanguage(), "english")) {
             root.getChildren().addAll(startGame, startButton);
@@ -96,21 +110,15 @@ public class GameController extends Application {
         scene = getLoginScreen();
         // Set up language system.
         frButton.setOnMouseClicked(e -> {
-            root = new StackPane(startGameFr);
-            root.getChildren().add(enButton);
-            root.getChildren().add(frButton);
-            root.getChildren().add(startButtonFr);
-            scene.setRoot(root);
-
+            root.getChildren().clear();
+            root.getChildren().addAll(startGameFr,startButtonFr, enButton, frButton);
+            playClick();
             player.setLanguage("french");
         });
         enButton.setOnMouseClicked(e -> {
-            root = new StackPane(startGame);
-            root.getChildren().add(enButton);
-            root.getChildren().add(frButton);
-            root.getChildren().add(startButton);
-            scene.setRoot(root);
-
+            root.getChildren().clear();
+            root.getChildren().addAll(startGame,startButton, enButton, frButton);
+            playClick();
             player.setLanguage("english");
         });
 
@@ -154,6 +162,7 @@ public class GameController extends Application {
         enter.setOnAction(e -> {
             String user = usernameInput.getText();
             String pass = passwordField.getText();
+            playClick();
 
             if (user.equals(player.getUsername()) && pass.equals(player.getPassword())) {
                 primaryStage.setScene(new Scene(root1, 1000, 650));
@@ -197,5 +206,12 @@ public class GameController extends Application {
 
     public static Player getPlayer() {
         return player;
+    }
+
+    public static void playClick() {
+        if (player.isSoundOn()) {
+            clickSoundPlayer.seek(new Duration(0));
+            clickSoundPlayer.play();
+        }
     }
 }
