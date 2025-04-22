@@ -380,11 +380,26 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
 //     * @param substance the Substance that is being dragged
 //     */
     private void makeSubstanceRemovable(Substance substance) {
+//        substance.display.setOnDragDetected(event -> {
+//            Dragboard db = substance.display.startDragAndDrop(TransferMode.MOVE);
+//            ClipboardContent content = new ClipboardContent();
+//            content.putImage(substance.sprite.getImage());
+//            db.setContent(content);
+//            substance.display.setOpacity(1);
+//        });
         substance.display.setOnDragDetected(event -> {
-            Dragboard db = substance.display.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.putImage(substance.sprite.getImage());
-            db.setContent(content);
+            Image dragImage = substance.sprite.getImage();
+
+            if (dragImage != null) {
+                Dragboard db = substance.display.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(dragImage); // ✅ Only set if not null
+                db.setContent(content);
+            } else {
+                System.out.println("⚠️ Drag image is null. Drag cancelled.");
+            }
+
+            event.consume();
         });
 
         // Set up the acidBank to accept subastances dragged back from the arena
@@ -401,6 +416,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
             if (db.hasImage()) {
                 removeSubstance(substance);
                 activeSubstances.remove(substance);
+                droppedSubstances.remove(substance);
                 event.setDropCompleted(true);
             } else {
                 event.setDropCompleted(false);
@@ -427,8 +443,8 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
             case 5 -> AcidHome5.getChildren().addLast(substance.display);
 
         }
-
         Draggable(substance);
+        makeSubstanceRemovable(substance);
         substance.setActive(false);
         arenaPane.getChildren().remove(substance.display);
 
@@ -439,7 +455,6 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
 //     * @param substanceDisplay the StackPane to be assigned to the new Substance
 //     * @return the new Substance object
 //     */
-
     private Substance createNewSubstance(StackPane substanceDisplay) {
 
         Substance currentSusbtance = null;
@@ -452,14 +467,14 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
 
         if (!Substance.existsIn(activeSubstances, substanceImage)) {
             Substance newSubstance = new Substance(substanceImage);
-            switch (newSubstance.substanceNumber()) {
-                case 1 -> newSubstance = substance1;
-                case 2 -> newSubstance = substance2;
-                case 3 -> newSubstance = substance3;
-                case 4 -> newSubstance = substance4;
-                case 5 -> newSubstance = substance5;
-
-            }
+//            switch (newSubstance.substanceNumber()) {
+//                case 1 -> newSubstance = substance1;
+//                case 2 -> newSubstance = substance2;
+//                case 3 -> newSubstance = substance3;
+//                case 4 -> newSubstance = substance4;
+//                case 5 -> newSubstance = substance5;
+//
+//            }
             switch (newSubstance.substanceNumber()) {
                 case 1 -> newSubstance.setHome(AcidSprite1);
                 case 2 -> newSubstance.setHome(AcidSprite2);
@@ -480,6 +495,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
                 for (Substance other : activeSubstances) {
                     other.setFocused(false);
                 }
+                
             });
 
             activeSubstances.add(newSubstance);
