@@ -3,6 +3,7 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,7 +29,7 @@ public class GameController extends Application {
     private StackPane root;
     private static Overlay overlay;
     private static Scene scene;
-    private static final Player player = Player.getLastPlayer(); // reload the same player as last time
+    public static final Player player = Player.getLastPlayer(); // reload the same player as last time
     MenuItem soundItem;
     VBox root1;
     static String clickSoundPath = Objects.requireNonNull(GameController.class.getResource("/sounds/click.mp3")).toExternalForm();
@@ -141,15 +142,33 @@ public class GameController extends Application {
         Label placeholder = new Label();
         Label username = new Label("Username:");
         Button enter = new Button("ENTER");
-        enter.setBackground(Background.fill(Color.RED));
+        enter.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
         enter.setStyle("-fx-text-fill: black");
         TextField usernameInput = new TextField();
         username.setTextFill(Color.RED);
-        usernameInput.setBackground(Background.fill(Color.RED));
+        usernameInput.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
         usernameInput.setStyle("-fx-text-fill: black");
         Label password = new Label("Password:");
         PasswordField passwordField = new PasswordField();
-        passwordField.setBackground(Background.fill(Color.RED));
+        passwordField.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
         passwordField.setStyle("-fx-text-fill: black");
         Button skip = new Button("skip");
         password.setTextFill(Color.RED);
