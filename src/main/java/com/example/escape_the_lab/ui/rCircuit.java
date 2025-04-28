@@ -30,7 +30,6 @@ public class rCircuit {
     private boolean resTooLow = false;
     private boolean resTooHigh = false;
     private LifeManager lifeManager = GameController.getLifeManager();
-    private Player player = GameController.getPlayer();
 
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
@@ -264,14 +263,33 @@ public class rCircuit {
 
     private void useItem(MouseEvent event) {
         if (chosenItem != null && chosenItem.equals(res1Item)) {
-            res1Item.getImageView().setMouseTransparent(false);
-            res1Item.getImageView().setVisible(true);
+            showImage(res1);
             chosenItem = placeHolder;
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
             isLedOn = true;
             panelScene();
-            return;
+        }
+        if (chosenItem != null && chosenItem.equals(res2Item)) {
+            chosenItem = placeHolder;
+            overlay.getInventory().removeItem(res2Item);
+            overlay.updateInventory();
+            panelScene();
+            lifeManager.decreaseLife();
+        }
+        if (chosenItem != null && chosenItem.equals(res3Item)) {
+            chosenItem = placeHolder;
+            overlay.getInventory().removeItem(res3Item);
+            overlay.updateInventory();
+            panelScene();
+            lifeManager.decreaseLife();
+        }
+        if (chosenItem != null && chosenItem.equals(res4Item)) {
+            chosenItem = placeHolder;
+            overlay.getInventory().removeItem(res4Item);
+            overlay.updateInventory();
+            panelScene();
+            lifeManager.decreaseLife();
         }
 
         if (lifeManager.getLives() == 0) {
@@ -281,10 +299,7 @@ public class rCircuit {
             overlay.getInventory().removeItem(chosenItem);
             overlay.updateInventory();
             failLab();
-            return;
         }
-
-        lifeManager.decreaseLife();
     }
     /**
      * Extracted repeated method for making an image view visible and clickable.
