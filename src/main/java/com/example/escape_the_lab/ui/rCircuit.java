@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -61,6 +63,17 @@ public class rCircuit {
     ImageView res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r2.png")).toExternalForm()));
     ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r3.png")).toExternalForm()));
     ImageView res4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r4.png")).toExternalForm()));
+
+    String shatterPath = Objects.requireNonNull(GameController.class.getResource("/sounds/glassShatter.mp3")).toExternalForm();
+    Media shatterMedia = new Media(shatterPath);
+    MediaPlayer shatterSoundPlayer = new MediaPlayer(shatterMedia);
+
+    String shatterPath2 = Objects.requireNonNull(GameController.class.getResource("/sounds/glassShatter2.mp3")).toExternalForm();
+    Media shatterMedia2 = new Media(shatterPath2);
+    MediaPlayer shatterSoundPlayer2 = new MediaPlayer(shatterMedia2);
+
+    Media doorMedia = new Media(Objects.requireNonNull(GameController.class.getResource("/sounds/metalDoor.mp3")).toExternalForm());
+    MediaPlayer doorSoundPLayer = new MediaPlayer(doorMedia);
 
     // items
     Item res1Item = new Item("160 Ohm Resistor", "/images/AAACircuitLab/res1item.png");
@@ -120,6 +133,7 @@ public class rCircuit {
     }
 
     private void goBack() {
+        overlay.playClick();
         stage.setScene(makeScene());
     }
 
@@ -131,8 +145,12 @@ public class rCircuit {
         }
 
         if (isLedOn) {
+            doorSoundPLayer.seek(new Duration(0));
+            doorSoundPLayer.play();
             stackPane.getChildren().addAll(ledOn);
         } else if (resTooLow) {
+            shatterSoundPlayer2.seek(new Duration(0));
+            shatterSoundPlayer2.play();
             stackPane.getChildren().add(ledBroken);
         }
 
@@ -203,6 +221,7 @@ public class rCircuit {
     }
 
     private void breakGlass() {
+        shatterSoundPlayer.play();
         head.setVisible(true);
         head.setMouseTransparent(false);
         body.setVisible(true);
@@ -249,7 +268,7 @@ public class rCircuit {
             return;
         }
 
-        if(lifeManager.getLives() == 0) {
+        if (lifeManager.getLives() == 0) {
             assert chosenItem != null;
             chosenItem.getImageView().setMouseTransparent(false);
             chosenItem.getImageView().setVisible(true);
