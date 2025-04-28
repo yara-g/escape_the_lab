@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class rAcidNeutralization {
 
@@ -59,6 +60,12 @@ public class rAcidNeutralization {
         List<ImageView> substances = Arrays.asList(acid1, acid2, base1);
         //acidNeutralizationLab.registerSubstances(substances);
         inventory.setMouseTransparent(true);
+
+//        overlay.getHelpButton().setOnMouseClicked(e -> {
+//            Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png")));
+//            Help.show("This is a special type of neutralization! HCl is a strong acid, it requires 2 different " +
+//                    "basses to be fully neutralized", helpImage);
+//        });
 
         root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, acid1, acid2, base1, arenaPane, overlay.getOverlayPane(), b);
         return new Scene(root, 1000, 650);

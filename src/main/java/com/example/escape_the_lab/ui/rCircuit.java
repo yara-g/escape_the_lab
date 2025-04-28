@@ -126,6 +126,12 @@ public class rCircuit {
         } else {
             stackPane.getChildren().add(2, door);
         }
+
+        overlay.getHelpButton().setOnMouseClicked(e -> {
+            Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/springFormula.png")));
+            Help.show("To escape the room, you'll need to use the formula: V=IR", helpImage);
+        });
+
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         mainScene = new Scene(pane, 1000, 650);
 

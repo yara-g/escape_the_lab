@@ -3,6 +3,7 @@ package com.example.escape_the_lab.controller;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Substance;
+import com.example.escape_the_lab.ui.Help;
 import com.example.escape_the_lab.ui.Overlay;
 import com.example.escape_the_lab.ui.rAcidNeutralization;
 import javafx.fxml.FXMLLoader;
@@ -139,6 +140,12 @@ public class AcidNeutralizationLab extends Lab {
                     pressBigFlower());
             houseA.setOnMouseClicked(event -> {
                 primaryStage.setScene(createCollectionRoomScene());
+            });
+
+            overlay.getHelpButton().setOnMouseClicked(e -> {
+                Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png")));
+                Help.show("This is a special type of neutralization! HCl is a strong acid, it requires 2 different " +
+                        "basses to be fully neutralized", helpImage);
             });
 
             arenaPane.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA);
