@@ -579,7 +579,12 @@ public class FlameLab {
      * @param stage stage.
      */
     private void reStart(Stage stage) {
-        stage.setScene(GameController.getScene());
+        GameController gameController = new GameController();
+        try {
+            gameController.start(stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         lifeManager.resetLives();
         inventoryPane.setOpacity(1);
         inventory.resetInventory();

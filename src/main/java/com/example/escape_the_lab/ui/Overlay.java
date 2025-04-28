@@ -59,8 +59,7 @@ public class Overlay {
 
             item.getImageView().setOnMousePressed(e -> {
                 if (GameController.getPlayer().isSoundOn()) {
-                    clickSoundPlayer.seek(new Duration(0));
-                    clickSoundPlayer.play();
+                   playClick();
                 }
             });
         }
@@ -79,6 +78,11 @@ public class Overlay {
 
     public LifeManager getLifeManager() {
         return lifeManager;
+    }
+
+    public void playClick() {
+        clickSoundPlayer.seek(new Duration(0));
+        clickSoundPlayer.play();
     }
 
     public void setLifeManager(LifeManager lifeManager) {
