@@ -31,6 +31,8 @@ public class GameController extends Application {
     private static Scene scene;
     public static final Player player = Player.getLastPlayer(); // reload the same player as last time
     MenuItem soundItem;
+    MenuItem passwordItem;
+    MenuItem exitItem;
     VBox root1;
     static String clickSoundPath = Objects.requireNonNull(GameController.class.getResource("/sounds/click.mp3")).toExternalForm();
     static Media clickMedia = new Media(clickSoundPath);
@@ -44,14 +46,30 @@ public class GameController extends Application {
     public void start(Stage stage) throws Exception {
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("Settings");
-        if (player.isSoundOn()) {
-            soundItem = new MenuItem("Sound: On");
+        if (player.getLanguage().equals("french")) {
+            passwordItem = new MenuItem("Modifier le mot de passe");
+            exitItem = new MenuItem("Quitter");
+            if (player.isSoundOn()) {
+                soundItem = new MenuItem("Son: Oui");
+            } else {
+                soundItem = new MenuItem("Son: Non");
+            }
         } else {
-            soundItem = new MenuItem("Sound: Off");
+            exitItem = new MenuItem("Exit");
+            passwordItem = new MenuItem("Change Password");
+            if (player.isSoundOn()) {
+                soundItem = new MenuItem("Sound: On");
+            } else {
+                soundItem = new MenuItem("Sound: Off");
+            }
         }
-        MenuItem exitItem = new MenuItem("Exit");
         fileMenu.getItems().add(soundItem);
+        fileMenu.getItems().add(passwordItem);
         fileMenu.getItems().add(exitItem);
+
+        passwordItem.setOnAction(e -> {
+            changePass();
+        });
 
         soundItem.setOnAction(actionEvent -> {
             player.setSound(!player.isSoundOn());
@@ -232,5 +250,57 @@ public class GameController extends Application {
             clickSoundPlayer.seek(new Duration(0));
             clickSoundPlayer.play();
         }
+    }
+
+    private void changePass() {VBox vBox = new VBox();
+        Label placeHolder = new Label("");
+        placeHolder.setStyle("-fx-text-fill: red");
+        Scene scene1 = new Scene(vBox, 300, 300);
+        vBox.setStyle("-fx-background-color: black");
+        Label pass = new Label("Enter new password:");
+        pass.setStyle("-fx-text-fill: red");
+        PasswordField passField = new PasswordField();
+        Button update = new Button("UPDATE");
+        update.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
+        update.setStyle("-fx-text-fill: black");
+
+        update.setOnAction(event -> {
+            String newPassword = passField.getText();
+            if (newPassword.isEmpty()) {
+                placeHolder.setText("Password should not be empty");
+            } else {
+                player.setPassword(newPassword);
+                placeHolder.setText("Password changed successfully");
+            }
+        });
+
+        passField.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
+        passField.setStyle("-fx-text-fill: black");
+        passField.setMaxWidth(140);
+        vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
+
+        if (player.getLanguage().equals("french")) {
+            pass.setText("Entrez le nouveau mot de passe:");
+            update.setText("METTRE À JOUR");
+        }
+
+        vBox.getChildren().addAll(pass, passField, update, placeHolder);
+
+        Stage stage1 = new Stage();
+        stage1.setScene(scene1);
+        stage1.show();
     }
 }
