@@ -1,14 +1,20 @@
 package com.example.escape_the_lab.controller;
 
+import com.example.escape_the_lab.ui.Inventory;
+import com.example.escape_the_lab.ui.Overlay;
+import javafx.animation.FadeTransition;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Objects;
 
 public class LifeManager {
-    // now every time a player makes a mistake call LifeManager.getInstance().decreaseLife();
-
     private static LifeManager instance;
     private int lives = 3;
     private final HBox lifeDisplay = new HBox(); // Holds the hearts
@@ -38,22 +44,6 @@ public class LifeManager {
         lifeDisplay.setVisible(true);
     }
 
-    public void hideLives() {
-        lifeDisplay.setVisible(false);
-    }
-
-
-    // Update the life display based on the player's current lives
-    public void updateLives(int lives) {
-        for (int i = 0; i < 3; i++) {
-            if (i < lives) {
-                hearts[i].setVisible(true);
-            } else {
-                hearts[i].setVisible(false);
-            }
-        }
-    }
-
     public void decreaseLife() {
         if (lives > 0) {
             lives--;
@@ -74,5 +64,40 @@ public class LifeManager {
 
     public int getLives() {
         return lives;
+    }
+
+    public void kill(Group inventoryPane, ImageView bg, ImageView let, StackPane stackPane, Overlay overlay, ImageView goBack, ImageView retourner, Inventory inventory, Stage stage) {
+        if (lives == 0) {
+            FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
+            FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), bg);
+            FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), let);
+            fadeTransitionBG.setFromValue(0);
+            fadeTransitionBG.setToValue(1);
+            fadeTransitionLet.setFromValue(0);
+            fadeTransitionLet.setToValue(1);
+            fadeTransitionIn.setFromValue(1);
+            fadeTransitionIn.setToValue(0);
+            fadeTransitionBG.play();
+            fadeTransitionLet.play();
+            fadeTransitionIn.play();
+            stackPane.getChildren().add(bg);
+            stackPane.getChildren().add(let);
+            overlay.updateInventory();
+            goBack.setOnMouseClicked(e -> reStart(stage, inventoryPane, inventory, overlay));
+            retourner.setOnMouseClicked(e -> reStart(stage, inventoryPane, inventory, overlay));
+            inventory.resetInventory();
+        }
+    }
+
+    /**
+     * Go back to the beginning.
+     * @param stage stage.
+     */
+    private void reStart(Stage stage, Group inventoryPane, Inventory inventory, Overlay overlay) {
+        stage.setScene(GameController.getScene());
+        resetLives();
+        inventoryPane.setOpacity(1);
+        inventory.resetInventory();
+        overlay.updateInventory();
     }
 }

@@ -7,7 +7,6 @@ import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class FlameLab {
-    // Chosen sound to tell chose a tool. Wire: find and tool, no lab. just click sol, fire turn auto.
+    // Chosen sound open door, powder.
     /// Possible tools. 14 in total.
     // <editor-fold>
     private final Item flameColorCrimsonTool = new Item("Crimson Flame", "/images/AAAFlameLab/crimTool.png");
@@ -47,6 +46,7 @@ public class FlameLab {
     private final ImageView labSetShow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bunsenF.png")).toExternalForm()));
     private final ImageView drawerMic = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/smallF.png")).toExternalForm()));
     private final ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/doorF.png")).toExternalForm()));
+    private final ImageView doorOpen = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/opendoor.png")).toExternalForm()));
     private final ImageView flame = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/flameF.png")).toExternalForm()));
     private final ImageView wall = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/bgF.png")).toExternalForm()));
     private final ImageView bats = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/batF.png")).toExternalForm()));
@@ -135,8 +135,6 @@ public class FlameLab {
     private StackPane mainLayout;
     private Item chosenItem;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
-    // </editor-fold>
-    Button b;
     private final Player player = GameController.getPlayer();
 
     /**
@@ -163,15 +161,7 @@ public class FlameLab {
         scareBat();
         initialize();
         this.mainLayout = new StackPane();
-
-        // Temp button for acid.
-        b = new Button("skip");
-        b.setOnAction(e -> {
-            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
-            a.startLab();
-        });
-
-        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly, b);
+        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, doorOpen, flame, bats, batsFly);
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
@@ -185,7 +175,7 @@ public class FlameLab {
      */
     private void back(Stage stage) {
         this.mainLayout = new StackPane();
-        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, flame, bats, batsFly, b);
+        this.mainLayout.getChildren().addAll(wall, drawerMic, microscope, drawerLab, labSet, labSetShow, door, doorOpen, flame, bats, batsFly);
         addInventory(this.mainLayout);
         Pane pane = new Pane(this.mainLayout, this.inventoryPane);
         Scene scene = new Scene(pane);
@@ -349,6 +339,7 @@ public class FlameLab {
         failF.setOpacity(0);
         goBack.setOpacity(0);
         retourner.setOpacity(0);
+        hideImage(doorOpen);
         /// Door scene.
         hideImage(flameZoomRight);
         /// Bug drawer scene.
@@ -391,6 +382,12 @@ public class FlameLab {
      * Set up mouse click actions for the main scene.
      */
     private void zoomMain(Stage stage) {
+        doorOpen.setOnMouseClicked(e -> {
+            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
+            a.startLab();
+            inventory.resetInventory();
+            overlay.updateInventory();
+        });
         door.setOnMouseClicked(e -> {
             Scene zoomDScene = new Scene(zoomDoor(stage));
             stage.setScene(zoomDScene);
@@ -455,6 +452,7 @@ public class FlameLab {
             stackPane.getChildren().add(monologuesL.getFirst());
             showImage(flameZoomRight);
             hideImage(flameZoom);
+            showImage(doorOpen);
         } else if (chosenItem != null && clickedImage.equals(flameZoom)) {
             if (chosenItem.equals(flameColorYellowTool)) {
                 useWrongFlame(flameColorYellowTool, stackPane, stage);
@@ -553,36 +551,6 @@ public class FlameLab {
         stackPane.getChildren().remove(monologuesL.get(1));
         stackPane.getChildren().add(monologuesL.get(1));
         lifeManager.decreaseLife();
-        if (lifeManager.getLives() == 0) {
-            FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
-            FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), monologuesL.get(5));
-            FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), monologuesL.get(6));
-            fadeTransitionBG.setFromValue(0);
-            fadeTransitionBG.setToValue(1);
-            fadeTransitionLet.setFromValue(0);
-            fadeTransitionLet.setToValue(1);
-            fadeTransitionIn.setFromValue(1);
-            fadeTransitionIn.setToValue(0);
-            fadeTransitionBG.play();
-            fadeTransitionLet.play();
-            fadeTransitionIn.play();
-            stackPane.getChildren().add(monologuesL.get(5));
-            stackPane.getChildren().add(monologuesL.get(6));
-            overlay.updateInventory();
-            goBack.setOnMouseClicked(e -> reStart(stage));
-            retourner.setOnMouseClicked(e -> reStart(stage));
-        }
-    }
-
-    /**
-     * Go back to the beginning.
-     * @param stage stage.
-     */
-    private void reStart(Stage stage) {
-        stage.setScene(GameController.getScene());
-        lifeManager.resetLives();
-        inventoryPane.setOpacity(1);
-        inventory.resetInventory();
-        overlay.updateInventory();
+        lifeManager.kill(inventoryPane, monologuesL.get(5), monologuesL.get(6), stackPane, overlay, goBack, retourner, inventory, stage);
     }
 }
