@@ -15,6 +15,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -167,6 +169,12 @@ public class FlameLab {
         Scene scene = new Scene(pane);
         zoomMain(stage);
         stage.setScene(scene);
+        wall.setOnMouseClicked(e -> {
+            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
+            a.startLab();
+            inventory.resetInventory();
+            overlay.updateInventory();
+        });
     }
 
     /**
@@ -382,6 +390,7 @@ public class FlameLab {
      * Set up mouse click actions for the main scene.
      */
     private void zoomMain(Stage stage) {
+
         doorOpen.setOnMouseClicked(e -> {
             AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
             a.startLab();
