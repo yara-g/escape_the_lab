@@ -152,30 +152,32 @@ public class AcidNeutralizationLab extends Lab {
     }
 
     private void pressBigFlower() {
-ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/scientist.jpg")).toExternalForm()));
-        scientistImage.setFitHeight(200);
+        ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/scientistFinal.png")).toExternalForm()));
+
+        scientistImage.setFitHeight(600);
+        scientistImage.setFitWidth(1000);
         scientistImage.setPreserveRatio(true);
-        scientistImage.setLayoutX(100);
-        scientistImage.setLayoutY(120);
+        scientistImage.setLayoutX(150);
+        scientistImage.setLayoutY(50);
 
-        Label contextLabel = new Label("A scientist accidentally spilled some HCl with a concentration\n" +
-                "of 0.1 M on the ground. Neutralize it to be able to pass and unlock the door!\n To unlock a substance, what is the pH of this solution of HCl?");
-        contextLabel.setStyle("""
-    -fx-background-color: white;
-    -fx-border-color: black;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-padding: 15px;
-    -fx-font-size: 16px;
-""");
-        contextLabel.setWrapText(true);
-        contextLabel.setMaxWidth(400);
-        contextLabel.setLayoutX(250);
-        contextLabel.setLayoutY(100);
-
-        StackPane speechBubble = new StackPane(contextLabel);
-        speechBubble.setLayoutX(250);
-        speechBubble.setLayoutY(100);
+//        Label contextLabel = new Label("A scientist accidentally spilled some HCl with a concentration\n" +
+//                "of 0.1 M on the ground. Neutralize it to be able to pass and unlock the door!\n To unlock a substance, what is the pH of this solution of HCl?");
+//        contextLabel.setStyle("""
+//    -fx-background-color: white;
+//    -fx-border-color: black;
+//    -fx-border-radius: 10px;
+//    -fx-background-radius: 10px;
+//    -fx-padding: 15px;
+//    -fx-font-size: 16px;
+//""");
+//        contextLabel.setWrapText(true);
+//        contextLabel.setMaxWidth(400);
+//        contextLabel.setLayoutX(250);
+//        contextLabel.setLayoutY(100);
+//
+//        StackPane speechBubble = new StackPane(contextLabel);
+//        speechBubble.setLayoutX(250);
+//        speechBubble.setLayoutY(100);
 
         Slider phSlider = new Slider(0, 14, 0);
         phSlider.setShowTickMarks(true);
@@ -220,7 +222,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
 
                 Item substanceUnlocked = new Item("substance unlocked", "/images/substanceUnlocked.png");
                 ImageView iv = substanceUnlocked.getImageView();
-                iv.setFitWidth(60); 
+                iv.setFitWidth(60);
                 iv.setPreserveRatio(true);
                 handleSubstanceCollection(substanceUnlocked);
 
@@ -241,9 +243,11 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
 
         Pane layout = new Pane();
 
-        layout.getChildren().addAll(scientistImage, speechBubble, phSlider, phValueLabel, submitButton, resultLabel, substanceContainer, closeButton, inventory, overlay.getOverlayPane());
+
+        layout.getChildren().addAll(scientistImage, phSlider, phValueLabel, submitButton, resultLabel, substanceContainer, closeButton, inventory, overlay.getOverlayPane());
 
         Scene flowerScene = new Scene(layout, 1000, 650);
+
         primaryStage.setScene(flowerScene);
         primaryStage.show();
     }
@@ -449,7 +453,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
         arenaPane.getChildren().remove(substance.display);
 
     }
-//    /**
+    //    /**
 //     * Create a new instance of the Substance class
 //     *
 //     * @param substanceDisplay the StackPane to be assigned to the new Substance
@@ -495,7 +499,7 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
                 for (Substance other : activeSubstances) {
                     other.setFocused(false);
                 }
-                
+
             });
 
             activeSubstances.add(newSubstance);
@@ -517,19 +521,42 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
             System.out.println("Dropped substance: " + substance.getName());
         }
         System.out.println("Dropped substances: " + droppedSubstances);
-        if (droppedSubstances.contains(substance3) && droppedSubstances.contains(substance5)) {
+//        if (droppedSubstances.contains(substance3) && droppedSubstances.contains(substance5)) {
+//            System.out.println("Success! You neutralized the floor");
+//            arenaPane.setStyle("");
+//            succeedLab = true;
+//            doorOpen(primaryStage);
+//            arenaPane.getChildren().remove(acidFloorA);
+//            showSuccessScreen();
+//            // Add logic to proceed to the next level
+//        } else if (droppedSubstances.size() >= 2) {
+//            showFailedScreen();
+//
+//            System.out.println("Incorrect substances! You lose a life.");
+//            // Add logic to reduce player lives
+//        }
+        boolean has3 = false;
+        boolean has5 = false;
+
+        for (Substance s : droppedSubstances) {
+            if (s.substanceNumber() == 3) {
+                has3 = true;
+            }
+            if (s.substanceNumber() == 5) {
+                has5 = true;
+            }
+        }
+
+        if (has3 && has5) {
             System.out.println("Success! You neutralized the floor");
             arenaPane.setStyle("");
             succeedLab = true;
             doorOpen(primaryStage);
             arenaPane.getChildren().remove(acidFloorA);
             showSuccessScreen();
-            // Add logic to proceed to the next level
         } else if (droppedSubstances.size() >= 2) {
             showFailedScreen();
-
             System.out.println("Incorrect substances! You lose a life.");
-            // Add logic to reduce player lives
         }
     }
 
@@ -543,15 +570,17 @@ ImageView scientistImage = new ImageView(new Image(Objects.requireNonNull(getCla
                 + "Hydrochloric acid (HCl) was neutralized by two different bases: \n"
                 + "NaOH and CaCO₃. NaOH reacted in a typical acid-base reaction"
                 + "to form salt and water,\n while CaCO₃ created a bubbling effect by releasing CO₂ gas.");
-        successLabel.setStyle("-fx-font-size: 16px;");
-        successLabel.setWrapText(true); // Allow automatic text wrapping
+        successLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+        successLabel.setWrapText(true);
         successLabel.setMaxWidth(450);
         Button closeButton = new Button("OK");
         closeButton.setOnAction(e -> successStage.close());
+        closeButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-size: 14px;");
 
         VBox layout = new VBox(10, successLabel, closeButton);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
+        layout.setStyle("-fx-background-color: black;");
 
         Scene successScene = new Scene(layout, 1000, 650);
         successStage.setScene(successScene);
