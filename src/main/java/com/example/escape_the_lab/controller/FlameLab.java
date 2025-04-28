@@ -15,6 +15,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -167,6 +169,12 @@ public class FlameLab {
         Scene scene = new Scene(pane);
         zoomMain(stage);
         stage.setScene(scene);
+        wall.setOnMouseClicked(e -> {
+            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
+            a.startLab();
+            inventory.resetInventory();
+            overlay.updateInventory();
+        });
     }
 
     /**
@@ -339,6 +347,7 @@ public class FlameLab {
         failF.setOpacity(0);
         goBack.setOpacity(0);
         retourner.setOpacity(0);
+        hideImage(doorOpen);
         /// Door scene.
         hideImage(flameZoomRight);
         /// Bug drawer scene.
@@ -381,6 +390,13 @@ public class FlameLab {
      * Set up mouse click actions for the main scene.
      */
     private void zoomMain(Stage stage) {
+
+        doorOpen.setOnMouseClicked(e -> {
+            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
+            a.startLab();
+            inventory.resetInventory();
+            overlay.updateInventory();
+        });
         door.setOnMouseClicked(e -> {
             Scene zoomDScene = new Scene(zoomDoor(stage));
             stage.setScene(zoomDScene);
@@ -445,6 +461,7 @@ public class FlameLab {
             stackPane.getChildren().add(monologuesL.getFirst());
             showImage(flameZoomRight);
             hideImage(flameZoom);
+            showImage(doorOpen);
         } else if (chosenItem != null && clickedImage.equals(flameZoom)) {
             if (chosenItem.equals(flameColorYellowTool)) {
                 useWrongFlame(flameColorYellowTool, stackPane, stage);
@@ -543,36 +560,6 @@ public class FlameLab {
         stackPane.getChildren().remove(monologuesL.get(1));
         stackPane.getChildren().add(monologuesL.get(1));
         lifeManager.decreaseLife();
-        if (lifeManager.getLives() == 0) {
-            FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
-            FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), monologuesL.get(5));
-            FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), monologuesL.get(6));
-            fadeTransitionBG.setFromValue(0);
-            fadeTransitionBG.setToValue(1);
-            fadeTransitionLet.setFromValue(0);
-            fadeTransitionLet.setToValue(1);
-            fadeTransitionIn.setFromValue(1);
-            fadeTransitionIn.setToValue(0);
-            fadeTransitionBG.play();
-            fadeTransitionLet.play();
-            fadeTransitionIn.play();
-            stackPane.getChildren().add(monologuesL.get(5));
-            stackPane.getChildren().add(monologuesL.get(6));
-            overlay.updateInventory();
-            goBack.setOnMouseClicked(e -> reStart(stage));
-            retourner.setOnMouseClicked(e -> reStart(stage));
-        }
-    }
-
-    /**
-     * Go back to the beginning.
-     * @param stage stage.
-     */
-    private void reStart(Stage stage) {
-        stage.setScene(GameController.getScene());
-        lifeManager.resetLives();
-        inventoryPane.setOpacity(1);
-        inventory.resetInventory();
-        overlay.updateInventory();
+        lifeManager.kill(inventoryPane, monologuesL.get(5), monologuesL.get(6), stackPane, overlay, goBack, retourner, inventory, stage);
     }
 }

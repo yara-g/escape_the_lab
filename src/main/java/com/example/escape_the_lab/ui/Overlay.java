@@ -4,6 +4,9 @@ import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.model.Item;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,7 +21,9 @@ public class Overlay {
     private final Group inventoryPane; // Shared inventory pane
     private final Group overlayPane;
     private final Group lifePane;
-
+    private ImageView helpButton = new ImageView(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png"))
+    ));
     String clickSoundPath = Objects.requireNonNull(getClass().getResource("/sounds/click.mp3")).toExternalForm();
     Media clickMedia = new Media(clickSoundPath);
     MediaPlayer clickSoundPlayer = new MediaPlayer(clickMedia);
@@ -28,8 +33,22 @@ public class Overlay {
         this.inventory = inventory;
         inventoryPane = new Group();
         lifePane = new Group();
+        helpButton = createHelpButton();
 
-        overlayPane = new Group(lifePane, inventoryPane);
+        overlayPane = new Group(lifePane, inventoryPane, helpButton);
+    }
+
+    private ImageView createHelpButton() {
+        helpButton.setFitWidth(40);
+        helpButton.setFitHeight(40);
+        helpButton.setLayoutX(890);
+        helpButton.setLayoutY(590);
+
+        return helpButton;
+    }
+
+    public ImageView getHelpButton() {
+        return helpButton;
     }
 
     public Group getOverlayPane() {
