@@ -16,7 +16,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -462,6 +461,7 @@ public class FlameLab {
             showImage(flameZoomRight);
             hideImage(flameZoom);
             showImage(doorOpen);
+            hideImage(flame);
         } else if (chosenItem != null && clickedImage.equals(flameZoom)) {
             if (chosenItem.equals(flameColorYellowTool)) {
                 useWrongFlame(flameColorYellowTool, stackPane, stage);
