@@ -1,4 +1,4 @@
-/// line 58-78, 92-95
+/// line 58-79, 92-99
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Item;
@@ -58,7 +58,7 @@ public class AcidNeutralizationLab extends Lab {
     ///  Those are the tool images.
     Item redTool = new Item("Calcium Carbonate", "/images/AAAAcidLab/rTA.png");
     Item yellowTool = new Item("Sulfuric Acid", "/images/AAAAcidLab/yTA.png");
-    Item substanceItem3 = new Item("Sodium Hydroxide", "/images/pt2.png"); //naoh
+    Item greenTool = new Item("Sodium Hydroxide", "/images/AAAAcidLab/gTA.png");
     Item pinkTool = new Item("Ammonia", "/images/AAAAcidLab/pTA.png");
     Item purpleTool = new Item("Acetic Acid", "/images/AAAAcidLab/puTA.png");
 
@@ -76,6 +76,7 @@ public class AcidNeutralizationLab extends Lab {
     private final ImageView yellowDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/yDropA.png")).toExternalForm()));
     private final ImageView pinkDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/pDropA.png")).toExternalForm()));
     private final ImageView purpleDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puDropA.png")).toExternalForm()));
+    private final ImageView greenDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/gDropA.png")).toExternalForm()));
 
     public Overlay overlay;
     KillPlayer killPlayer;
@@ -92,6 +93,10 @@ public class AcidNeutralizationLab extends Lab {
     /// only visible after you solve the lab (it covers up the acid on the ground.)
     private final ImageView houseZA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/houseZA.png")).toExternalForm()));
     private final ImageView noAcid = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/noAcidA.png")).toExternalForm()));
+    private final ImageView enter = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/enterA.png")).toExternalForm()));
+    private final ImageView entrer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/entrerA.png")).toExternalForm()));
+    private final ImageView flowerZ = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/flowerZA.png")).toExternalForm()));
+    private final ImageView flowerZF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/flowerZFA.png")).toExternalForm()));
 
     public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
