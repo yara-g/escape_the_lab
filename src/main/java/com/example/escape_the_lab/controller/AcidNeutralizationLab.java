@@ -700,7 +700,7 @@ public class AcidNeutralizationLab extends Lab {
         substanceRow.setTranslateY(-130);
         addSubstanceToRow(substanceRow, redTool);
         addSubstanceToRow(substanceRow, yellowTool);
-        addSubstanceToRow(substanceRow, substanceItem3);
+        addSubstanceToRow(substanceRow, greenTool);
         addSubstanceToRow(substanceRow, pinkTool);
 
 
@@ -719,7 +719,7 @@ public class AcidNeutralizationLab extends Lab {
 
         handleSubstanceCollection(redTool);
         handleSubstanceCollection(yellowTool);
-        handleSubstanceCollection(substanceItem3);
+        handleSubstanceCollection(greenTool);
         handleSubstanceCollection(pinkTool);
         root.getChildren().addAll(centerPane, instructionLabel, returnButton, inventory, overlay.getOverlayPane());
 
@@ -754,7 +754,7 @@ public class AcidNeutralizationLab extends Lab {
             AcidImage1.setOpacity(1.0);
         } else if (substanceItem == yellowTool) {
             AcidImage2.setOpacity(1.0);
-        } else if (substanceItem == substanceItem3) {
+        } else if (substanceItem == greenTool) {
             AcidImage3.setOpacity(1.0);
         } else if (substanceItem == pinkTool) {
             AcidImage4.setOpacity(1.0);
