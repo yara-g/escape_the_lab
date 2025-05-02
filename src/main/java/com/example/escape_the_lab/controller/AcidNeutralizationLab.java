@@ -1,4 +1,4 @@
-/// line 58-71, 84-87
+/// line 58-78, 92-95
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Item;
@@ -69,6 +69,13 @@ public class AcidNeutralizationLab extends Lab {
     private final ImageView yellow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/yA.png")).toExternalForm()));
     private final ImageView pink = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/pA.png")).toExternalForm()));
     private final ImageView purple = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puA.png")).toExternalForm()));
+
+    /// Those are the pics of potions that you should use when showing drop.
+    /// You should resize them too, they're very small now.
+    private final ImageView redDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/rDropA.png")).toExternalForm()));
+    private final ImageView yellowDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/yDropA.png")).toExternalForm()));
+    private final ImageView pinkDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/pDropA.png")).toExternalForm()));
+    private final ImageView purpleDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puDropA.png")).toExternalForm()));
 
     public Overlay overlay;
     KillPlayer killPlayer;
