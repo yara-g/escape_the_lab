@@ -1,3 +1,4 @@
+/// line 58-79, 92-99
 package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Item;
@@ -52,12 +53,30 @@ public class AcidNeutralizationLab extends Lab {
     boolean succeedLab = false;
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
+
     Item chosenItem;
-    Item substanceItem1 = new Item("Hydrochloric Acid", "/images/pt2.png");
-    Item substanceItem2 = new Item("Sulfuric Acid", "/images/pt3.png");
-    Item substanceItem3 = new Item("Sodium Hydroxide", "/images/pt4.png");
-    Item substanceItem4 = new Item("Ammonia", "/images/pt5.png");
-    Item substanceItem5 = new Item("Acetic Acid", "/images/pt6.png");
+    ///  Those are the tool images.
+    Item redTool = new Item("Calcium Carbonate", "/images/AAAAcidLab/rTA.png");
+    Item yellowTool = new Item("Sulfuric Acid", "/images/AAAAcidLab/yTA.png");
+    Item greenTool = new Item("Sodium Hydroxide", "/images/AAAAcidLab/gTA.png");
+    Item pinkTool = new Item("Ammonia", "/images/AAAAcidLab/pTA.png");
+    Item purpleTool = new Item("Acetic Acid", "/images/AAAAcidLab/puTA.png");
+
+    ///  Those are the actual potions, images that SHOULD be put on the scene,
+    /// once you click these images, the tool pics on top should appear. Ex:
+    /// click -> red. In the inventory, redTool will be added.
+    private final ImageView red = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/rA.png")).toExternalForm()));
+    private final ImageView yellow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/yA.png")).toExternalForm()));
+    private final ImageView pink = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/pA.png")).toExternalForm()));
+    private final ImageView purple = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puA.png")).toExternalForm()));
+
+    /// Those are the pics of potions that you should use when showing drop.
+    /// You should resize them too, they're very small now.
+    private final ImageView redDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/rDropA.png")).toExternalForm()));
+    private final ImageView yellowDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/yDropA.png")).toExternalForm()));
+    private final ImageView pinkDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/pDropA.png")).toExternalForm()));
+    private final ImageView purpleDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puDropA.png")).toExternalForm()));
+    private final ImageView greenDrop = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/gDropA.png")).toExternalForm()));
 
     public Overlay overlay;
     KillPlayer killPlayer;
@@ -69,6 +88,15 @@ public class AcidNeutralizationLab extends Lab {
     private final ImageView hintFlowerA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/hintFlowerA.png")).toExternalForm()));
     private final ImageView acidFloorA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/acidA.png")).toExternalForm()));
     private final ImageView inventory = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
+
+    /// Zoomed image of the house, and the picture that should be set invisible at the beginning,
+    /// only visible after you solve the lab (it covers up the acid on the ground.)
+    private final ImageView houseZA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/houseZA.png")).toExternalForm()));
+    private final ImageView noAcid = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/noAcidA.png")).toExternalForm()));
+    private final ImageView enter = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/enterA.png")).toExternalForm()));
+    private final ImageView entrer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/entrerA.png")).toExternalForm()));
+    private final ImageView flowerZ = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/flowerZA.png")).toExternalForm()));
+    private final ImageView flowerZF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/flowerZFA.png")).toExternalForm()));
 
     public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
@@ -670,10 +698,10 @@ public class AcidNeutralizationLab extends Lab {
         HBox substanceRow = new HBox(10);
         substanceRow.setAlignment(Pos.CENTER);
         substanceRow.setTranslateY(-130);
-        addSubstanceToRow(substanceRow, substanceItem1);
-        addSubstanceToRow(substanceRow, substanceItem2);
-        addSubstanceToRow(substanceRow, substanceItem3);
-        addSubstanceToRow(substanceRow, substanceItem4);
+        addSubstanceToRow(substanceRow, redTool);
+        addSubstanceToRow(substanceRow, yellowTool);
+        addSubstanceToRow(substanceRow, greenTool);
+        addSubstanceToRow(substanceRow, pinkTool);
 
 
         centerPane.getChildren().addAll(table, substanceRow);
@@ -689,10 +717,10 @@ public class AcidNeutralizationLab extends Lab {
         returnButton.setLayoutY(150);
         returnButton.setOnAction(e -> primaryStage.setScene(createScene()));
 
-        handleSubstanceCollection(substanceItem1);
-        handleSubstanceCollection(substanceItem2);
-        handleSubstanceCollection(substanceItem3);
-        handleSubstanceCollection(substanceItem4);
+        handleSubstanceCollection(redTool);
+        handleSubstanceCollection(yellowTool);
+        handleSubstanceCollection(greenTool);
+        handleSubstanceCollection(pinkTool);
         root.getChildren().addAll(centerPane, instructionLabel, returnButton, inventory, overlay.getOverlayPane());
 
 
@@ -722,13 +750,13 @@ public class AcidNeutralizationLab extends Lab {
     }
 
     private void showCollectedSubstanceInLab(Item substanceItem) {
-        if (substanceItem == substanceItem1) {
+        if (substanceItem == redTool) {
             AcidImage1.setOpacity(1.0);
-        } else if (substanceItem == substanceItem2) {
+        } else if (substanceItem == yellowTool) {
             AcidImage2.setOpacity(1.0);
-        } else if (substanceItem == substanceItem3) {
+        } else if (substanceItem == greenTool) {
             AcidImage3.setOpacity(1.0);
-        } else if (substanceItem == substanceItem4) {
+        } else if (substanceItem == pinkTool) {
             AcidImage4.setOpacity(1.0);
         }
     }

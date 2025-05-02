@@ -18,6 +18,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class rCircuit {
@@ -30,7 +32,7 @@ public class rCircuit {
     private boolean resTooLow = false;
     private boolean resTooHigh = false;
     private LifeManager lifeManager = GameController.getLifeManager();
-    private Player player = GameController.getPlayer();
+    private final Player player = GameController.getPlayer();
 
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
@@ -81,6 +83,15 @@ public class rCircuit {
     Item res3Item = new Item("120 Ohm Resistor", "/images/AAACircuitLab/res3item.png");
     Item res4Item = new Item("100 Ohm Resistor", "/images/AAACircuitLab/res4item.png");
 
+    // Monologue
+    private final ImageView fail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFail.png")).toExternalForm()));
+    private final ImageView failF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFailF.png")).toExternalForm()));
+    private final ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/goBack.png")).toExternalForm()));
+    private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
+    List<ImageView> monologues = new ArrayList<>();
+    List<ImageView> monologuesF = new ArrayList<>();
+    List<ImageView> monologuesL = new ArrayList<>();
+
     public rCircuit(Stage stage) {
         this.stage = stage;
         this.overlay = GameController.getOverlay();
@@ -99,6 +110,16 @@ public class rCircuit {
 
     public Scene makeScene() {
         StackPane stackPane = new StackPane();
+
+        if (Objects.equals(player.getLanguage(), "english")) {
+            monologuesL.clear();
+            monologuesL = monologues;
+        } else {
+            monologuesL.clear();
+            monologuesL = monologuesF;
+        }
+        monologues.addAll(List.of(fail, goBack));
+        monologuesF.addAll(List.of(failF, retourner));
 
         Button skipToNext = new Button("Skip to next");
         skipToNext.setTranslateX(-400);
@@ -151,12 +172,16 @@ public class rCircuit {
         }
 
         if (isLedOn) {
-            doorSoundPLayer.seek(new Duration(0));
-            doorSoundPLayer.play();
+            if (player.isSoundOn()) {
+                doorSoundPLayer.seek(new Duration(0));
+                doorSoundPLayer.play();
+            }
             stackPane.getChildren().addAll(ledOn);
         } else if (resTooLow) {
-            shatterSoundPlayer2.seek(new Duration(0));
-            shatterSoundPlayer2.play();
+            if (player.isSoundOn()) {
+                shatterSoundPlayer2.seek(new Duration(0));
+                shatterSoundPlayer2.play();
+            }
             stackPane.getChildren().add(ledBroken);
         }
 
@@ -227,7 +252,9 @@ public class rCircuit {
     }
 
     private void breakGlass() {
-        shatterSoundPlayer.play();
+        if (player.isSoundOn()) {
+            shatterSoundPlayer.play();
+        }
         head.setVisible(true);
         head.setMouseTransparent(false);
         body.setVisible(true);
@@ -264,14 +291,33 @@ public class rCircuit {
 
     private void useItem(MouseEvent event) {
         if (chosenItem != null && chosenItem.equals(res1Item)) {
-            res1Item.getImageView().setMouseTransparent(false);
-            res1Item.getImageView().setVisible(true);
+            showImage(res1);
             chosenItem = placeHolder;
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
             isLedOn = true;
             panelScene();
-            return;
+        }
+        if (chosenItem != null && chosenItem.equals(res2Item)) {
+            chosenItem = placeHolder;
+            overlay.getInventory().removeItem(res2Item);
+            overlay.updateInventory();
+            panelScene();
+            lifeManager.decreaseLife();
+        }
+        if (chosenItem != null && chosenItem.equals(res3Item)) {
+            chosenItem = placeHolder;
+            overlay.getInventory().removeItem(res3Item);
+            overlay.updateInventory();
+            panelScene();
+            lifeManager.decreaseLife();
+        }
+        if (chosenItem != null && chosenItem.equals(res4Item)) {
+            chosenItem = placeHolder;
+            overlay.getInventory().removeItem(res4Item);
+            overlay.updateInventory();
+            panelScene();
+            lifeManager.decreaseLife();
         }
 
         if (lifeManager.getLives() == 0) {
@@ -281,10 +327,7 @@ public class rCircuit {
             overlay.getInventory().removeItem(chosenItem);
             overlay.updateInventory();
             failLab();
-            return;
         }
-
-        lifeManager.decreaseLife();
     }
     /**
      * Extracted repeated method for making an image view visible and clickable.

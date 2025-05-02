@@ -3,6 +3,7 @@ package com.example.escape_the_lab.ui;
 import com.example.escape_the_lab.controller.*;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.*;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,38 +11,49 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.animation.Timeline;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import static com.example.escape_the_lab.controller.GameController.player;
 
 public class rSpring {
-    private Stage stage;
-    Pane root;
-    private SpringLab springLab;
-    Overlay overlay;
-    private Timeline timeline;
+    private final Stage stage;
+    private final SpringLab springLab;
+    private final Overlay overlay;
+    private Inventory inventory;
+    private Group inventoryPane;
+    private LifeManager lifeManager;
     private boolean isDoorUnlocked = false;
     private boolean springPlaced = false;
     private boolean massPlaced = false;
     private Item placedSpringItem = null;
     private Item placedMassItem = null;
     private Item chosenItem;
-    private ImageView selectedSpring;
-    private ImageView selectedMass;
+    private final ImageView selectedSpring;
+    private final ImageView selectedMass;
+
+    ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
+    ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/doorS.png")).toExternalForm()));
+    ImageView mainChair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sofaS.png")).toExternalForm()));
+    ImageView mainDrawer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/drawer.png")).toExternalForm()));
+    ImageView mainShelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelves.png")).toExternalForm()));
+    ImageView person = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/personS.png")).toExternalForm()));
 
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
-    ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 30, 5, 1150, 1150);
-    ImageView mass1 = createMassImage("/images/AAASpringLab/clockStatue.png", 390, 150); //book
-    ImageView mass2 = createMassImage("/images/AAASpringLab/books.png", 500, 340);  // Correct choice
-    ImageView mass3 = createMassImage("/images/AAASpringLab/globe.png", 240, 420);
+    ImageView shelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelves.png")).toExternalForm()));
+    ImageView mass1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/clockStatue.png")).toExternalForm())); //book
+    ImageView mass2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/books.png")).toExternalForm()));  // Correct choice
+    ImageView mass3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/globe.png")).toExternalForm()));
 
-    ImageView chair = createImageView("/images/AAASpringLab/sofaS.png", 120, 70, 800, 600);
-    ImageView spring1 = createSpringImage("/images/spring1.png", 150, 390);
-    ImageView spring2 = createSpringImage("/images/spring2.png", 270, 390);  // Correct choice
-    ImageView spring3 = createSpringImage("/images/spring3.png", 410, 390);
+    ImageView chair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sofaS.png")).toExternalForm()));
+    ImageView spring1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/spring1.png")).toExternalForm()));
+    ImageView spring2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/spring2.png")).toExternalForm()));  // Correct choice
+    ImageView spring3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/spring3.png")).toExternalForm()));
 
     Item spring1Item = new Item("100N/m", "/images/spring1.png");
     Item spring2Item = new Item("200N/m", "/images/spring2.png");
@@ -49,94 +61,42 @@ public class rSpring {
     Item mass1Item = new Item("4kg", "/images/AAASpringLab/clockStatue.png");
     Item mass2Item = new Item("3kg", "/images/AAASpringLab/books.png");
     Item mass3Item = new Item("5kg", "/images/AAASpringLab/globe.png");
-    ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
 
     //lab scene
-    ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 180, 95, 500, 500);
-    ImageView table = createImageView("/images/AAASpringLab/table.png", 5, 400, 1000, 1000);
+    ImageView springStand = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/spring-Stand.png")).toExternalForm()));
+    ImageView table = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/table.png")).toExternalForm()));
+
+    ImageView doorLockedMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/door..png")).toExternalForm()));
+    ImageView nothingPlacedMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/door..png")).toExternalForm()));
+    List<ImageView> monologues = new ArrayList<>();
+    List<ImageView> monologuesF = new ArrayList<>();
+    List<ImageView> monologuesL = new ArrayList<>();
 
     // Constructor
     public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
         this.springLab = springLab;
         this.overlay = GameController.getOverlay();
+        this.inventory = overlay.getInventory();
+        this.inventoryPane = overlay.getOverlayPane();
+        this.lifeManager = overlay.getLifeManager();
         selectedSpring = new ImageView();
         selectedMass = new ImageView();
     }
 
-    public void showIntroScene() {
-        ImageView bg = createImageView("/images/AAASpringLab/1stBg.png", 0, 0, 1000, 650);
-        bg.setPreserveRatio(false);
-        spring1Item.size();
-        spring2Item.size();
-        spring3Item.size();
-        mass1Item.size();
-        mass2Item.size();
-        mass3Item.size();
-        // Mysterious Message
-        Label introLabel = new Label("Something must fall.\nSomething must stretch.\n\n"
-                + "Choose wisely.\nOr stay... forever oscillating.");
-        introLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-alignment: center;");
-        introLabel.setLayoutX(380);
-        introLabel.setLayoutY(180);
-
-        // Button to start
-        Button beginButton = new Button("Enter");
-        beginButton.setLayoutX(470);
-        beginButton.setLayoutY(400);
-        beginButton.setOnAction(e -> showMainScene());
-
-        Pane introRoot = new Pane();
-        introRoot.getChildren().addAll(bg, introLabel, beginButton);
-        Scene introScene = new Scene(introRoot, 1000, 650);
-        stage.setScene(introScene);
-    }
-
     public void showMainScene() {
-        ImageView bg = createImageView("/images/AAASpringLab/bg.jpg", 10, 10, 1000, 950);
-        inventoryImage.setMouseTransparent(true);
-        ImageView chandelier = createImageView("/images/AAASpringLab/chandelier.png", 330, 40, 200, 200);
-
-        ImageView door = createImageView("/images/AAASpringLab/door..png", 100, 170, 200, 600);
-        Label doorLockedMessage = new Label("The door is locked. Try oscillating around!");
-        doorLockedMessage.setStyle("-fx-font-size: 18px; -fx-text-fill: red;");
-        doorLockedMessage.setLayoutX(250);
-        doorLockedMessage.setLayoutY(500);
-        doorLockedMessage.setVisible(false);
-        door.setOnMouseClicked(event -> {
-            if (isDoorUnlocked) {
-                showDoorOpenScene();
-            } else {
-                doorLockedMessage.setVisible(true);
-
-                FadeTransition fade = new FadeTransition(Duration.seconds(3), doorLockedMessage);
-                fade.setFromValue(1.0);
-                fade.setToValue(0.0);
-                fade.setOnFinished(e -> root.getChildren().remove(doorLockedMessage));
-                fade.play();
-            }
-        });
-
-        ImageView chair = createImageView("/images/AAASpringLab/chair.png", 450, 300, 200, 200);
-        chair.setOnMouseClicked(event -> showSpringsScene());
-
-//        ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 250, 300, 200, 200);
-//        chair.setOnMouseClicked(event -> showLabScene());
-
-        ImageView drawer = createImageView("/images/AAASpringLab/drawer.png", 600, 300, 200, 400);
-        drawer.setOnMouseClicked(event -> showLabScene());
-
-        ImageView shelves = createImageView("/images/AAASpringLab/shelves.png", 600, 160, 200, 400);
-        shelves.setOnMouseClicked(event -> showShelvesScene());
-
+        initialize();
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Escape");
         skipToNext.setOnAction(e -> {
             FlameLab f = new FlameLab();
             f.startLab(stage);
-            overlay.getInventory().resetInventory();
+            inventory.resetInventory();
             overlay.updateInventory();
         });
+
+        StackPane root = new StackPane(light, door, mainChair, mainDrawer, mainShelves, person, skipToNext);
+        addInventory(root);
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
             Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/springFormula.png")));
@@ -144,142 +104,74 @@ public class rSpring {
                     " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
         });
 
-
-        Pane root = new Pane();
-        root.getChildren().addAll(bg, chandelier, door, chair, drawer, shelves, inventoryImage, overlay.getOverlayPane(), skipToNext, doorLockedMessage);
-
-        stage.setScene(new Scene(root, 1000, 650));
-
+        door.setOnMouseClicked(event -> root.getChildren().add(monologuesL.getFirst()));
+        mainChair.setOnMouseClicked(event -> showSpringsScene());
+        mainDrawer.setOnMouseClicked(event -> showLabScene());
+        mainShelves.setOnMouseClicked(event -> showShelvesScene());
+        light.setOnMouseClicked(event -> {
+            showImage(person);
+        });
+//        ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 250, 300, 200, 200);
+        Pane pane = new Pane(root, inventoryPane);
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
         // Start an animation timer to continuously check the solution
         startSolutionCheck();
     }
 
     private void showDoorOpenScene() {
-        ImageView doorOpen = createImageView("/images/AAASpringLab/openDoor.jpg", 0, 0, 1000, 650);
-        doorOpen.setPreserveRatio(false);
-
-        Button goBack = new Button("Go back");
-        goBack.setLayoutX(20);
-        goBack.setLayoutY(600);
-        goBack.setOnAction(e -> showMainScene());
-
-        Button skipToNext = new Button("Skip to next");
-        skipToNext.setLayoutX(480);
-        skipToNext.setLayoutY(325);
-        skipToNext.setOnAction(e -> {
-            FlameLab f = new FlameLab();
-            f.startLab(stage);
-            overlay.getInventory().resetInventory();
-            overlay.updateInventory();
-        });
-
-        Pane root = new Pane();
-        root.getChildren().addAll(doorOpen, goBack, skipToNext);
-        stage.setScene(new Scene(root, 1000, 650));
+        FlameLab f = new FlameLab();
+        f.startLab(stage);
+        inventory.resetInventory();
+        overlay.updateInventory();
     }
 
     // Show springs scene with different types of springs
     private void showSpringsScene() {
+        spring1Item.getImageView().setOnMouseClicked(e -> chosenItem = spring1Item);
+        spring2Item.getImageView().setOnMouseClicked(e -> chosenItem = spring2Item);
+        spring3Item.getImageView().setOnMouseClicked(e -> chosenItem = spring3Item);
 
-        spring1Item.getImageView().setOnMouseClicked(e -> {
-            chosenItem = spring1Item;
-        });
+        ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
+        goBack.setOnMouseClicked(e -> showMainScene());
 
-        spring2Item.getImageView().setOnMouseClicked(e -> {
-            chosenItem = spring2Item;
-        });
+        spring1.setOnMouseClicked(e -> addIntoInventory(spring1, spring1Item));
+        spring2.setOnMouseClicked(e -> addIntoInventory(spring2, spring2Item));
+        spring3.setOnMouseClicked(e -> addIntoInventory(spring3, spring3Item));
 
-        spring3Item.getImageView().setOnMouseClicked(e -> {
-            chosenItem = spring3Item;
-        });
-
-        Button goBack = new Button("Go back");
-        goBack.setOnAction(e -> {
-            showMainScene();
-        });
-
-        spring1.setOnMouseClicked(e -> {
-            spring1.setVisible(false);
-            overlay.getInventory().addItem(spring1Item);
-            overlay.updateInventory();
-        });
-
-        spring2.setOnMouseClicked(e -> {
-            spring2.setVisible(false);
-            overlay.getInventory().addItem(spring2Item);
-            overlay.updateInventory();
-        });
-
-        spring3.setOnMouseClicked(e -> {
-            spring3.setVisible(false);
-            overlay.getInventory().addItem(spring3Item);
-            overlay.updateInventory();
-        });
-
-        Pane root = new Pane();
-        root.getChildren().addAll(chair, spring1, spring2, spring3, inventoryImage, goBack, overlay.getOverlayPane());
+        StackPane root = new StackPane(chair, spring1, spring2, spring3, overlay.getOverlayPane(), goBack);
+        addInventory(root);
         stage.setScene(new Scene(root, 1000, 650));
-
         startSolutionCheck();
     }
 
     // Show drawers scene with different masses
     private void showShelvesScene() {
+        mass1Item.getImageView().setOnMouseClicked(e -> chosenItem = mass1Item);
+        mass2Item.getImageView().setOnMouseClicked(e -> chosenItem = mass2Item);
+        mass3Item.getImageView().setOnMouseClicked(e -> chosenItem = mass3Item);
 
-        mass1Item.getImageView().setOnMouseClicked(e -> {
-            chosenItem = mass1Item;
-        });
+        mass1.setOnMouseClicked(e -> addIntoInventory(mass1, mass1Item));
+        mass2.setOnMouseClicked(e -> addIntoInventory(mass2, mass2Item));
+        mass3.setOnMouseClicked(e -> addIntoInventory(mass3, mass3Item));
 
-        mass2Item.getImageView().setOnMouseClicked(e -> {
-            chosenItem = mass2Item;
-        });
+        ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
+        goBack.setOnMouseClicked(e -> showMainScene());
 
-        mass3Item.getImageView().setOnMouseClicked(e -> {
-            chosenItem = mass3Item;
-        });
-
-        mass1.setOnMouseClicked(e -> {
-            mass1.setVisible(false);
-            overlay.getInventory().addItem(mass1Item);
-            overlay.updateInventory();
-        });
-
-        mass2.setOnMouseClicked(e -> {
-            mass2.setVisible(false);
-            overlay.getInventory().addItem(mass2Item);
-            overlay.updateInventory();
-        });
-
-        mass3.setOnMouseClicked(e -> {
-            mass3.setVisible(false);
-            overlay.getInventory().addItem(mass3Item);
-            overlay.updateInventory();
-        });
-
-        Button goBack = new Button("Go back");
-        goBack.setLayoutX(20);
-        goBack.setLayoutY(600);
-        goBack.setOnAction(e -> {
-            showMainScene();
-        });
-
-        Pane root = new Pane();
-        root.getChildren().addAll(shelves, mass1, mass2, mass3, inventoryImage, overlay.getOverlayPane(), goBack);
+        StackPane root = new StackPane(shelves, mass1, mass2, mass3, overlay.getOverlayPane(), goBack);
+        addInventory(root);
         stage.setScene(new Scene(root, 1000, 650));
-
         startSolutionCheck();
     }
 
     private void showLabScene() {
-        Button goBack = new Button("Go back");
-        goBack.setLayoutX(20);
-        goBack.setLayoutY(600);
-        goBack.setOnAction(e -> showMainScene());
+        ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
+        goBack.setOnMouseClicked(e -> showMainScene());
+        StackPane root = new StackPane();
 
         springStand.setOnMouseClicked(e -> {
-            if (chosenItem != null && !chosenItem.getName().equals("placeholder")) {
-                //useItem(e);
-                if (chosenItem.getName().contains("N")){
+            if (chosenItem != null && !chosenItem.equals(placeHolder)) {
+                if (chosenItem.getName().contains("N/m")){
                     selectedSpring.setImage(chosenItem.getImage());
                     selectedSpring.setFitWidth(100);
                     selectedSpring.setFitHeight(100);
@@ -292,7 +184,7 @@ public class rSpring {
                         selectedMass.setLayoutY(250);
                     }
 
-                } else if (chosenItem.getName().contains("g")) {
+                } else if (chosenItem.getName().contains("kg")) {
                     selectedMass.setImage(chosenItem.getImage());
                     selectedMass.setFitWidth(100);
                     selectedMass.setFitHeight(100);
@@ -309,12 +201,8 @@ public class rSpring {
                     placedMassItem = chosenItem;
                     massPlaced = true;
 
-                } else {
-                    System.out.println("Invalid item type.");
-                    return;
                 }
-
-                overlay.getInventory().removeItem(chosenItem);
+                inventory.removeItem(chosenItem);
                 overlay.updateInventory();
                 chosenItem = placeHolder;
             }
@@ -323,7 +211,7 @@ public class rSpring {
         selectedSpring.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2 && placedSpringItem != null) {
                 selectedSpring.setImage(null);
-                overlay.getInventory().addItem(placedSpringItem);
+                inventory.addItem(placedSpringItem);
                 overlay.updateInventory();
                 placedSpringItem = null;
                 springPlaced = false;
@@ -338,19 +226,12 @@ public class rSpring {
         selectedMass.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2 && placedMassItem != null) {
                 selectedMass.setImage(null);
-                overlay.getInventory().addItem(placedMassItem);
+                inventory.addItem(placedMassItem);
                 overlay.updateInventory();
                 placedMassItem = null;
                 massPlaced = false;
             }
         });
-
-        Label nothingPlacedMessage = new Label("You haven’t placed anything on the stand...");
-        nothingPlacedMessage.setStyle("-fx-font-size: 18px; -fx-text-fill: red;");
-        nothingPlacedMessage.setLayoutX(250); // adjust as needed
-        nothingPlacedMessage.setLayoutY(500);
-        nothingPlacedMessage.setOpacity(1.0);
-        nothingPlacedMessage.setVisible(false);
 
         Button playButton = new Button("Target");
         playButton.setLayoutX(400);
@@ -360,92 +241,26 @@ public class rSpring {
             boolean massMissing = selectedMass.getImage() == null;
 
             if (springMissing && massMissing) {
-                nothingPlacedMessage.setVisible(true);
-
-                FadeTransition fade = new FadeTransition(Duration.seconds(3), nothingPlacedMessage);
-                fade.setFromValue(1.0);
-                fade.setToValue(0.0);
-                fade.setOnFinished(event2 -> root.getChildren().remove(nothingPlacedMessage));
-                fade.play();
+                root.getChildren().add(monologuesL.get(1));
+                //"You haven’t placed anything on the stand..."
             } else if (!springMissing && massMissing) {
                 //if only mass is placed
-                int currentLives = overlay.getLifeManager().getLives();
-
-                if (currentLives == 1) {
-                    KillPlayer.killPlayer("You didn’t oscillate your mind hard enough...\n" +
-                            "and so you’ve been stranded as the days swing back and forth",
-                            stage, stage.getScene(), overlay);
-                } else{
-                    KillPlayer.killPlayer("You didn’t even attempt to oscillate an object...\n" +
-                            "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
-                }
-
+                //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
+                //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
+                //wrongLab();
             } else if (springMissing && !massMissing) {
-                //if only mass is placed
-                int currentLives = overlay.getLifeManager().getLives();
-
-                if (currentLives == 1) {
-                    KillPlayer.killPlayer("You didn’t oscillate your mind hard enough...\n" +
-                                    "and so you’ve been stranded as the days swing back and forth",
-                            stage, stage.getScene(), overlay);
-                } else{
-                    KillPlayer.killPlayer("You didn’t even attempt to oscillate an object...\n" +
-                            "And so you’ve been stranded... As the days oscillate endlessly.", stage, stage.getScene(), overlay);
-                }
-
+                //if only spring is placed
+                //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
+                //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
+                //wrongLab();
             } else {
                 // TODO: create springOscillation
                 startSpringOscillation(selectedSpring, selectedMass);
             }
         });
-
-//        Button attemptEscapeButton = new Button("Attempt Escape");
-//        attemptEscapeButton.setLayoutX(850);
-//        attemptEscapeButton.setLayoutY(500);
-//        attemptEscapeButton.setOnAction(event -> springLab.attemptEscape());
-
-        Pane root = new Pane();
-        root.getChildren().addAll(table, springStand, selectedSpring, selectedMass, inventoryImage,
-                overlay.getOverlayPane(), playButton, goBack, nothingPlacedMessage);
+        root.getChildren().addAll(table, springStand, selectedSpring, selectedMass, overlay.getOverlayPane(), playButton, goBack);
+        addInventory(root);
         stage.setScene(new Scene(root, 1000, 650));
-    }
-
-    private void showFailureScene(String message) {
-        //"You tried...\nBut your aim was off.\n\n The button was never pressed...\n Now the chamber sways without end."
-
-        int currentLives = overlay.getLifeManager().getLives();
-
-        if (currentLives == 1) {
-            KillPlayer.killPlayer(
-                    message,
-                    stage,
-                    stage.getScene(),
-                    overlay
-            );
-            return;
-        } else {
-            overlay.getLifeManager().decreaseLife();
-        }
-
-        ImageView bg = createImageView("/images/AAASpringLab/1stBg.png", 0, 0, 1000, 650);
-        bg.setPreserveRatio(false);
-
-        Label label = new Label(message);
-        label.setStyle("-fx-font-size: 20px; -fx-text-fill: white; -fx-alignment: center;");
-        label.setLayoutX(350);
-        label.setLayoutY(180);
-
-        Button retryButton = new Button("Retry");
-        retryButton.setLayoutX(470);
-        retryButton.setLayoutY(400);
-        retryButton.setOnAction(e -> {
-//            LifeManager.getInstance().decreaseLife();
-            showMainScene();
-        });
-
-        Pane root = new Pane(bg, label, retryButton);
-        Scene scene = new Scene(root, 1000, 650);
-        stage.setScene(scene);
     }
 
     private double getSpringConstantFromName(String name) {
@@ -528,38 +343,6 @@ public class rSpring {
         pause.play();
     }
 
-    private ImageView createImageView(String path, double x, double y, double width, double height) {
-        ImageView imageView = new ImageView(new Image(getClass().getResource(path).toExternalForm()));
-        imageView.setLayoutX(x);
-        imageView.setLayoutY(y);
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
-        imageView.setPreserveRatio(true);
-        return imageView;
-    }
-
-    //create a spring image and handle click events
-    private ImageView createSpringImage(String imagePath, double x, double y) {
-        ImageView spring = createImageView(imagePath, x, y, 50, 100);
-
-//        spring.setOnMouseClicked(event -> {
-//            springLab.setSelectedSpringConstant(springConstant);  // Call controller to set value
-//            System.out.println("Spring selected: " + springConstant + " N/m");
-//        });
-        return spring;
-    }
-
-    //create a mass image and handle click events
-    private ImageView createMassImage(String imagePath, double x, double y) {
-        ImageView massImage = createImageView(imagePath, x, y, 150, 150);
-
-//        massImage.setOnMouseClicked(event -> {
-//            springLab.setSelectedMass(mass);  // Call controller to set value
-//            System.out.println("Mass selected: " + mass + " kg");
-//        });
-        return massImage;
-    }
-
     // Start the rCircuit lab
     private void startRCircuitLab() {
         rCircuit lab = new rCircuit(stage);
@@ -582,5 +365,80 @@ public class rSpring {
             }
         };
         solutionCheckTimer.start(); // Start the timer
+    }
+
+    public void initialize() {
+        if (Objects.equals(player.getLanguage(), "english")) {
+            monologuesL.clear();
+            monologuesL = monologues;
+        } else {
+            monologuesL.clear();
+            monologuesL = monologuesF;
+        }
+        monologues.addAll(List.of(doorLockedMessage, nothingPlacedMessage));
+        monologuesF.addAll(List.of());
+
+        spring1Item.size();
+        spring2Item.size();
+        spring3Item.size();
+        mass1Item.size();
+        mass2Item.size();
+        mass3Item.size();
+        hideImage(person);
+        hideImage(mainDrawer);
+        hideImage(mainShelves);
+//      "Something must fall. Something must stretch."
+//      "Choose wisely. Or stay... forever oscillating."
+    }
+
+    /**
+     * Extracted repeated method for making an image view visible and clickable.
+     */
+    private void showImage(ImageView image) {
+        image.setMouseTransparent(false);
+        image.setVisible(true);
+    }
+
+    /**
+     * Extracted repeated method for making an image view not visible and not clickable.
+     */
+    private void hideImage(ImageView image) {
+        image.setMouseTransparent(true);
+        image.setVisible(false);
+    }
+
+    /**
+     * Extracted repeated method for adding an item into the inventory.
+     */
+    private void addIntoInventory(ImageView imageOfTool, Item tool){
+        hideImage(imageOfTool);
+        inventory.addItem(tool);
+        overlay.updateInventory();
+    }
+
+    /**
+     * Extracted repeated method for removing an item from the inventory.
+     */
+    private void removeFromInventory(Item tool){
+        chosenItem = placeHolder;
+        inventory.removeItem(tool);
+        overlay.updateInventory();
+    }
+
+    private void wrongLab (Item wrongItem, StackPane stackPane, Stage stage) {
+        removeFromInventory(wrongItem);
+        stackPane.getChildren().remove(monologuesL.get(1));
+        stackPane.getChildren().add(monologuesL.get(1));
+        lifeManager.decreaseLife();
+        //lifeManager.kill(inventoryPane, );
+    }
+
+    /**
+     * Easy add inventory image and set up.
+     */
+    private void addInventory(StackPane stackPane) {
+        ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
+        inventoryImage.setMouseTransparent(true);
+        stackPane.getChildren().add(inventoryImage);
     }
 }
