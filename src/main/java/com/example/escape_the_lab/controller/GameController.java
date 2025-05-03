@@ -75,6 +75,7 @@ public class GameController extends Application {
             startLab();
         });
 
+        // initialize language display
         if (Objects.equals(player.getLanguage(), "english")) {
             root.getChildren().addAll(startGame, startButton);
         } else if (Objects.equals(player.getLanguage(), "french")) {
@@ -85,7 +86,6 @@ public class GameController extends Application {
 
         root1 = new VBox(menuBar, root);
 
-//        scene = new Scene(root1, 1000, 650);
         scene = getLoginScreen();
         // Set up language system.
         frButton.setOnMouseClicked(e -> {
@@ -114,6 +114,7 @@ public class GameController extends Application {
         }
     }
 
+    // this method makes a menubar with the correct language
     private void changeSettingsLang(Stage stage) {
         if (player.getLanguage().equals("french")) {
             fileMenu = new Menu("Paramètres");
@@ -264,7 +265,9 @@ public class GameController extends Application {
         }
     }
 
-    private void changePass() {VBox vBox = new VBox();
+    // this makes a new stage that allows the user to change password
+    private void changePass() {
+        VBox vBox = new VBox();
         Label placeHolder = new Label("");
         placeHolder.setStyle("-fx-text-fill: red");
         Scene scene1 = new Scene(vBox, 300, 300);

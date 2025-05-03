@@ -66,14 +66,17 @@ public class rCircuit {
     ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r3.png")).toExternalForm()));
     ImageView res4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r4.png")).toExternalForm()));
 
+    // sound used when glass is shattered
     String shatterPath = Objects.requireNonNull(GameController.class.getResource("/sounds/glassShatter.mp3")).toExternalForm();
     Media shatterMedia = new Media(shatterPath);
     MediaPlayer shatterSoundPlayer = new MediaPlayer(shatterMedia);
 
+    // sound used when the led explodes
     String shatterPath2 = Objects.requireNonNull(GameController.class.getResource("/sounds/glassShatter2.mp3")).toExternalForm();
     Media shatterMedia2 = new Media(shatterPath2);
     MediaPlayer shatterSoundPlayer2 = new MediaPlayer(shatterMedia2);
 
+    // open door sound
     Media doorMedia = new Media(Objects.requireNonNull(GameController.class.getResource("/sounds/metalDoor.mp3")).toExternalForm());
     MediaPlayer doorSoundPLayer = new MediaPlayer(doorMedia);
 
@@ -83,7 +86,7 @@ public class rCircuit {
     Item res3Item = new Item("120 Ohm Resistor", "/images/AAACircuitLab/res3item.png");
     Item res4Item = new Item("100 Ohm Resistor", "/images/AAACircuitLab/res4item.png");
 
-    // Monologue
+    // dialogue
     private final ImageView fail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFail.png")).toExternalForm()));
     private final ImageView failF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFailF.png")).toExternalForm()));
     private final ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/goBack.png")).toExternalForm()));
@@ -93,6 +96,7 @@ public class rCircuit {
     List<ImageView> monologuesL = new ArrayList<>();
 
     public rCircuit(Stage stage) {
+        // initialize lab
         this.stage = stage;
         this.overlay = GameController.getOverlay();
         placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
@@ -111,6 +115,7 @@ public class rCircuit {
     public Scene makeScene() {
         StackPane stackPane = new StackPane();
 
+        // language control
         if (Objects.equals(player.getLanguage(), "english")) {
             monologuesL.clear();
             monologuesL = monologues;
@@ -130,18 +135,21 @@ public class rCircuit {
         hideImage(dialogue4);
         inventoryImage.setMouseTransparent(true);
 
+        // event handlers on main screen
         panel.setOnMouseClicked(e -> panelScene());
         door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
         openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
         head.setOnMouseClicked(e -> inspectHead());
 
+        // event handlers for resistors
         res1Item.getImageView().setOnMouseClicked(e -> chosenItem = res1Item);
         res2Item.getImageView().setOnMouseClicked(e -> chosenItem = res2Item);
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
         stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, head, inventoryImage, body, skipToNext);
+        // this checks if the door should be open or not
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
         } else {
@@ -149,8 +157,12 @@ public class rCircuit {
         }
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
-            Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/springFormula.png")));
-            Help.show("To escape the room, you'll need to use the formula: V=IR", helpImage);
+            Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/circuitFormula.jpg")));
+            if (player.getLanguage().equals("english")) {
+                Help.show("Remember this from your E&M class?", helpImage);
+            } else {
+                Help.show("Te souviens-tu de ton cours d'électricité?", helpImage);
+            }
         });
 
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
@@ -167,10 +179,8 @@ public class rCircuit {
     private void panelScene() {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
-        if (isLedOn || resTooLow || resTooHigh) {
-            System.out.println("Attached wire");
-        }
 
+        // all 3 outcomes to attaching a resistor (whether correct or incorrect)
         if (isLedOn) {
             if (player.isSoundOn()) {
                 doorSoundPLayer.seek(new Duration(0));
@@ -193,6 +203,7 @@ public class rCircuit {
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> goBack());
         note.setOnMouseClicked(e -> readNote());
+        // this is the little section used to put the resistor in
         clickableSection.setOnMouseClicked(e -> {
             if (chosenItem != placeHolder) {
                 useItem(e);
@@ -208,6 +219,8 @@ public class rCircuit {
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> goBack());
 
+
+        // all event handlers for collecting the resistors from the head
         res1.setOnMouseClicked(e -> {
             dialogue.setVisible(false);
             dialogue4.setVisible(true);
@@ -243,6 +256,7 @@ public class rCircuit {
         stage.setScene(currentScene);
     }
 
+    // used when user clicks sticky note
     private void readNote() {
         StackPane stackPane = new StackPane(panelBG, note, inventoryImage, back, noteZoom);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
@@ -264,6 +278,7 @@ public class rCircuit {
         glassThing.setMouseTransparent(true);
     }
 
+    // skip to next lab (spring lab)
     private void passLab() {
         overlay.getInventory().resetInventory();
         SpringLab s = new SpringLab(stage);

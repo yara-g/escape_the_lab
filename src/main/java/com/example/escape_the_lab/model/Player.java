@@ -21,6 +21,7 @@ public class Player implements Serializable {
     @JsonIgnore
     File file;
 
+    // make new player
     public Player(boolean sound, String language, boolean autosave, String username, String password, int lives, int level, String filePath) {
         this.sound = sound;
         this.language = language;
@@ -33,6 +34,7 @@ public class Player implements Serializable {
         writeToJSON();
     }
 
+    // write data to the json file of player
     private void writeToJSON() {
         try {
             String json = objectMapper.writeValueAsString(this);
@@ -44,6 +46,7 @@ public class Player implements Serializable {
         }
     }
 
+    // use the last player by reading the json file (as opposed to making a new one)
     public static Player getLastPlayer() {
         boolean sound;
         String language;
@@ -83,21 +86,9 @@ public class Player implements Serializable {
         writeToJSON();
     }
 
-    public boolean isAutosaveOn() {
-        return autosave;
-    }
-
     public void setLanguage(String language) {
         this.language = language;
         writeToJSON();
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getLives() {
-        return lives;
     }
 
     public String getLanguage() {
@@ -108,18 +99,8 @@ public class Player implements Serializable {
         return password;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-        writeToJSON();
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
-        writeToJSON();
     }
 
     public void setPassword(String password) {
