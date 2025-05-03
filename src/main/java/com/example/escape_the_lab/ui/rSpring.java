@@ -6,10 +6,8 @@ import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -36,38 +34,52 @@ public class rSpring {
     private Item chosenItem;
     private final ImageView selectedSpring;
     private final ImageView selectedMass;
+    Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
 
+    /// Main scene.
     ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
     ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/doorS.png")).toExternalForm()));
     ImageView mainChair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sofaS.png")).toExternalForm()));
-    ImageView mainDrawer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/drawer.png")).toExternalForm()));
-    ImageView mainShelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelves.png")).toExternalForm()));
+    ImageView mainDrawer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/tableS.png")).toExternalForm()));
+    ImageView mainShelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelfS.png")).toExternalForm()));
     ImageView person = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/personS.png")).toExternalForm()));
+    ImageView shadow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shadowS.png")).toExternalForm()));
+    ImageView bgMain = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/bgS.png")).toExternalForm()));
+    ImageView obj1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/obj1S.png")).toExternalForm()));
+    ImageView obj2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/obj2S.png")).toExternalForm()));
 
-    Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
-    ImageView shelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelves.png")).toExternalForm()));
-    ImageView mass1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/clockStatue.png")).toExternalForm())); //book
-    ImageView mass2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/books.png")).toExternalForm()));  // Correct choice
-    ImageView mass3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/globe.png")).toExternalForm()));
+//    ImageView mass1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/clockStatue.png")).toExternalForm())); //book
+//    ImageView mass2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/books.png")).toExternalForm()));  // Correct choice
+//    ImageView mass3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/globe.png")).toExternalForm()));
 
-    ImageView chair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sofaS.png")).toExternalForm()));
-    ImageView spring1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/spring1.png")).toExternalForm()));
-    ImageView spring2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/spring2.png")).toExternalForm()));  // Correct choice
-    ImageView spring3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/spring3.png")).toExternalForm()));
+    /// Chair scene.
+    ImageView chair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sBgS.png")).toExternalForm()));
+    ImageView chairCover = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sCoverS.png")).toExternalForm()));
+    ImageView spring1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring1S.png")).toExternalForm()));
+    ImageView spring2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring2S.png")).toExternalForm()));  // Correct choice
+    ImageView spring3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring3S.png")).toExternalForm()));
 
-    Item spring1Item = new Item("100N/m", "/images/spring1.png");
-    Item spring2Item = new Item("200N/m", "/images/spring2.png");
-    Item spring3Item = new Item("300N/m", "/images/spring3.png");
-    Item mass1Item = new Item("4kg", "/images/AAASpringLab/clockStatue.png");
-    Item mass2Item = new Item("3kg", "/images/AAASpringLab/books.png");
-    Item mass3Item = new Item("5kg", "/images/AAASpringLab/globe.png");
+    Item spring1Item = new Item("100N/m", "/images/AAASpringLab/sO1.png");
+    Item spring2Item = new Item("200N/m", "/images/AAASpringLab/sO2.png");
+    Item spring3Item = new Item("300N/m", "/images/AAASpringLab/sO3.png");
+    Item mass1Item = new Item("4kg", "/images/AAASpringLab/oO1.png");
+    Item mass2Item = new Item("3kg", "/images/AAASpringLab/oO2.png");
+    Item mass3Item = new Item("5kg", "/images/AAASpringLab/oO3.png");
 
     //lab scene
-    ImageView springStand = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/spring-Stand.png")).toExternalForm()));
-    ImageView table = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/table.png")).toExternalForm()));
+    ImageView springStand = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oS.png")).toExternalForm()));
+    ImageView table = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oBgS.png")).toExternalForm()));
+    ImageView obj1Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj1On.png")).toExternalForm()));
+    ImageView obj1High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj1OnW.png")).toExternalForm()));
+    ImageView obj2Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj2On.png")).toExternalForm()));
+    ImageView obj2High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj2OnW.png")).toExternalForm()));
+    ImageView obj3Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj3On.png")).toExternalForm()));
+    ImageView obj3High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj3OnW.png")).toExternalForm()));
+    ImageView springLow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOnW.png")).toExternalForm()));
+    ImageView springHigh = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOn.png")).toExternalForm()));
 
-    ImageView doorLockedMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/door..png")).toExternalForm()));
-    ImageView nothingPlacedMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/door..png")).toExternalForm()));
+    //ImageView doorLockedMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/door..png")).toExternalForm()));
+    //ImageView nothingPlacedMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/door..png")).toExternalForm()));
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
@@ -86,6 +98,7 @@ public class rSpring {
 
     public void showMainScene() {
         initialize();
+
         // TEMPORARY - remove the button
         Button skipToNext = new Button("Escape");
         skipToNext.setOnAction(e -> {
@@ -95,7 +108,7 @@ public class rSpring {
             overlay.updateInventory();
         });
 
-        StackPane root = new StackPane(light, door, mainChair, mainDrawer, mainShelves, person, skipToNext);
+        StackPane root = new StackPane(bgMain, light, door, mainChair, mainDrawer, mainShelves, obj1, obj2, person, shadow, skipToNext);
         addInventory(root);
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
@@ -107,10 +120,20 @@ public class rSpring {
         door.setOnMouseClicked(event -> root.getChildren().add(monologuesL.getFirst()));
         mainChair.setOnMouseClicked(event -> showSpringsScene());
         mainDrawer.setOnMouseClicked(event -> showLabScene());
-        mainShelves.setOnMouseClicked(event -> showShelvesScene());
-        light.setOnMouseClicked(event -> {
-            showImage(person);
-        });
+        light.setOnMouseClicked(event -> {hideImage(shadow); showImage(person);});
+        obj1.setOnMouseClicked(event -> addIntoInventory(obj1, mass1Item));
+        obj2.setOnMouseClicked(event -> addIntoInventory(obj2, mass2Item));
+        //        mass1Item.getImageView().setOnMouseClicked(e -> chosenItem = mass1Item);
+//        mass2Item.getImageView().setOnMouseClicked(e -> chosenItem = mass2Item);
+
+//        ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
+//        goBack.setOnMouseClicked(e -> showMainScene());
+//
+//        StackPane root = new StackPane(shelves, mass1, mass2, mass3, overlay.getOverlayPane(), goBack);
+//        addInventory(root);
+//        stage.setScene(new Scene(root, 1000, 650));
+//        startSolutionCheck();
+
 //        ImageView springStand = createImageView("/images/AAASpringLab/spring-Stand.png", 250, 300, 200, 200);
         Pane pane = new Pane(root, inventoryPane);
         Scene scene = new Scene(pane);
@@ -139,27 +162,9 @@ public class rSpring {
         spring2.setOnMouseClicked(e -> addIntoInventory(spring2, spring2Item));
         spring3.setOnMouseClicked(e -> addIntoInventory(spring3, spring3Item));
 
-        StackPane root = new StackPane(chair, spring1, spring2, spring3, overlay.getOverlayPane(), goBack);
+        StackPane root = new StackPane(chair, spring1, spring2, spring3, chairCover, overlay.getOverlayPane());
         addInventory(root);
-        stage.setScene(new Scene(root, 1000, 650));
-        startSolutionCheck();
-    }
-
-    // Show drawers scene with different masses
-    private void showShelvesScene() {
-        mass1Item.getImageView().setOnMouseClicked(e -> chosenItem = mass1Item);
-        mass2Item.getImageView().setOnMouseClicked(e -> chosenItem = mass2Item);
-        mass3Item.getImageView().setOnMouseClicked(e -> chosenItem = mass3Item);
-
-        mass1.setOnMouseClicked(e -> addIntoInventory(mass1, mass1Item));
-        mass2.setOnMouseClicked(e -> addIntoInventory(mass2, mass2Item));
-        mass3.setOnMouseClicked(e -> addIntoInventory(mass3, mass3Item));
-
-        ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
-        goBack.setOnMouseClicked(e -> showMainScene());
-
-        StackPane root = new StackPane(shelves, mass1, mass2, mass3, overlay.getOverlayPane(), goBack);
-        addInventory(root);
+        root.getChildren().add(goBack);
         stage.setScene(new Scene(root, 1000, 650));
         startSolutionCheck();
     }
@@ -173,9 +178,6 @@ public class rSpring {
             if (chosenItem != null && !chosenItem.equals(placeHolder)) {
                 if (chosenItem.getName().contains("N/m")){
                     selectedSpring.setImage(chosenItem.getImage());
-                    selectedSpring.setFitWidth(100);
-                    selectedSpring.setFitHeight(100);
-                    selectedSpring.setLayoutX(440);
                     selectedSpring.setLayoutY(200);
                     placedSpringItem = chosenItem;
                     springPlaced = true;
@@ -186,9 +188,6 @@ public class rSpring {
 
                 } else if (chosenItem.getName().contains("kg")) {
                     selectedMass.setImage(chosenItem.getImage());
-                    selectedMass.setFitWidth(100);
-                    selectedMass.setFitHeight(100);
-                    selectedMass.setLayoutX(440);
 
                     if (springPlaced) {
                         // If spring is placed, offset mass below
@@ -375,18 +374,9 @@ public class rSpring {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
-        monologues.addAll(List.of(doorLockedMessage, nothingPlacedMessage));
+        //monologues.addAll(List.of(doorLockedMessage, nothingPlacedMessage));
         monologuesF.addAll(List.of());
-
-        spring1Item.size();
-        spring2Item.size();
-        spring3Item.size();
-        mass1Item.size();
-        mass2Item.size();
-        mass3Item.size();
         hideImage(person);
-        hideImage(mainDrawer);
-        hideImage(mainShelves);
 //      "Something must fall. Something must stretch."
 //      "Choose wisely. Or stay... forever oscillating."
     }
