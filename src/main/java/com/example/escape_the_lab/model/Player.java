@@ -12,9 +12,7 @@ import java.io.Serializable;
 public class Player implements Serializable {
     boolean sound;
     String language;
-    boolean autosave;
     String username, password;
-    int lives, level;
 
     @JsonIgnore
     ObjectMapper objectMapper = new ObjectMapper();
@@ -22,14 +20,11 @@ public class Player implements Serializable {
     File file;
 
     // make new player
-    public Player(boolean sound, String language, boolean autosave, String username, String password, int lives, int level, String filePath) {
+    public Player(boolean sound, String language, String username, String password, String filePath) {
         this.sound = sound;
         this.language = language;
-        this.autosave = autosave;
         this.username = username;
         this.password = password;
-        this.lives = lives;
-        this.level = level;
         file = new File(filePath);
         writeToJSON();
     }
@@ -50,25 +45,20 @@ public class Player implements Serializable {
     public static Player getLastPlayer() {
         boolean sound;
         String language;
-        boolean autosave;
         String username, password;
-        int lives, level;
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(new File("src/main/resources/json/jane-doe.json"));
             sound = jsonNode.get("soundOn").asBoolean();
             language = jsonNode.get("language").asText();
-            autosave = jsonNode.get("autosaveOn").asBoolean();
             username = jsonNode.get("username").asText();
             password = jsonNode.get("password").asText();
-            lives = jsonNode.get("lives").asInt();
-            level = jsonNode.get("level").asInt();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new Player(sound, language, autosave, username, password, lives, level, "src/main/resources/json/jane-doe.json");
+        return new Player(sound, language, username, password, "src/main/resources/json/jane-doe.json");
     }
 
     // getters and setters below
@@ -79,11 +69,6 @@ public class Player implements Serializable {
 
     public boolean isSoundOn() {
         return sound;
-    }
-
-    public void setAutosave(boolean autosave) {
-        this.autosave = autosave;
-        writeToJSON();
     }
 
     public void setLanguage(String language) {
