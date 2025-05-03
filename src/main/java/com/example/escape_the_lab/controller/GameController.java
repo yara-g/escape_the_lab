@@ -37,6 +37,8 @@ public class GameController extends Application {
     static String clickSoundPath = Objects.requireNonNull(GameController.class.getResource("/sounds/click.mp3")).toExternalForm();
     static Media clickMedia = new Media(clickSoundPath);
     static MediaPlayer clickSoundPlayer = new MediaPlayer(clickMedia);
+    Menu fileMenu;
+    MenuBar menuBar = new MenuBar();
 
     public static void main(String[] args) {
         launch(args);
@@ -44,49 +46,7 @@ public class GameController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MenuBar menuBar = new MenuBar();
-        Menu fileMenu = new Menu("Settings");
-        if (player.getLanguage().equals("french")) {
-            passwordItem = new MenuItem("Modifier le mot de passe");
-            exitItem = new MenuItem("Quitter");
-            if (player.isSoundOn()) {
-                soundItem = new MenuItem("Son: Oui");
-            } else {
-                soundItem = new MenuItem("Son: Non");
-            }
-        } else {
-            exitItem = new MenuItem("Exit");
-            passwordItem = new MenuItem("Change Password");
-            if (player.isSoundOn()) {
-                soundItem = new MenuItem("Sound: On");
-            } else {
-                soundItem = new MenuItem("Sound: Off");
-            }
-        }
-        fileMenu.getItems().add(soundItem);
-        fileMenu.getItems().add(passwordItem);
-        fileMenu.getItems().add(exitItem);
-
-        passwordItem.setOnAction(e -> {
-            changePass();
-        });
-
-        soundItem.setOnAction(actionEvent -> {
-            player.setSound(!player.isSoundOn());
-            if (player.isSoundOn()) {
-                playClick();
-                soundItem.setText("Sound: On");
-            } else {
-                soundItem.setText("Sound: Off");
-            }
-        });
-
-        exitItem.setOnAction(actionEvent -> {
-            playClick();
-            stage.close();
-        });
-        menuBar.getMenus().addAll(fileMenu);
-        menuBar.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
+        changeSettingsLang(stage);
 
         primaryStage = stage;
         stage.setResizable(false);
@@ -133,12 +93,14 @@ public class GameController extends Application {
             root.getChildren().addAll(startGameFr,startButtonFr, enButton, frButton);
             playClick();
             player.setLanguage("french");
+            changeSettingsLang(stage);
         });
         enButton.setOnMouseClicked(e -> {
             root.getChildren().clear();
-            root.getChildren().addAll(startGame,startButton, enButton, frButton);
+            root.getChildren().addAll(startGame, startButton, enButton, frButton);
             playClick();
             player.setLanguage("english");
+            changeSettingsLang(stage);
         });
 
         stage.setScene(scene);
@@ -150,6 +112,56 @@ public class GameController extends Application {
             currentLab.startLab();
             lifeManager.showLives();
         }
+    }
+
+    private void changeSettingsLang(Stage stage) {
+        if (player.getLanguage().equals("french")) {
+            fileMenu = new Menu("Paramètres");
+            passwordItem = new MenuItem("Modifier le mot de passe");
+            exitItem = new MenuItem("Quitter");
+            if (player.isSoundOn()) {
+                soundItem = new MenuItem("Son: Oui");
+            } else {
+                soundItem = new MenuItem("Son: Non");
+            }
+        } else {
+            fileMenu = new Menu("Settings");
+            exitItem = new MenuItem("Exit");
+            passwordItem = new MenuItem("Change Password");
+            if (player.isSoundOn()) {
+                soundItem = new MenuItem("Sound: On");
+            } else {
+                soundItem = new MenuItem("Sound: Off");
+            }
+        }
+        fileMenu.getItems().addAll(soundItem, passwordItem, exitItem);
+
+        passwordItem.setOnAction(e -> {
+            playClick();
+            changePass();
+        });
+
+        soundItem.setOnAction(actionEvent -> {
+            player.setSound(!player.isSoundOn());
+            if (player.isSoundOn()) {
+                playClick();
+                soundItem.setText("Sound: On");
+            } else {
+                soundItem.setText("Sound: Off");
+            }
+        });
+
+        exitItem.setOnAction(actionEvent -> {
+            playClick();
+            stage.close();
+        });
+
+        if (menuBar.getMenus().isEmpty()) {
+            menuBar.getMenus().add(fileMenu);
+        } else {
+            menuBar.getMenus().set(0, fileMenu);
+        }
+        menuBar.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
     }
 
     private Scene getLoginScreen() {
