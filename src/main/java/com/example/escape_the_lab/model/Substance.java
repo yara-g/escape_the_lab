@@ -1,6 +1,7 @@
 package com.example.escape_the_lab.model;
 
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -16,6 +17,7 @@ public class Substance {
         private boolean active, focused;
         public StackPane display = new StackPane();
         public double initialPositionX, initialPositionY;
+        private final Image originalImage;
 
         public Substance(String name, double pH, ImageView sprite, double initialPositionX, double initialPositionY) {
             this.name = name;
@@ -24,6 +26,7 @@ public class Substance {
             this.initialPositionY = initialPositionY;
             this.sprite = sprite;
             this.sprite.setScaleX(-1);
+            this.originalImage = sprite.getImage();
             //this.home = home;
             setupDisplay();
         }
@@ -31,6 +34,9 @@ public class Substance {
             this("Unnamed", 7.0, sprite, sprite.getLayoutX(), sprite.getLayoutY());
             // Default name = "Unnamed", pH = 7.0 (neutral)
         }
+    public Image getOriginalImage() {
+        return originalImage;
+    }
 
         private void setupDisplay() {
             VBox displaySubstanceData = new VBox(5);
@@ -75,6 +81,8 @@ public class Substance {
         public void setHome(ImageView home) {
             this.home = home;
         }
+
+        public ImageView getHome() {return home;}
         /**
          * checks is the substance is active
          * @return if the substance is active
@@ -97,7 +105,7 @@ public class Substance {
                 home.setOpacity(0.3);
             } else {
                 sprite.setOpacity(0);
-                home.setOpacity(1);
+                home.setOpacity(0);
             }
         }
         public static boolean existsIn(ArrayList<Substance> list, ImageView image) {
@@ -108,6 +116,7 @@ public class Substance {
             }
             return false;
         }
+
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
