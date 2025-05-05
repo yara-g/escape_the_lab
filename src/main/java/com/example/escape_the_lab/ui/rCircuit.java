@@ -152,7 +152,6 @@ public class rCircuit {
 
         // event handlers on main screen
         panel.setOnMouseClicked(e -> panelScene());
-        door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
         openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
         head.setOnMouseClicked(e -> inspectHead());
