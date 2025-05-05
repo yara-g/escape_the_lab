@@ -259,7 +259,7 @@ public class rCircuit {
 
     // used when user clicks sticky note
     private void readNote() {
-        StackPane stackPane = new StackPane(panelBG, note, inventoryImage, back, noteZoom);
+        StackPane stackPane = new StackPane(panelBG, noteZoom, inventoryImage, back);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> panelScene());
