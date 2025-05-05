@@ -40,7 +40,9 @@ public class rSpring {
     private int order = 0;
     //private ImageView selectedSpring;
     //private ImageView selectedMass;
+    StackPane root;
     public Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
+    private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
 
     /// Main scene.
     public ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
@@ -175,7 +177,7 @@ public class rSpring {
     private void showLabScene() {
         ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         goBack.setOnMouseClicked(e -> showMainScene());
-        StackPane root = new StackPane();
+        root = new StackPane();
 
         springStand.setOnMouseClicked(e -> {
             if (chosenItem != null && !chosenItem.equals(placeHolder)) {
@@ -242,14 +244,17 @@ public class rSpring {
                 //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
                 //wrongLab();
                 lifeManager.decreaseLife();
+                lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             } else if (springMissing && !massMissing) {
                 //if only spring is placed
                 //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
                 //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
                 //wrongLab();
                 lifeManager.decreaseLife();
+                lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             } else {
                 lifeManager.decreaseLife();
+                lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             }
         });
 

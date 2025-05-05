@@ -33,6 +33,7 @@ public class rCircuit {
     private boolean resTooHigh = false;
     private LifeManager lifeManager = GameController.getLifeManager();
     private final Player player = GameController.getPlayer();
+    StackPane stackPane;
 
     ImageView inventoryImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/inventory.png")).toExternalForm()));
     ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
@@ -40,7 +41,6 @@ public class rCircuit {
     // whole room
     ImageView panel = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/paneC.png")).toExternalForm()));
     ImageView mainBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bgC.png")).toExternalForm()));
-    ImageView bgBody = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bgBody.png")).toExternalForm()));
     ImageView glassThing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/smallC.png")).toExternalForm()));
     ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/doorC.png")).toExternalForm()));
     ImageView openedDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/doorOpenC.png")).toExternalForm()));
@@ -51,15 +51,12 @@ public class rCircuit {
     // panel scene
     ImageView panelBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomPaneC.png")).toExternalForm()));
     ImageView note = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/noteC.png")).toExternalForm()));
-    ImageView noteZoomFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note-zoomedF.png")).toExternalForm()));
     ImageView noteZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note-zoomed.png")).toExternalForm()));
     ImageView ledBroken = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-broken.png")).toExternalForm()));
     ImageView head = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/headC.png")).toExternalForm()));
     ImageView ledOn = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/lightC.png")).toExternalForm()));
     ImageView clickableSection = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/placeC.png")).toExternalForm()));
     ImageView dialogue2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/dialogue2.png")).toExternalForm()));
-    ImageView fils = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/fils.png")).toExternalForm()));
-    ImageView placedResistor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/placedR.png")).toExternalForm()));
 
     // head scene
     ImageView headBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomHeadC.png")).toExternalForm()));
@@ -109,7 +106,6 @@ public class rCircuit {
         head.setVisible(false);
         hideImage(crack);
         hideImage(body);
-        hideImage(placedResistor);
     }
 
     public void start() {
@@ -118,7 +114,7 @@ public class rCircuit {
     }
 
     public Scene makeScene() {
-        StackPane stackPane = new StackPane();
+        stackPane = new StackPane();
 
         // language control
         if (Objects.equals(player.getLanguage(), "english")) {
@@ -153,7 +149,7 @@ public class rCircuit {
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
-        stackPane.getChildren().addAll(mainBG, bgBody, body, panel, glassThing, crack, head, inventoryImage, skipToNext);
+        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, head, inventoryImage, body, skipToNext);
         // this checks if the door should be open or not
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
@@ -183,7 +179,7 @@ public class rCircuit {
 
     private void panelScene() {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor);
+        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
 
         // all 3 outcomes to attaching a resistor (whether correct or incorrect)
         if (isLedOn) {
@@ -212,7 +208,6 @@ public class rCircuit {
         clickableSection.setOnMouseClicked(e -> {
             if (chosenItem != placeHolder) {
                 useItem(e);
-                showImage(placedResistor);
             }
         });
 
@@ -264,12 +259,7 @@ public class rCircuit {
 
     // used when user clicks sticky note
     private void readNote() {
-        StackPane stackPane;
-        if (player.getLanguage().equals("english")) {
-            stackPane = new StackPane(noteZoom, inventoryImage, back);
-        } else {
-            stackPane = new StackPane(noteZoomFr, inventoryImage, back);
-        }
+        StackPane stackPane = new StackPane(panelBG, note, inventoryImage, back, noteZoom);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> panelScene());
@@ -280,12 +270,13 @@ public class rCircuit {
         if (player.isSoundOn()) {
             shatterSoundPlayer.play();
         }
-        showImage(head);
+        head.setVisible(true);
+        head.setMouseTransparent(false);
         body.setVisible(true);
         crack.setVisible(true);
-        hideImage(bgBody);
         stage.setScene(makeScene());
-        hideImage(glassThing);
+        glassThing.setVisible(false);
+        glassThing.setMouseTransparent(true);
     }
 
     // skip to next lab (spring lab)
@@ -329,6 +320,7 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
+            lifeManager.kill(overlay.getOverlayPane(), mainBG, placeHolder.getImageView(), stackPane, overlay, goBack, retourner, overlay.getInventory(), stage);
         }
         if (chosenItem != null && chosenItem.equals(res3Item)) {
             chosenItem = placeHolder;
@@ -336,6 +328,7 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
+            lifeManager.kill(overlay.getOverlayPane(), mainBG, placeHolder.getImageView(), stackPane, overlay, goBack, retourner, overlay.getInventory(), stage);
         }
         if (chosenItem != null && chosenItem.equals(res4Item)) {
             chosenItem = placeHolder;
@@ -343,16 +336,17 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
+            lifeManager.kill(overlay.getOverlayPane(), mainBG, placeHolder.getImageView(), stackPane, overlay, goBack, retourner, overlay.getInventory(), stage);
         }
-
-        if (lifeManager.getLives() == 0) {
-            assert chosenItem != null;
-            chosenItem.getImageView().setMouseTransparent(false);
-            chosenItem.getImageView().setVisible(true);
-            overlay.getInventory().removeItem(chosenItem);
-            overlay.updateInventory();
-            failLab();
-        }
+//
+//        if (lifeManager.getLives() == 0) {
+//            assert chosenItem != null;
+//            chosenItem.getImageView().setMouseTransparent(false);
+//            chosenItem.getImageView().setVisible(true);
+//            overlay.getInventory().removeItem(chosenItem);
+//            overlay.updateInventory();
+//            failLab();
+//        }
     }
     /**
      * Extracted repeated method for making an image view visible and clickable.
