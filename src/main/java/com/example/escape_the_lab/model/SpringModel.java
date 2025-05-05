@@ -9,22 +9,6 @@ public class SpringModel {
         this.springConstant = springConstant;
     }
 
-//    public double getMass() {
-//        return mass;
-//    }
-//
-//    public void setMass(double mass) {
-//        this.mass = mass;
-//    }
-//
-//    public double getSpringConstant() {
-//        return springConstant;
-//    }
-//
-//    public void setSpringConstant(double springConstant) {
-//        this.springConstant = springConstant;
-//    }
-
     /**
      * Checks if the selected mass and spring constant are correct.
      * @param correctMass expected mass

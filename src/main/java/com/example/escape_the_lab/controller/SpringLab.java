@@ -34,23 +34,6 @@ public class SpringLab extends Lab {
 
     @Override
     public Scene createScene() {
-        return null; //UI class does this
-    }
-//
-//    public void setSelectedMass(double mass) {
-//        springModel.setMass(mass);
-////    }
-//
-//    public void setSelectedSpringConstant(double k) {
-//        springModel.setSpringConstant(k);
-//    }
-
-    public void attemptEscape() {
-//        if (checkSolution()) {
-//            System.out.println("Correct combination! Escape successful.");
-//            gameController.transitionToNextLab();
-//        } else {
-//            failLab();
-//        }
+        return null;
     }
 }

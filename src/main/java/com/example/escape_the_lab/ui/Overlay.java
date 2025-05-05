@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Overlay {
     private LifeManager lifeManager;
     private Inventory inventory;
-    private final Group inventoryPane; // Shared inventory pane
+    private final Group inventoryPane;
     private final Group overlayPane;
     private final Group lifePane;
     private ImageView helpButton = new ImageView(new Image(
@@ -78,7 +78,6 @@ public class Overlay {
 
         for (Item item : items) {
             vBox.getChildren().add(item.getImageView());
-
             item.getImageView().setOnMousePressed(e -> {
                 if (GameController.getPlayer().isSoundOn()) {
                    playClick();
@@ -90,8 +89,8 @@ public class Overlay {
         vBox.setTranslateY(75);
         vBox.setTranslateX(858);
 
-        inventoryPane.getChildren().clear(); // Clear the shared inventory pane
-        inventoryPane.getChildren().add(vBox); // Add the updated VBox
+        inventoryPane.getChildren().clear();
+        inventoryPane.getChildren().add(vBox);
     }
 
     public void setInventory(Inventory inventory) {

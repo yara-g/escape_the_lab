@@ -27,9 +27,9 @@ public class Inventory {
         return items;
     }
 
-    public boolean hasItem(String itemName) {
+    public boolean hasItem(Item look) {
         for (Item item : items) {
-            if (item.getName().equals(itemName)) {
+            if (item.equals(look)) {
                 return true;
             }
         }
