@@ -3,6 +3,7 @@ package com.example.escape_the_lab.ui;
 import com.example.escape_the_lab.controller.GameController;
 import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.model.Item;
+import com.example.escape_the_lab.model.Player;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -24,9 +25,11 @@ public class Overlay {
     private ImageView helpButton = new ImageView(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png"))
     ));
-    String clickSoundPath = Objects.requireNonNull(getClass().getResource("/sounds/click.mp3")).toExternalForm();
-    Media clickMedia = new Media(clickSoundPath);
-    MediaPlayer clickSoundPlayer = new MediaPlayer(clickMedia);
+
+    String themeSoundPath = Objects.requireNonNull(Overlay.class.getResource("/sounds/theme.mp3")).toExternalForm();
+    Media themeMedia = new Media(themeSoundPath);
+    MediaPlayer themeSoundPlayer = new MediaPlayer(themeMedia);
+
 
     public Overlay(Inventory inventory, LifeManager lifeManager) {
         this.lifeManager = lifeManager;
@@ -99,12 +102,33 @@ public class Overlay {
         return lifeManager;
     }
 
-    public void playClick() {
-        clickSoundPlayer.seek(new Duration(0));
-        clickSoundPlayer.play();
+    public static void playClick() {
+        String clickSoundPath = Objects.requireNonNull(Overlay.class.getResource("/sounds/click.mp3")).toExternalForm();
+        Media clickMedia = new Media(clickSoundPath);
+        MediaPlayer clickSoundPlayer = new MediaPlayer(clickMedia);
+        if (GameController.player.isSoundOn()) {
+            clickSoundPlayer.seek(new Duration(0));
+            clickSoundPlayer.play();
+        }
     }
 
     public void setLifeManager(LifeManager lifeManager) {
         this.lifeManager = lifeManager;
+    }
+
+    public void beginTheme() {
+        if (!GameController.player.isSoundOn()) {
+            themeSoundPlayer.setMute(true);
+        }
+        themeSoundPlayer.setCycleCount(100);
+        themeSoundPlayer.play();
+    }
+
+    public void reloadTheme() {
+        if (GameController.player.isSoundOn()) {
+            themeSoundPlayer.setMute(false);
+        } else {
+            themeSoundPlayer.setMute(true);
+        }
     }
 }

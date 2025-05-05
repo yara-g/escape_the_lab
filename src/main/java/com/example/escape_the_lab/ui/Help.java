@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 public class Help {
     public static void show(String message, Image image) {
+        Overlay.playClick();
+
         Stage helpStage = new Stage();
         helpStage.initModality(Modality.APPLICATION_MODAL);
         helpStage.setTitle("Help");
