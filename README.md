@@ -46,4 +46,15 @@ To use an item, simply click on it and then click again on the area on which you
 10. Repeat steps 8-9
 11. Go back and click on the door to add the flame to the allotted spot. (The correct flame is red, LiCl)
 
-###
+### Lab 4: Acid Neutralization Lab
+1. Click onn the flower to see the context of the lab
+2. Use the slider to input the pH of the HCl on the floor
+3. Press on the eyes of the flower to enter your answer. If the right answer is inputed then a substance of NaOH will go in the player's inventory
+4. Press the go back arrow when done
+5. Press on the substances in the tree to collect them in the inventory
+6. Press on the house to zoom into it
+7. Press on the substances in the house to collect them in your inventory and go back
+8. Drag and drop the desired substances onto the acid floor to neutralize it (correct substances: NaOH and CaCO3)
+9. Press the door to escape the lab
+    
+
