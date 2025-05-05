@@ -32,8 +32,8 @@ public class rCircuit {
     private Group inventoryPane;
     private Inventory inventory;
     private final Item placeHolder;
-    private boolean isLedOn = false;
-    private boolean resTooLow = false;
+    public boolean isLedOn = false;
+    public boolean resTooLow = false;
     private boolean resTooHigh = false;
     private LifeManager lifeManager = GameController.getLifeManager();
     private final Player player = GameController.getPlayer();
@@ -155,6 +155,7 @@ public class rCircuit {
 
         // event handlers on main screen
         panel.setOnMouseClicked(e -> panelScene());
+        //door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
         openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
         head.setOnMouseClicked(e -> inspectHead());
@@ -193,9 +194,9 @@ public class rCircuit {
         stage.setScene(makeScene());
     }
 
-    private void panelScene() {
+    public void panelScene() {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor, monologuesL.get(4), monologuesL.get(5), monologuesL.getLast());
+        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor);
 
         // all 3 outcomes to attaching a resistor (whether correct or incorrect)
         if (isLedOn) {
@@ -211,6 +212,8 @@ public class rCircuit {
             if (player.isSoundOn()) {
                 shatterSoundPlayer2.seek(new Duration(0));
                 shatterSoundPlayer2.play();
+                stackPane.getChildren().remove(monologuesL.get(5));
+                stackPane.getChildren().add(monologuesL.get(4));
             }
         }
 
@@ -226,7 +229,7 @@ public class rCircuit {
         // this is the little section used to put the resistor in
         clickableSection.setOnMouseClicked(e -> {
             if (chosenItem != placeHolder) {
-                useItem(e, pane, stage);
+                useItem(e, stackPane);
             }
         });
 
@@ -449,11 +452,10 @@ public class rCircuit {
             }
         }
     }
-
     /**
      * Extracted repeated method for making an image view visible and clickable.
      */
-    private void showImage(ImageView image) {
+    public void showImage(ImageView image) {
         image.setMouseTransparent(false);
         image.setVisible(true);
     }
@@ -461,7 +463,7 @@ public class rCircuit {
     /**
      * Extracted repeated method for making an image view not visible and not clickable.
      */
-    private void hideImage(ImageView image) {
+    public void hideImage(ImageView image) {
         image.setMouseTransparent(true);
         image.setVisible(false);
     }

@@ -59,7 +59,6 @@ public class Overlay {
 
     public void updateHelpLang() {
         if (player.getLanguage().equals("english")) {
-            System.out.println("current lang eng");
             overlayPane = new Group(lifePane, inventoryPane, helpButtonE);
         } else {
             overlayPane = new Group(lifePane, inventoryPane, helpButtonF);
