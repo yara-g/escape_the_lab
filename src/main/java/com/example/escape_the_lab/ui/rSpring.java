@@ -32,6 +32,7 @@ public class rSpring {
     private Item placedSpringItem = null;
     private Item placedMassItem = null;
     private Item chosenItem;
+    private int order = 0;
     //private ImageView selectedSpring;
     //private ImageView selectedMass;
     Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
@@ -119,7 +120,7 @@ public class rSpring {
                     " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
         });
 
-        door.setOnMouseClicked(event -> root.getChildren().add(monologuesL.getFirst()));
+        //door.setOnMouseClicked(event -> root.getChildren().add(monologuesL.getFirst()));
         mainChair.setOnMouseClicked(event -> showSpringsScene());
         mainDrawer.setOnMouseClicked(event -> showLabScene());
         light.setOnMouseClicked(event -> {hideImage(shadow); showImage(person);});
@@ -165,7 +166,7 @@ public class rSpring {
 
         springStand.setOnMouseClicked(e -> {
             if (chosenItem != null && !chosenItem.equals(placeHolder)) {
-                if (chosenItem.equals(spring1Item) || chosenItem.equals(spring2Item) || chosenItem.equals(spring3Item)) {
+                if ((chosenItem.equals(spring1Item) || chosenItem.equals(spring2Item) || chosenItem.equals(spring3Item)) && placedSpringItem == null) {
                     if (massPlaced) {
                         showImage(springLow);
                     } else {
@@ -173,7 +174,10 @@ public class rSpring {
                     }
                     placedSpringItem = chosenItem;
                     springPlaced = true;
-                } else if (chosenItem.getName().contains("kg")) {
+                    inventory.removeItem(chosenItem);
+                    overlay.updateInventory();
+                    chosenItem = placeHolder;
+                } else if (chosenItem.getName().contains("kg") && placedMassItem == null) {
                     if (chosenItem.equals(mass1Item)) {
                         if (springPlaced) {
                             showImage(obj1Low);
@@ -188,17 +192,17 @@ public class rSpring {
                         }
                     } else  if (chosenItem.equals(mass3Item)) {
                         if (springPlaced) {
-                            showImage(obj2Low);
+                            showImage(obj3Low);
                         } else {
-                            showImage(obj2High);
+                            showImage(obj3High);
                         }
                     }
                     placedMassItem = chosenItem;
                     massPlaced = true;
+                    inventory.removeItem(chosenItem);
+                    overlay.updateInventory();
+                    chosenItem = placeHolder;
                 }
-                inventory.removeItem(chosenItem);
-                overlay.updateInventory();
-                chosenItem = placeHolder;
             }
         });
         removeSpring(springHigh);
@@ -217,24 +221,28 @@ public class rSpring {
             boolean springMissing = !springPlaced;
             boolean massMissing = !massPlaced;
 
-            if (springMissing && massMissing) {
-                root.getChildren().add(monologuesL.get(1));
+            if (placedSpringItem.equals(spring2Item) && placedMassItem.equals(mass3Item) && springHigh.isVisible()) {
+                startSpringOscillation(springHigh, obj3Low);
+            } else if (springMissing && massMissing) {
+                //root.getChildren().add(monologuesL.get(1));
                 //"You haven’t placed anything on the stand..."
             } else if (!springMissing && massMissing) {
                 //if only mass is placed
                 //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
                 //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
                 //wrongLab();
+                lifeManager.decreaseLife();
             } else if (springMissing && !massMissing) {
                 //if only spring is placed
                 //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
                 //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
                 //wrongLab();
+                lifeManager.decreaseLife();
             } else {
-                // TODO: create springOscillation
-                startSpringOscillation(placedSpringItem.getImageView(), placedMassItem.getImageView());
+                lifeManager.decreaseLife();
             }
         });
+
         root.getChildren().addAll(table, springStand, springLow, springHigh, obj1High, obj1Low, obj2High, obj2Low, obj3High, obj3Low, overlay.getOverlayPane(), playButton);
         addInventory(root);
         root.getChildren().add(goBack);
@@ -242,36 +250,8 @@ public class rSpring {
         stage.setScene(new Scene(pane, 1000, 650));
     }
 
-    private double getSpringConstantFromName(String name) {
-        switch (name) {
-            case "100N": return 100;
-            case "200N": return 200;
-            case "300N": return 300;
-            default: return 0;
-        }
-    }
-
-    private double getMassFromName(String name) {
-        switch (name) {
-            case "3g": return 3;
-            case "4g": return 4;
-            case "5g": return 5;
-            default: return 0;
-        }
-    }
-
-    private String getItemNameFromImage(Image img) {
-        if (img == mass1Item.getImage()) return mass1Item.getName();
-        if (img == mass2Item.getImage()) return mass2Item.getName();
-        if (img == mass3Item.getImage()) return mass3Item.getName();
-        if (img == spring1Item.getImage()) return spring1Item.getName();
-        if (img == spring2Item.getImage()) return spring2Item.getName();
-        if (img == spring3Item.getImage()) return spring3Item.getName();
-        return "";
-    }
-
     private void startSpringOscillation(ImageView selectedSpring, ImageView selectedMass) {
-        if (selectedSpring.getImage() == null || selectedMass.getImage() == null) return;
+        //if (selectedSpring.getImage() == null || selectedMass.getImage() == null) return;
 
         String springName = getItemNameFromImage(selectedSpring.getImage());
         String massName = getItemNameFromImage(selectedMass.getImage());
@@ -286,7 +266,7 @@ public class rSpring {
         massOscillation.setDuration(Duration.seconds(2));
         massOscillation.setCycleCount(TranslateTransition.INDEFINITE);
         massOscillation.setAutoReverse(true);
-        massOscillation.setByY(50); // amplitude swing
+        massOscillation.setByY(20); // amplitude swing
 
         //spring oscillation
         ScaleTransition springOscillation = new ScaleTransition();
@@ -304,21 +284,14 @@ public class rSpring {
         pause.setOnFinished(e -> {
             massOscillation.stop();
             springOscillation.stop();
-
-            if (placedSpringItem != null && placedMassItem != null &&
-                    placedSpringItem.getName().contains("200") &&
-                    placedMassItem.getName().contains("4")) {
-                isDoorUnlocked = true;
-                //showDoorOpenScene();
-//            (Math.abs(omega - Math.sqrt(200 / 4.0)) < 0.1) {
-//                isDoorUnlocked = true;
-//                showDoorOpenScene(); // Only open door if correct
-            } else {
-                isDoorUnlocked = false;
-                KillPlayer.killPlayer("You missed the target...\nThe oscillations carried on without purpose. Trapped in repetition, you remain.", stage, stage.getScene(), overlay);
-            }
+            isDoorUnlocked = true;
+            door.setOnMouseClicked(event -> {
+                FlameLab f = new FlameLab();
+                f.startLab(stage);
+                inventory.resetInventory();
+                overlay.updateInventory();
+            });
         });
-
         pause.play();
     }
 
@@ -455,5 +428,33 @@ public class rSpring {
                 overlay.updateInventory();
             }
         });
+    }
+
+    private double getSpringConstantFromName(String name) {
+        switch (name) {
+            case "100N": return 100;
+            case "200N": return 200;
+            case "300N": return 300;
+            default: return 0;
+        }
+    }
+
+    private double getMassFromName(String name) {
+        switch (name) {
+            case "3g": return 3;
+            case "4g": return 4;
+            case "5g": return 5;
+            default: return 0;
+        }
+    }
+
+    private String getItemNameFromImage(Image img) {
+        if (img == mass1Item.getImage()) return mass1Item.getName();
+        if (img == mass2Item.getImage()) return mass2Item.getName();
+        if (img == mass3Item.getImage()) return mass3Item.getName();
+        if (img == spring1Item.getImage()) return spring1Item.getName();
+        if (img == spring2Item.getImage()) return spring2Item.getName();
+        if (img == spring3Item.getImage()) return spring3Item.getName();
+        return "";
     }
 }
