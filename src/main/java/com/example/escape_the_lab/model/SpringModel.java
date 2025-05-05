@@ -1,9 +1,18 @@
 package com.example.escape_the_lab.model;
 
+/**
+ * The SpringModel class represents the model of a spring-mass system. It stores the mass and spring constant used
+ * in the simulation and checks whether a given combination is correct.
+ */
 public class SpringModel {
     private final double mass;
     private final double springConstant;
 
+    /**
+     * Constructs a new SpringModel with the given mass and spring constant
+     * @param mass the mass to be used in the simulation
+     * @param springConstant the spring constant to be used in the simulation
+     */
     public SpringModel(double mass, double springConstant) {
         this.mass = mass;
         this.springConstant = springConstant;

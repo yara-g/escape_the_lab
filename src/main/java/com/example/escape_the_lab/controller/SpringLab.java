@@ -7,6 +7,11 @@ import com.example.escape_the_lab.ui.rSpring;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The SpringLab class is the controller for the spring-mass physics lab part of the game. It extends the abstract
+ * Lab class. It manages the logic related to the placement of items (spring and mass), validation of the user's
+ * solution, and interactions with the SpringModel and UI(rSpring) classes.
+ */
 public class SpringLab extends Lab {
     private final Stage stage;
     private final rSpring springLabUI;
@@ -22,11 +27,18 @@ public class SpringLab extends Lab {
         this.springModel = new SpringModel(-1, -1);
     }
 
+    /**
+     * Starts the lab by displaying the main scene through the UI class.
+     */
     @Override
     public void startLab() {
         springLabUI.showMainScene();
     }
 
+    /**
+     * Checks whether the selected mass and spring constant match the correct values.
+     * @return true if the correct combination is selected; false otherwise.
+     */
     @Override
     public boolean checkSolution() {
         return springModel.isCorrectCombination(correctMass, correctSpringConstant);

@@ -19,6 +19,11 @@ import java.util.Objects;
 
 import static com.example.escape_the_lab.controller.GameController.player;
 
+/**
+ * The rSpring class is responsible for managing the UI and scene transitions for the spring-based puzzle lab part of
+ * the "escape the room" game. It interacts with the player's inventory, displays handled item selection and placement,
+ * and evaluates the solution based on physics principles (spring oscillation).
+ */
 public class rSpring {
     private final Stage stage;
     private final SpringLab springLab;
@@ -79,7 +84,11 @@ public class rSpring {
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
 
-    // Constructor
+    /**
+     * Constructs an rSpring scene with the given stage and controller.
+     * @param stage The stage to render scenes on.
+     * @param springLab The controller containing logic for the spring lab.
+     */
     public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
         this.springLab = springLab;
@@ -99,6 +108,9 @@ public class rSpring {
         hideImage(springHigh);
     }
 
+    /**
+     * Displays the main scene for the spring lab where the player navigates to get out.
+     */
     public void showMainScene() {
         initialize();
 
@@ -141,7 +153,9 @@ public class rSpring {
 //        overlay.updateInventory();
 //    }
 
-    /// Show springs scene with different types of springs
+    /**
+     * Displays the scene where the player is able to select different springs.
+     */
     private void showSpringsScene() {
         ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         goBack.setOnMouseClicked(e -> showMainScene());
@@ -159,6 +173,9 @@ public class rSpring {
         startSolutionCheck();
     }
 
+    /**
+     * Displays the lab table scene where the player can place spring and mass items from their inventory.
+     */
     private void showLabScene() {
         ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         goBack.setOnMouseClicked(e -> showMainScene());
@@ -250,6 +267,11 @@ public class rSpring {
         stage.setScene(new Scene(pane, 1000, 650));
     }
 
+    /**
+     * Displays the spring and mass oscillation animations and evaluates the solution.
+     * @param selectedSpring
+     * @param selectedMass
+     */
     private void startSpringOscillation(ImageView selectedSpring, ImageView selectedMass) {
         //if (selectedSpring.getImage() == null || selectedMass.getImage() == null) return;
 
@@ -295,7 +317,9 @@ public class rSpring {
         pause.play();
     }
 
-    // Start the rCircuit lab
+    /**
+     * Starts the rCiruit lab scene.
+     */
     private void startRCircuitLab() {
         rCircuit lab = new rCircuit(stage);
         try {
@@ -305,7 +329,9 @@ public class rSpring {
         }
     }
 
-    // Start an AnimationTimer to periodically check if the solution is correct
+    /**
+     * Begins periodic checking of the player's solution using an AnimationTimer.
+     */
     private void startSolutionCheck() {
         AnimationTimer solutionCheckTimer = new AnimationTimer() {
             @Override
@@ -319,6 +345,9 @@ public class rSpring {
         solutionCheckTimer.start(); // Start the timer
     }
 
+    /**
+     * Initiolizes the language-specific monologue settings
+     */
     public void initialize() {
         if (Objects.equals(player.getLanguage(), "english")) {
             monologuesL.clear();
