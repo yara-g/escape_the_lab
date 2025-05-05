@@ -119,16 +119,7 @@ public class rSpring {
     public void showMainScene() {
         initialize();
 
-        // TEMPORARY - remove the button
-        Button skipToNext = new Button("Escape");
-        skipToNext.setOnAction(e -> {
-            FlameLab f = new FlameLab();
-            f.startLab(stage);
-            inventory.resetInventory();
-            overlay.updateInventory();
-        });
-
-        StackPane root = new StackPane(bgMain, light, door, mainChair, mainDrawer, mainShelves, obj1, obj2, person, shadow, lightOn, skipToNext);
+        StackPane root = new StackPane(bgMain, light, door, mainChair, mainDrawer, mainShelves, obj1, obj2, person, shadow, lightOn);
         addInventory(root);
 
         overlay.getHelpButton().setOnMouseClicked(e -> {

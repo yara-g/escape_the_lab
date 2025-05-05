@@ -127,12 +127,6 @@ public class rCircuit {
         monologues.addAll(List.of(fail, goBack));
         monologuesF.addAll(List.of(failF, retourner));
 
-        Button skipToNext = new Button("Skip to next");
-        skipToNext.setTranslateX(-400);
-        skipToNext.setTranslateY(-300);
-        skipToNext.setMinWidth(90);
-        skipToNext.setOnAction(e -> passLab());
-
         hideImage(dialogue4);
         inventoryImage.setMouseTransparent(true);
 
@@ -149,7 +143,7 @@ public class rCircuit {
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
-        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, head, inventoryImage, body, skipToNext);
+        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, head, inventoryImage, body);
         // this checks if the door should be open or not
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
