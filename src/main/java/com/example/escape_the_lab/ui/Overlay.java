@@ -21,16 +21,15 @@ public class Overlay {
     private LifeManager lifeManager;
     private Inventory inventory;
     private final Group inventoryPane;
-    private final Group overlayPane;
+    private Group overlayPane;
     private final Group lifePane;
     Player player = GameController.getPlayer();
-    private ImageView helpButtonE = new ImageView(new Image(
+    ImageView helpButtonE = new ImageView(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png"))
     ));
-    private ImageView helpButtonF = new ImageView(new Image(
+    ImageView helpButtonF = new ImageView(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream("/images/help/31.png"))
     ));
-    List<ImageView> helpButtons = new ArrayList<>();
     ImageView helpButton;
 
     String themeSoundPath = Objects.requireNonNull(Overlay.class.getResource("/sounds/theme.mp3")).toExternalForm();
@@ -43,18 +42,28 @@ public class Overlay {
         this.inventory = inventory;
         inventoryPane = new Group();
         lifePane = new Group();
-        helpButtons.addAll(List.of(helpButtonE, helpButtonF));
         if (player.getLanguage().equals("english")) {
-            helpButton = helpButtonE;
+            overlayPane = new Group(lifePane, inventoryPane, helpButtonE);
         } else {
-            helpButton = helpButtonF;
+            overlayPane = new Group(lifePane, inventoryPane, helpButtonF);
         }
-
-        overlayPane = new Group(lifePane, inventoryPane, helpButton);
     }
 
     public ImageView getHelpButton() {
-        return helpButton;
+        if (player.getLanguage().equals("english")) {
+            return helpButtonE;
+        } else {
+            return helpButtonF;
+        }
+    }
+
+    public void updateHelpLang() {
+        if (player.getLanguage().equals("english")) {
+            System.out.println("current lang eng");
+            overlayPane = new Group(lifePane, inventoryPane, helpButtonE);
+        } else {
+            overlayPane = new Group(lifePane, inventoryPane, helpButtonF);
+        }
     }
 
     public Group getOverlayPane() {
