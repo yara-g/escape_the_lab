@@ -53,7 +53,7 @@ public class AcidNeutralizationLab extends Lab {
     Substance substance3;
     Substance substance4;
     Substance substance5;
-    boolean succeedLab = false;
+    public boolean succeedLab = false;
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
     private Player player = GameController.getPlayer();
@@ -504,7 +504,7 @@ public class AcidNeutralizationLab extends Lab {
     /**
      * detects which substances are dragged and dropped on the pane
      */
-    private void detectDroppedSubstances() {
+    public void detectDroppedSubstances() {
         for (Substance substance : droppedSubstances) {
             System.out.println("Dropped substance: " + substance.getName());
         }
