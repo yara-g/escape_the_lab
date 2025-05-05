@@ -1,5 +1,5 @@
 # Escape the Lab
-Escape the lab is a fun little game that tests your knowledge on the courses you've had to take during your time in CEGEP. Simply download the project, open it in your prefered IDE and run!
+Escape the lab is a fun little game that tests your knowledge on the courses you've had to take during your time in CEGEP. Simply download the project, open it in your prefered IDE and run! Make sure all dependencies are install. This will vary depending on the operating system used.
 
 ## Login
 To login, input the username "user" and password "pass". It's possible to change the default password in the parameters.
