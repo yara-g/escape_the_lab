@@ -12,6 +12,7 @@ There is the choice to turn all sounds off my clicking on the submenu. You can a
 
 ## Labs
 In each lab, you are presented with science-related problems. On the top of the right side is the life count, denoted by 3 hearts or less. Below these heart are the 6 allotted inventory spots. Finally, at the bottom, there is a help button that will give you a hint on what to do when you feel stuck.
+To use an item, simply click on it and then click again on the area on which you would like to use the item.
 
 ## Playthrough
 ### Lab 1: Circuit Lab
@@ -33,4 +34,16 @@ In each lab, you are presented with science-related problems. On the top of the 
 7. You must use the correct formula learnt in mechanics to use the right weight and spring (Correct spring: 200 N/m, correct item: 4kg)
 
 ### Lab 3: Flame Lab
-1. 
+1. Click on the right hand drawer and open the little doors
+2. Take the bunsen burner
+3. Go back and click on the left drawer. A little disk is peaking out the bottom
+4. Go back and click on the microscope. Add the lens to it.
+5. Collect all chemicals, you should have four
+6. Go back to the right hand drawer and add the bunsen burner on top of it
+7. Pour each substance into the tubes but be careful, you only have three tubes and four chemicals...
+8. Now, burn each substance, upon adding the tube to the flame, the flame will turn to a different color.
+9. Click on the flame to collect it
+10. Repeat steps 8-9
+11. Go back and click on the door to add the flame to the allotted spot. (The correct flame is red, LiCl)
+
+###
