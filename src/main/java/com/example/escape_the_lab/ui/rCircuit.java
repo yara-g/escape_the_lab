@@ -31,8 +31,8 @@ public class rCircuit {
     private Group inventoryPane;
     private Inventory inventory;
     private final Item placeHolder;
-    public boolean isLedOn = false;
-    public boolean resTooLow = false;
+    private boolean isLedOn = false;
+    private boolean resTooLow = false;
     private boolean resTooHigh = false;
     private LifeManager lifeManager = GameController.getLifeManager();
     private final Player player = GameController.getPlayer();
@@ -152,7 +152,7 @@ public class rCircuit {
 
         // event handlers on main screen
         panel.setOnMouseClicked(e -> panelScene());
-        //door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
+        door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
         openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
         head.setOnMouseClicked(e -> inspectHead());
@@ -191,7 +191,7 @@ public class rCircuit {
         stage.setScene(makeScene());
     }
 
-    public void panelScene() {
+    private void panelScene() {
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor);
 
@@ -379,7 +379,7 @@ public class rCircuit {
     /**
      * Extracted repeated method for making an image view visible and clickable.
      */
-    public void showImage(ImageView image) {
+    private void showImage(ImageView image) {
         image.setMouseTransparent(false);
         image.setVisible(true);
     }
@@ -387,7 +387,7 @@ public class rCircuit {
     /**
      * Extracted repeated method for making an image view not visible and not clickable.
      */
-    public void hideImage(ImageView image) {
+    private void hideImage(ImageView image) {
         image.setMouseTransparent(true);
         image.setVisible(false);
     }
