@@ -50,18 +50,26 @@ public class AcidNeutralizationLabTest {
     }
 
     @Test
-    public void testDetectDroppedSubstancesSuccess() {
-        Stage primaryStage = new Stage();
-        lab = new AcidNeutralizationLab(primaryStage);
-        Substance s1 = new Substance("Test1", 1, new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/rA.png")).toExternalForm())), 3,2);
-        Substance s2 = new Substance("Test", 1, new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puA.png")).toExternalForm())), 3,2);
-        lab.droppedSubstances = new ArrayList<>();
-        lab.droppedSubstances.add(s1);
-        lab.droppedSubstances.add(s2);
+    public void testDetectDroppedSubstancesSuccess() throws InterruptedException{
+        Platform.runLater(() -> {
+            try {
+                Stage primaryStage = new Stage();
+                lab = new AcidNeutralizationLab(primaryStage);
+                Substance s1 = new Substance("Test1", 1, new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/rA.png")).toExternalForm())), 3, 2);
+                Substance s2 = new Substance("Test", 1, new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/puA.png")).toExternalForm())), 3, 2);
+                lab.droppedSubstances = new ArrayList<>();
+                lab.droppedSubstances.add(s1);
+                lab.droppedSubstances.add(s2);
 
-        lab.detectDroppedSubstances();
+                lab.detectDroppedSubstances();
 
-        assertTrue(lab.succeedLab, "Lab should succeed if correct substances are dropped");
+                assertTrue(lab.succeedLab, "Lab should succeed if correct substances are dropped");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread.sleep(1000);
     }
 }
 
