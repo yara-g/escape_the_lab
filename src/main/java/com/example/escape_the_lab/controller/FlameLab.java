@@ -2,6 +2,7 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.model.Player;
+import com.example.escape_the_lab.ui.Help;
 import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import javafx.animation.*;
@@ -174,6 +175,15 @@ public class FlameLab {
             inventory.resetInventory();
             overlay.updateInventory();
         });
+        overlay.getHelpButton().setOnMouseClicked(e -> {
+            Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/AAACircuitLab/empty.png")));
+            if (player.getLanguage().equals("english")) {
+                Help.show("Different chemicals produce different flames...", helpImage);
+            } else {
+                Help.show("Des produits chimiques differents produisent des flames differentes...", helpImage);
+            }
+        });
+
     }
 
     /**

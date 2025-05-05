@@ -13,6 +13,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,9 +23,15 @@ public class Overlay {
     private final Group inventoryPane;
     private final Group overlayPane;
     private final Group lifePane;
-    private ImageView helpButton = new ImageView(new Image(
+    Player player = GameController.getPlayer();
+    private ImageView helpButtonE = new ImageView(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png"))
     ));
+    private ImageView helpButtonF = new ImageView(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/images/help/31.png"))
+    ));
+    List<ImageView> helpButtons = new ArrayList<>();
+    ImageView helpButton;
 
     String themeSoundPath = Objects.requireNonNull(Overlay.class.getResource("/sounds/theme.mp3")).toExternalForm();
     Media themeMedia = new Media(themeSoundPath);
@@ -36,13 +43,14 @@ public class Overlay {
         this.inventory = inventory;
         inventoryPane = new Group();
         lifePane = new Group();
-        helpButton = createHelpButton();
+        helpButtons.addAll(List.of(helpButtonE, helpButtonF));
+        if (player.getLanguage().equals("english")) {
+            helpButton = helpButtonE;
+        } else {
+            helpButton = helpButtonF;
+        }
 
         overlayPane = new Group(lifePane, inventoryPane, helpButton);
-    }
-
-    private ImageView createHelpButton() {
-        return helpButton;
     }
 
     public ImageView getHelpButton() {

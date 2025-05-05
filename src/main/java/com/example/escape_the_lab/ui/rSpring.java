@@ -42,7 +42,6 @@ public class rSpring {
     //private ImageView selectedMass;
     StackPane root;
     public Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
-    private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
 
     /// Main scene.
     public ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
@@ -83,10 +82,35 @@ public class rSpring {
     public ImageView springLow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOnW.png")).toExternalForm()));
     public ImageView springHigh = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOn.png")).toExternalForm()));
     public ImageView tryButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/try.png")).toExternalForm()));
+    public ImageView stretch1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/stretch1.png")).toExternalForm()));
+    public ImageView stretch2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/stretch2.png")).toExternalForm()));
 
     public List<ImageView> monologues = new ArrayList<>();
     public List<ImageView> monologuesF = new ArrayList<>();
     public List<ImageView> monologuesL = new ArrayList<>();
+
+    private final ImageView fail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFail.png")).toExternalForm()));
+    private final ImageView failF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFailF.png")).toExternalForm()));
+    private final ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/goBack.png")).toExternalForm()));
+    private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
+    public ImageView monoDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/9.png")).toExternalForm()));
+    public ImageView monoDoorF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/10.png")).toExternalForm()));
+    public ImageView monoHI = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/11.png")).toExternalForm()));
+    public ImageView monoHIF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/12.png")).toExternalForm()));
+    public ImageView monoMessage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/13.png")).toExternalForm()));
+    public ImageView monoMessageF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/14.png")).toExternalForm()));
+    public ImageView monoLab = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/15.png")).toExternalForm()));
+    public ImageView monoLabF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/16.png")).toExternalForm()));
+    public ImageView monoNothing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/17.png")).toExternalForm()));
+    public ImageView monoNothingF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/18.png")).toExternalForm()));
+    public ImageView monoObj = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/19.png")).toExternalForm()));
+    public ImageView monoObjF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/20.png")).toExternalForm()));
+    public ImageView monoSpring = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/21.png")).toExternalForm()));
+    public ImageView monoSpringF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/22.png")).toExternalForm()));
+    public ImageView monoWrong = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/23.png")).toExternalForm()));
+    public ImageView monoWrongF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/24.png")).toExternalForm()));
+    public ImageView monoLeave = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/25.png")).toExternalForm()));
+    public ImageView monoLeaveF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/26.png")).toExternalForm()));
 
     /**
      * Constructs an rSpring scene with the given stage and controller.
@@ -111,6 +135,26 @@ public class rSpring {
         hideImage(springLow);
         hideImage(springHigh);
         hideImage(lightOn);
+        hideImage(stretch1);
+        hideImage(stretch2);
+        hideImage(monoDoor);
+        hideImage(monoDoorF);
+        hideImage(monoHI);
+        hideImage(monoHIF);
+        hideImage(monoMessage);
+        hideImage(monoMessageF);
+        hideImage(monoLab);
+        hideImage(monoLabF);
+        hideImage(monoNothing);
+        hideImage(monoNothingF);
+        hideImage(monoObj);
+        hideImage(monoObjF);
+        hideImage(monoSpring);
+        hideImage(monoSpringF);
+        hideImage(monoWrong);
+        hideImage(monoWrongF);
+        hideImage(monoLeave);
+        hideImage(monoLeaveF);
     }
 
     /**
@@ -121,20 +165,34 @@ public class rSpring {
 
         StackPane root = new StackPane(bgMain, light, door, mainChair, mainDrawer, mainShelves, obj1, obj2, person, shadow, lightOn);
         addInventory(root);
+        root.getChildren().addAll(List.of(monologuesL.get(2), monologuesL.get(3), monologuesL.get(4)));
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
             Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/springFormula.png")));
-            Help.show("Select the right spring and mass so the oscillation is just right to reach the button by" +
-                    " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
+            if (player.getLanguage().equals("english")) {
+                Help.show("Select the right spring and mass so the oscillation is just right to reach the button by" +
+                        " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
+            } else {
+                Help.show("Choisissez le bon ressort et la bonne masse pour que l'oscillation atteigne juste le bouton " +
+                        "en correspondant à la fréquence d'oscillation du ressort !\n" + "Utilisez la formule :", helpImage);
+            }
+//            Help.show("Select the right spring and mass so the oscillation is just right to reach the button by" +
+//                    " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
         });
 
         //door.setOnMouseClicked(event -> root.getChildren().add(monologuesL.getFirst()));
         mainChair.setOnMouseClicked(event -> showSpringsScene());
         mainDrawer.setOnMouseClicked(event -> showLabScene());
-        light.setOnMouseClicked(event -> {hideImage(shadow); showImage(person); showImage(lightOn);});
+        light.setOnMouseClicked(event -> {hideImage(shadow); showImage(person); showImage(lightOn);
+            hideImage(monologuesL.get(2));
+            showImage(monologuesL.get(3));
+            hideImage(monologuesL.get(4));});
         obj1.setOnMouseClicked(event -> addIntoInventory(obj1, mass1Item));
         obj2.setOnMouseClicked(event -> addIntoInventory(obj2, mass2Item));
-        person.setOnMouseClicked(event -> {inventory.addItem(mass3Item); overlay.updateInventory(); person.setMouseTransparent(true);});
+        person.setOnMouseClicked(event -> {inventory.addItem(mass3Item); overlay.updateInventory(); person.setMouseTransparent(true);
+            hideImage(monologuesL.get(2));
+            hideImage(monologuesL.get(3));
+            showImage(monologuesL.get(4));});
 
         Pane pane = new Pane(root, inventoryPane);
         Scene scene = new Scene(pane);
@@ -169,6 +227,7 @@ public class rSpring {
         ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         goBack.setOnMouseClicked(e -> showMainScene());
         root = new StackPane();
+        showImage(monologuesL.get(5));
 
         springStand.setOnMouseClicked(e -> {
             if (chosenItem != null && !chosenItem.equals(placeHolder)) {
@@ -225,83 +284,85 @@ public class rSpring {
             boolean massMissing = !massPlaced;
 
             if (placedSpringItem.equals(spring2Item) && placedMassItem.equals(mass3Item) && springHigh.isVisible()) {
-                startSpringOscillation(springHigh, obj3Low);
+                startSpringOscillation(root);
             } else if (springMissing && massMissing) {
-                //root.getChildren().add(monologuesL.get(1));
+                showImage(monologuesL.get(6));
+                hideImage(springHigh);
+                hideImage(monologuesL.getLast());
+                hideImage(monologuesL.get(5));
+                hideImage(monologuesL.get(7));
+                hideImage(monologuesL.get(8));
+                hideImage(monologuesL.get(9));
             } else if (!springMissing && massMissing) {
-                //if only mass is placed
-                //"And so you’ve been stranded... As the days oscillate endlessly."
-                //wrongLab();
+                showImage(monologuesL.get(7));
+                hideImage(springHigh);
+                hideImage(monologuesL.getLast());
+                hideImage(monologuesL.get(5));
+                hideImage(monologuesL.get(6));
+                hideImage(monologuesL.get(8));
+                hideImage(monologuesL.get(9));
                 lifeManager.decreaseLife();
                 lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             } else if (springMissing && !massMissing) {
-                //if only spring is placed
-                //"and so you’ve been stranded as the days swing back and forth"
-                //
-                //wrongLab();
+                showImage(monologuesL.get(8));
+                hideImage(springHigh);
+                hideImage(monologuesL.getLast());
+                hideImage(monologuesL.get(5));
+                hideImage(monologuesL.get(7));
+                hideImage(monologuesL.get(6));
+                hideImage(monologuesL.get(9));
                 lifeManager.decreaseLife();
                 lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             } else {
+                showImage(monologuesL.get(9));
+                hideImage(springHigh);
+                hideImage(monologuesL.getLast());
+                hideImage(monologuesL.get(5));
+                hideImage(monologuesL.get(7));
+                hideImage(monologuesL.get(8));
+                hideImage(monologuesL.get(6));
                 lifeManager.decreaseLife();
                 lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             }
         });
 
-        root.getChildren().addAll(table, springStand, springLow, springHigh, obj1High, obj1Low, obj2High, obj2Low, obj3High, obj3Low, overlay.getOverlayPane(), tryButton);
+        root.getChildren().addAll(table, springStand, springLow, springHigh, obj1High, obj1Low, obj2High, obj2Low, obj3High, obj3Low, stretch1, stretch2, overlay.getOverlayPane(), tryButton);
         addInventory(root);
         root.getChildren().add(goBack);
+        root.getChildren().addAll(monologuesL.get(5), monologuesL.get(6), monologuesL.get(7), monologuesL.get(8), monologuesL.get(9), monologuesL.get(10));
         Pane pane = new Pane(root, inventoryPane);
         stage.setScene(new Scene(pane, 1000, 650));
     }
 
     /**
      * Displays the spring and mass oscillation animations and evaluates the solution.
-     * @param selectedSpring
-     * @param selectedMass
      */
-    private void startSpringOscillation(ImageView selectedSpring, ImageView selectedMass) {
-        //if (selectedSpring.getImage() == null || selectedMass.getImage() == null) return;
+    private void startSpringOscillation(StackPane stackPane) {
+        PauseTransition pause1 = new PauseTransition(Duration.seconds(0.5));
+        pause1.setOnFinished(e -> {showImage(stretch1); hideImage(obj3Low); hideImage(springHigh);});
 
-        String springName = getItemNameFromImage(selectedSpring.getImage());
-        String massName = getItemNameFromImage(selectedMass.getImage());
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(1.0));
+        pause2.setOnFinished(e -> {hideImage(stretch1); showImage(stretch2);});
 
-        double k = getSpringConstantFromName(springName);
-        double m = getMassFromName(massName);
-        double omega = Math.sqrt(k / m); // Angular frequency
+        PauseTransition pause3 = new PauseTransition(Duration.seconds(2.0));
+        pause3.setOnFinished(e -> {hideImage(stretch2); showImage(stretch1);});
 
-        // mass oscillation
-        TranslateTransition massOscillation = new TranslateTransition();
-        massOscillation.setNode(selectedMass);
-        massOscillation.setDuration(Duration.seconds(2));
-        massOscillation.setCycleCount(TranslateTransition.INDEFINITE);
-        massOscillation.setAutoReverse(true);
-        massOscillation.setByY(20); // amplitude swing
+        PauseTransition pause4 = new PauseTransition(Duration.seconds(2.5));
+        pause4.setOnFinished(e -> {hideImage(stretch1); showImage(obj3Low); showImage(springHigh); showImage(monologuesL.getLast()); hideImage(monologuesL.get(5)); hideImage(monologuesL.get(6)); hideImage(monologuesL.get(7)); hideImage(monologuesL.get(8)); hideImage(monologuesL.get(9));});
 
-        //spring oscillation
-        ScaleTransition springOscillation = new ScaleTransition();
-        springOscillation.setNode(selectedSpring);
-        springOscillation.setDuration(Duration.seconds(2));
-        springOscillation.setCycleCount(ScaleTransition.INDEFINITE);
-        springOscillation.setAutoReverse(true);
-        springOscillation.setFromY(1.0);
-        springOscillation.setToY(1.3);
+        // Start both pauses
+        pause1.play();
+        pause2.play();
+        pause3.play();
+        pause4.play();
 
-        massOscillation.play();
-        springOscillation.play();
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
-        pause.setOnFinished(e -> {
-            massOscillation.stop();
-            springOscillation.stop();
-            isDoorUnlocked = true;
-            door.setOnMouseClicked(event -> {
-                FlameLab f = new FlameLab();
-                f.startLab(stage);
-                inventory.resetInventory();
-                overlay.updateInventory();
-            });
+        isDoorUnlocked = true;
+        door.setOnMouseClicked(event -> {
+            FlameLab f = new FlameLab();
+            f.startLab(stage);
+            inventory.resetInventory();
+            overlay.updateInventory();
         });
-        pause.play();
     }
 
     /**
@@ -343,8 +404,9 @@ public class rSpring {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
-        //monologues.addAll(List.of(doorLockedMessage, nothingPlacedMessage));
-        monologuesF.addAll(List.of());
+        monologues.addAll(List.of(fail, goBack, monoDoor, monoHI, monoMessage, monoLab, monoNothing, monoObj, monoSpring, monoWrong, monoLeave));
+        monologuesF.addAll(List.of(failF, retourner, monoDoorF, monoHIF, monoMessageF, monoLabF, monoNothingF, monoObjF, monoSpringF, monoWrongF, monoLeaveF));
+
         spring1Item.getImageView().setOnMouseClicked(e -> chosenItem = spring1Item);
         spring2Item.getImageView().setOnMouseClicked(e -> chosenItem = spring2Item);
         spring3Item.getImageView().setOnMouseClicked(e -> chosenItem = spring3Item);
