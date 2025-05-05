@@ -6,6 +6,7 @@ import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.Player;
 import com.example.escape_the_lab.model.Substance;
 import com.example.escape_the_lab.ui.Help;
+import com.example.escape_the_lab.ui.Inventory;
 import com.example.escape_the_lab.ui.Overlay;
 import com.example.escape_the_lab.ui.rAcidNeutralization;
 import javafx.application.Platform;
@@ -56,6 +57,7 @@ public class AcidNeutralizationLab extends Lab {
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
     private Player player = GameController.getPlayer();
+    private Inventory inventory1;
 
     Item chosenItem;
     Item redTool = new Item("Calcium Carbonate", "/images/AAAAcidLab/rTA.png"); // yes
@@ -63,6 +65,9 @@ public class AcidNeutralizationLab extends Lab {
     Item greenTool = new Item("Sodium Hydroxide", "/images/AAAAcidLab/gTA.png"); // yes
     Item pinkTool = new Item("Ammonia", "/images/AAAAcidLab/pTA.png");
     Item purpleTool = new Item("Water", "/images/AAAAcidLab/puTA.png");
+
+    private ImageView escaped = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/doneBg.png")).toExternalForm()));
+    private ImageView escapedButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/done.png")).toExternalForm()));
 
     private final ImageView red = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/rA.png")).toExternalForm()));
     private final ImageView yellow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/yA.png")).toExternalForm()));
@@ -97,6 +102,7 @@ public class AcidNeutralizationLab extends Lab {
         this.overlay = GameController.getOverlay();
         this.acidNeutralizationLabUI = new rAcidNeutralization(stage);
         this.lifeManager = GameController.getLifeManager();
+        this.inventory1 = overlay.getInventory();
     }
 
     /**
@@ -522,7 +528,9 @@ public class AcidNeutralizationLab extends Lab {
             succeedLab = true;
             doorOpen(primaryStage);
             arenaPane.getChildren().remove(acidFloorA);
-            showSuccessScreen();
+            doorA.setOnMouseClicked(event -> {
+                showSuccessScreen();
+            });
         } else if (droppedSubstances.size() >= 2) {
             showFailedScreen();
             System.out.println("Incorrect substances! You lose a life.");
@@ -534,50 +542,17 @@ public class AcidNeutralizationLab extends Lab {
      */
     private void showSuccessScreen() {
         succeedLab = true;
+        StackPane stackPane = new StackPane(escaped, escapedButton);
         Stage successStage = new Stage();
-        if (!player.getLanguage().equals("en")) {
-            successStage.setTitle("Labo Complété!");
-
-            Label successLabelFr = new Label("Vous avez neutralisé la solution avec succès!\n " +
-                    " L'acide chlorhydrique (HCl) a été neutralisé par deux bases différentes: \n " +
-                    " NaOH et CaCO₃. NaOH a réagi selon une réaction acide-base classique" +
-                    "pour former du sel et de l'eau,\n tandis que CaCO₃ a créé un effet de bulles en libérant du CO₂.");
-            successLabelFr.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
-            successLabelFr.setWrapText(true);
-            successLabelFr.setMaxWidth(450);
-            Button closeButtonFr = new Button("Fermé");
-            closeButtonFr.setOnAction(e -> successStage.close());
-            closeButtonFr.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-size: 14px;");
-
-            VBox layoutFr = new VBox(10, successLabelFr, closeButtonFr);
-            layoutFr.setAlignment(Pos.CENTER);
-            layoutFr.setPadding(new Insets(20));
-            layoutFr.setStyle("-fx-background-color: black;");
-
-            Scene successSceneFr = new Scene(layoutFr, 1000, 650);
-            successStage.setScene(successSceneFr);
-        } else {
-            successStage.setTitle("Lab Complete!");
-
-            Label successLabel = new Label("You successfully neutralized the solution!\n "
-                    + "Hydrochloric acid (HCl) was neutralized by two different bases: "
-                    + "NaOH and CaCO₃. NaOH reacted in a typical acid-base reaction"
-                    + "to form salt and water,\n while CaCO₃ created a bubbling effect by releasing CO₂ gas.");
-            successLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
-            successLabel.setWrapText(true);
-            successLabel.setMaxWidth(450);
-            Button closeButton = new Button("OK");
-            closeButton.setOnAction(e -> successStage.close());
-            closeButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-size: 14px;");
-
-            VBox layout = new VBox(10, successLabel, closeButton);
-            layout.setAlignment(Pos.CENTER);
-            layout.setPadding(new Insets(20));
-            layout.setStyle("-fx-background-color: black;");
-
-            Scene successScene = new Scene(layout, 1000, 650);
-            successStage.setScene(successScene);
-        }
+        escapedButton.setOnMouseClicked(event -> {
+            primaryStage.setScene(GameController.getScene());
+            lifeManager.resetLives();
+            inventory1.resetInventory();
+            overlay.updateInventory();
+            successStage.close();
+        });
+        Scene successScene = new Scene(stackPane, 1000, 650);
+        successStage.setScene(successScene);
         successStage.show();
     }
 
