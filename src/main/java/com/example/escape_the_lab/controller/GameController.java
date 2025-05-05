@@ -94,6 +94,7 @@ public class GameController extends Application {
             root.getChildren().addAll(startGameFr,startButtonFr, enButton, frButton);
             playClick();
             player.setLanguage("french");
+            overlay.updateHelpLang();
             changeSettingsLang(stage);
         });
         enButton.setOnMouseClicked(e -> {
@@ -101,6 +102,7 @@ public class GameController extends Application {
             root.getChildren().addAll(startGame, startButton, enButton, frButton);
             playClick();
             player.setLanguage("english");
+            overlay.updateHelpLang();
             changeSettingsLang(stage);
         });
 
