@@ -158,7 +158,6 @@ public class rCircuit {
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
             Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/circuitFormula.jpg")));
-            overlay.playClick();
             if (player.getLanguage().equals("english")) {
                 Help.show("Remember this from your E&M class?", helpImage);
             } else {
@@ -173,7 +172,7 @@ public class rCircuit {
     }
 
     private void goBack() {
-        overlay.playClick();
+        Overlay.playClick();
         stage.setScene(makeScene());
     }
 

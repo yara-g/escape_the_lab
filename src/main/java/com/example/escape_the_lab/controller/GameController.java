@@ -144,11 +144,20 @@ public class GameController extends Application {
 
         soundItem.setOnAction(actionEvent -> {
             player.setSound(!player.isSoundOn());
+            overlay.reloadTheme();
             if (player.isSoundOn()) {
                 playClick();
-                soundItem.setText("Sound: On");
+                if (player.getLanguage().equals("english")) {
+                    soundItem.setText("Sound: On");
+                } else {
+                    soundItem.setText("Son: Oui");
+                }
             } else {
-                soundItem.setText("Sound: Off");
+                if (player.getLanguage().equals("english")) {
+                    soundItem.setText("Sound: Off");
+                } else {
+                    soundItem.setText("Son: Non");
+                }
             }
         });
 
@@ -215,6 +224,7 @@ public class GameController extends Application {
             playClick();
 
             if (user.equals(player.getUsername()) && pass.equals(player.getPassword())) {
+                overlay.beginTheme();
                 primaryStage.setScene(new Scene(root1, 1000, 650));
             } else {
                 Label label = new Label("Wrong password or username.");
