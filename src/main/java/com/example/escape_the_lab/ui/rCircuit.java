@@ -6,6 +6,7 @@ import com.example.escape_the_lab.controller.LifeManager;
 import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.model.Player;
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -125,6 +126,10 @@ public class rCircuit {
         hideImage(monologuesL.get(4));
         hideImage(monologuesL.get(5));
         hideImage(monologuesL.getLast());
+        fail.setOpacity(0);
+        failF.setOpacity(0);
+        goBack.setOpacity(0);
+        retourner.setOpacity(0);
     }
 
     public void start() {
@@ -146,11 +151,6 @@ public class rCircuit {
         monologues.addAll(List.of(fail, goBack, dialogueRes, dialogueSorry, dialogueStuck, dialogueHot, dialogueDoor));
         monologuesF.addAll(List.of(failF, retourner, dialogueResF, dialogueSorryF, dialogueStuckF, dialogueHotF, dialogueDoorF));
 
-        Button skipToNext = new Button("Skip to next");
-        skipToNext.setTranslateX(-400);
-        skipToNext.setTranslateY(-300);
-        skipToNext.setMinWidth(90);
-        skipToNext.setOnAction(e -> passLab());
         inventoryImage.setMouseTransparent(true);
 
         // event handlers on main screen
@@ -165,7 +165,7 @@ public class rCircuit {
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
-        stackPane.getChildren().addAll(mainBG, bgBody, body, panel, glassThing, crack, head, inventoryImage, skipToNext);
+        stackPane.getChildren().addAll(mainBG, bgBody, body, panel, glassThing, crack, head, inventoryImage);
         // this checks if the door should be open or not
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
@@ -226,7 +226,7 @@ public class rCircuit {
         // this is the little section used to put the resistor in
         clickableSection.setOnMouseClicked(e -> {
             if (chosenItem != placeHolder) {
-                useItem(e, stackPane);
+                useItem(e, pane, stage);
             }
         });
 
@@ -313,25 +313,7 @@ public class rCircuit {
         overlay.updateInventory();
     }
 
-    private void failLab() {
-        // new circuit lab created if we need to restart the lab
-        rCircuit newRCircuit = new rCircuit(stage);
-        if (chosenItem.equals(res3Item) || chosenItem.equals(res4Item)) {
-            resTooLow = true;
-            panelScene();
-            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-            pause.play();
-            pause.setOnFinished(e -> KillPlayer.killPlayer("you were blinded by a shard that got into your eye.", stage, newRCircuit.makeScene(), overlay));
-        } else {
-            resTooHigh = true;
-            panelScene();
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.play();
-            pause.setOnFinished(e -> KillPlayer.killPlayer("you couldn't figure out how to get out, so you succumbed due to dehydration.", stage, newRCircuit.makeScene(), overlay));
-        }
-    }
-
-    private void useItem(MouseEvent event, StackPane stackPane) {
+    private void useItem(MouseEvent event, Pane stackPane, Stage stage) {
         if (chosenItem != null && chosenItem.equals(res1Item)) {
             showImage(res1);
             chosenItem = placeHolder;
@@ -353,8 +335,38 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
-            lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
-        }
+            if (lifeManager.getLives() == 0) {
+                stackPane.getChildren().add(monologuesL.get(0));
+                stackPane.getChildren().add(monologuesL.get(1));
+                FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
+                FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), monologuesL.get(0));
+                FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), monologuesL.get(1));
+                fadeTransitionBG.setFromValue(0);
+                fadeTransitionBG.setToValue(1);
+                fadeTransitionLet.setFromValue(0);
+                fadeTransitionLet.setToValue(1);
+                fadeTransitionIn.setFromValue(1);
+                fadeTransitionIn.setToValue(0);
+                fadeTransitionBG.play();
+                fadeTransitionLet.play();
+                fadeTransitionIn.play();
+                overlay.updateInventory();
+                goBack.setOnMouseClicked(e -> {
+                    stage.setScene(GameController.getScene());
+                    lifeManager.resetLives();
+                    inventoryPane.setOpacity(1);
+                    inventory.resetInventory();
+                    overlay.updateInventory();
+                });
+                retourner.setOnMouseClicked(e -> {
+                    stage.setScene(GameController.getScene());
+                    lifeManager.resetLives();
+                    inventoryPane.setOpacity(1);
+                    inventory.resetInventory();
+                    overlay.updateInventory();
+                });
+                inventory.resetInventory();
+            }        }
         if (chosenItem != null && chosenItem.equals(res3Item)) {
             chosenItem = placeHolder;
             showImage(monologuesL.get(4));
@@ -363,8 +375,38 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
-            lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
-        }
+            if (lifeManager.getLives() == 0) {
+                stackPane.getChildren().add(monologuesL.get(0));
+                stackPane.getChildren().add(monologuesL.get(1));
+                FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
+                FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), monologuesL.get(0));
+                FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), monologuesL.get(1));
+                fadeTransitionBG.setFromValue(0);
+                fadeTransitionBG.setToValue(1);
+                fadeTransitionLet.setFromValue(0);
+                fadeTransitionLet.setToValue(1);
+                fadeTransitionIn.setFromValue(1);
+                fadeTransitionIn.setToValue(0);
+                fadeTransitionBG.play();
+                fadeTransitionLet.play();
+                fadeTransitionIn.play();
+                overlay.updateInventory();
+                goBack.setOnMouseClicked(e -> {
+                    stage.setScene(GameController.getScene());
+                    lifeManager.resetLives();
+                    inventoryPane.setOpacity(1);
+                    inventory.resetInventory();
+                    overlay.updateInventory();
+                });
+                retourner.setOnMouseClicked(e -> {
+                    stage.setScene(GameController.getScene());
+                    lifeManager.resetLives();
+                    inventoryPane.setOpacity(1);
+                    inventory.resetInventory();
+                    overlay.updateInventory();
+                });
+                inventory.resetInventory();
+            }        }
         if (chosenItem != null && chosenItem.equals(res4Item)) {
             chosenItem = placeHolder;
             showImage(monologuesL.get(4));
@@ -373,7 +415,38 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
-            lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
+            if (lifeManager.getLives() == 0) {
+                stackPane.getChildren().add(monologuesL.get(0));
+                stackPane.getChildren().add(monologuesL.get(1));
+                FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
+                FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), monologuesL.get(0));
+                FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), monologuesL.get(1));
+                fadeTransitionBG.setFromValue(0);
+                fadeTransitionBG.setToValue(1);
+                fadeTransitionLet.setFromValue(0);
+                fadeTransitionLet.setToValue(1);
+                fadeTransitionIn.setFromValue(1);
+                fadeTransitionIn.setToValue(0);
+                fadeTransitionBG.play();
+                fadeTransitionLet.play();
+                fadeTransitionIn.play();
+                overlay.updateInventory();
+                goBack.setOnMouseClicked(e -> {
+                    stage.setScene(GameController.getScene());
+                    lifeManager.resetLives();
+                    inventoryPane.setOpacity(1);
+                    inventory.resetInventory();
+                    overlay.updateInventory();
+                });
+                retourner.setOnMouseClicked(e -> {
+                    stage.setScene(GameController.getScene());
+                    lifeManager.resetLives();
+                    inventoryPane.setOpacity(1);
+                    inventory.resetInventory();
+                    overlay.updateInventory();
+                });
+                inventory.resetInventory();
+            }
         }
     }
 

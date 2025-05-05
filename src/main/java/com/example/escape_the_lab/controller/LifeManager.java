@@ -68,6 +68,8 @@ public class LifeManager {
 
     public void kill(Group inventoryPane, ImageView bg, ImageView let, StackPane stackPane, Overlay overlay, ImageView goBack, ImageView retourner, Inventory inventory, Stage stage) {
         if (lives == 0) {
+            stackPane.getChildren().add(bg);
+            stackPane.getChildren().add(let);
             FadeTransition fadeTransitionIn = new FadeTransition(Duration.seconds(2), inventoryPane);
             FadeTransition fadeTransitionBG = new FadeTransition(Duration.seconds(2), bg);
             FadeTransition fadeTransitionLet = new FadeTransition(Duration.seconds(2), let);
@@ -80,8 +82,6 @@ public class LifeManager {
             fadeTransitionBG.play();
             fadeTransitionLet.play();
             fadeTransitionIn.play();
-            stackPane.getChildren().add(bg);
-            stackPane.getChildren().add(let);
             overlay.updateInventory();
             goBack.setOnMouseClicked(e -> reStart(stage, inventoryPane, inventory, overlay));
             retourner.setOnMouseClicked(e -> reStart(stage, inventoryPane, inventory, overlay));

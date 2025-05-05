@@ -169,12 +169,6 @@ public class FlameLab {
         Scene scene = new Scene(pane);
         zoomMain(stage);
         stage.setScene(scene);
-        wall.setOnMouseClicked(e -> {
-            AcidNeutralizationLab a = new AcidNeutralizationLab(stage);
-            a.startLab();
-            inventory.resetInventory();
-            overlay.updateInventory();
-        });
         overlay.getHelpButton().setOnMouseClicked(e -> {
             Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/AAACircuitLab/empty.png")));
             if (player.getLanguage().equals("english")) {
