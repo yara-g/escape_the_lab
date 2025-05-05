@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,6 +54,7 @@ public class AcidNeutralizationLab extends Lab {
     Substance substance3;
     Substance substance4;
     Substance substance5;
+    private Group inventoryPane;
     boolean succeedLab = false;
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
