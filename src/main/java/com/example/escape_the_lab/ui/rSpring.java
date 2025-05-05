@@ -19,6 +19,11 @@ import java.util.Objects;
 
 import static com.example.escape_the_lab.controller.GameController.player;
 
+/**
+ * The rSpring Class is responsible for managing the UI and scene transitions for the spring based puzzle lab in the
+ * escape the room game. It interacts with the player's inventory, handles displaying item selection and placement,
+ * and the solution based on physics principles; spring oscillation.
+ */
 public class rSpring {
     private final Stage stage;
     private final SpringLab springLab;
@@ -34,7 +39,7 @@ public class rSpring {
     private Item chosenItem;
     private final ImageView selectedSpring;
     private final ImageView selectedMass;
-    Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
+    Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");// placeholder item used when no item is selected
 
     /// Main scene.
     ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
@@ -84,7 +89,11 @@ public class rSpring {
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
 
-    // Constructor
+    /**
+     * Constructs an rSpring scene with the given stage and controller.
+     * @param stage the stage to render the scenes on.
+     * @param springLab the controlller containing logic for the spring lab.
+     */
     public rSpring(Stage stage, SpringLab springLab) {
         this.stage = stage;
         this.springLab = springLab;
@@ -96,6 +105,9 @@ public class rSpring {
         selectedMass = new ImageView();
     }
 
+    /**
+     * Displays the main scene for the spring lab where the user will choose their next step.
+     */
     public void showMainScene() {
         initialize();
 
@@ -149,7 +161,9 @@ public class rSpring {
         overlay.updateInventory();
     }
 
-    // Show springs scene with different types of springs
+    /**
+     * Displays the scene where the user can select different springs; whether the right or the wrong one.
+     */
     private void showSpringsScene() {
         spring1Item.getImageView().setOnMouseClicked(e -> chosenItem = spring1Item);
         spring2Item.getImageView().setOnMouseClicked(e -> chosenItem = spring2Item);
@@ -169,6 +183,9 @@ public class rSpring {
         startSolutionCheck();
     }
 
+    /**
+     * Displays the lab table scene where the player can place a mass and spring to oscillate for oscillation.
+     */
     private void showLabScene() {
         ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         goBack.setOnMouseClicked(e -> showMainScene());
@@ -176,34 +193,37 @@ public class rSpring {
 
         springStand.setOnMouseClicked(e -> {
             if (chosenItem != null && !chosenItem.equals(placeHolder)) {
-                if (chosenItem.getName().contains("N/m")){
-                    selectedSpring.setImage(chosenItem.getImage());
-                    selectedSpring.setLayoutY(200);
-                    placedSpringItem = chosenItem;
-                    springPlaced = true;
+                boolean placed = springLab.tryPlaceItem(chosenItem);
+                if (placed) {
+                    if (chosenItem.getName().contains("N/m")) {
+                        selectedSpring.setImage(chosenItem.getImage());
+                        selectedSpring.setLayoutY(200);
+                        //placedSpringItem = chosenItem;
+                        //springPlaced = true;
 
-                    if (massPlaced) {
-                        selectedMass.setLayoutY(250);
+                        if (springLab.isMassPlaced()) {
+                            selectedMass.setLayoutY(250);
+                        }
+
+                    } else if (chosenItem.getName().contains("kg")) {
+                        selectedMass.setImage(chosenItem.getImage());
+
+                        if (springLab.isSpringPlaced()) {
+                            // If spring is placed, offset mass below
+                            selectedMass.setLayoutY(250);
+                        } else {
+                            // If spring hasn't been placed yet, put mass at the spring's default position
+                            selectedMass.setLayoutY(200);
+                        }
                     }
 
-                } else if (chosenItem.getName().contains("kg")) {
-                    selectedMass.setImage(chosenItem.getImage());
+                    //placedMassItem = chosenItem;
+                    //massPlaced = true;
 
-                    if (springPlaced) {
-                        // If spring is placed, offset mass below
-                        selectedMass.setLayoutY(250);
-                    } else {
-                        // If spring hasn't been placed yet, put mass at the spring's default position
-                        selectedMass.setLayoutY(200);
-                    }
-
-                    placedMassItem = chosenItem;
-                    massPlaced = true;
-
+                    inventory.removeItem(chosenItem);
+                    overlay.updateInventory();
+                    chosenItem = placeHolder;
                 }
-                inventory.removeItem(chosenItem);
-                overlay.updateInventory();
-                chosenItem = placeHolder;
             }
         });
 
@@ -273,9 +293,9 @@ public class rSpring {
 
     private double getMassFromName(String name) {
         switch (name) {
-            case "3g": return 3;
-            case "4g": return 4;
-            case "5g": return 5;
+            case "3kg": return 3;
+            case "4kg": return 4;
+            case "5kg": return 5;
             default: return 0;
         }
     }
@@ -290,6 +310,11 @@ public class rSpring {
         return "";
     }
 
+    /**
+     * Displays the spring and mass oscillation animations and evaluates the solution.
+     * @param selectedSpring ImageView of the placed spring
+     * @param selectedMass ImageView of the placed mass
+     */
     private void startSpringOscillation(ImageView selectedSpring, ImageView selectedMass) {
         if (selectedSpring.getImage() == null || selectedMass.getImage() == null) return;
 
@@ -342,7 +367,9 @@ public class rSpring {
         pause.play();
     }
 
-    // Start the rCircuit lab
+    /**
+     * Displays the Circuit Lab scene
+     */
     private void startRCircuitLab() {
         rCircuit lab = new rCircuit(stage);
         try {
@@ -353,6 +380,10 @@ public class rSpring {
     }
 
     // Start an AnimationTimer to periodically check if the solution is correct
+
+    /**
+     * Begins periodic checking of the player's solution using AnimationTimer.
+     */
     private void startSolutionCheck() {
         AnimationTimer solutionCheckTimer = new AnimationTimer() {
             @Override
@@ -366,6 +397,9 @@ public class rSpring {
         solutionCheckTimer.start(); // Start the timer
     }
 
+    /**
+     * Initializes the language-specific monologue settings.
+     */
     public void initialize() {
         if (Objects.equals(player.getLanguage(), "english")) {
             monologuesL.clear();
