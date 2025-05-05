@@ -119,7 +119,16 @@ public class rSpring {
     public void showMainScene() {
         initialize();
 
-        StackPane root = new StackPane(bgMain, light, door, mainChair, mainDrawer, mainShelves, obj1, obj2, person, shadow, lightOn);
+        // TEMPORARY - remove the button
+        Button skipToNext = new Button("Escape");
+        skipToNext.setOnAction(e -> {
+            FlameLab f = new FlameLab();
+            f.startLab(stage);
+            inventory.resetInventory();
+            overlay.updateInventory();
+        });
+
+        StackPane root = new StackPane(bgMain, light, door, mainChair, mainDrawer, mainShelves, obj1, obj2, person, shadow, lightOn, skipToNext);
         addInventory(root);
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
@@ -228,16 +237,18 @@ public class rSpring {
                 startSpringOscillation(springHigh, obj3Low);
             } else if (springMissing && massMissing) {
                 //root.getChildren().add(monologuesL.get(1));
+                //"You haven’t placed anything on the stand..."
             } else if (!springMissing && massMissing) {
                 //if only mass is placed
-                //"And so you’ve been stranded... As the days oscillate endlessly."
+                //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
+                //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
                 //wrongLab();
                 lifeManager.decreaseLife();
                 lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
             } else if (springMissing && !massMissing) {
                 //if only spring is placed
-                //"and so you’ve been stranded as the days swing back and forth"
-                //
+                //"You didn’t oscillate your mind hard enough...""and so you’ve been stranded as the days swing back and forth"
+                //"You didn’t even attempt to oscillate an object...""And so you’ve been stranded... As the days oscillate endlessly."
                 //wrongLab();
                 lifeManager.decreaseLife();
                 lifeManager.kill(overlay.getOverlayPane(), bgMain, placeHolder.getImageView(), root, overlay, goBack, retourner, overlay.getInventory(), stage);
@@ -351,6 +362,8 @@ public class rSpring {
         mass1Item.getImageView().setOnMouseClicked(e -> chosenItem = mass1Item);
         mass2Item.getImageView().setOnMouseClicked(e -> chosenItem = mass2Item);
         mass3Item.getImageView().setOnMouseClicked(e -> chosenItem = mass3Item);
+//      "Something must fall. Something must stretch."
+//      "Choose wisely. Or stay... forever oscillating."
     }
 
     /**
