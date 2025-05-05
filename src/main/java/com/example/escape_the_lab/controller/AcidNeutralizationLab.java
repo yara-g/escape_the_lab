@@ -34,6 +34,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AcidNeutralizationLab extends Lab {
@@ -98,6 +99,14 @@ public class AcidNeutralizationLab extends Lab {
     private final ImageView entrer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/entrerA.png")).toExternalForm()));
     private final ImageView flowerZ = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/flowerZA.png")).toExternalForm()));
     private final ImageView flowerZF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/flowerZFA.png")).toExternalForm()));
+
+    List<ImageView> monologues = new ArrayList<>();
+    List<ImageView> monologuesF = new ArrayList<>();
+    List<ImageView> monologuesL = new ArrayList<>();
+    private final ImageView monoWalk = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/27.png")).toExternalForm()));
+    private final ImageView monoWalkF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/28.png")).toExternalForm()));
+    private final ImageView monoFell = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/29.png")).toExternalForm()));
+    private final ImageView monoFellF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/30.png")).toExternalForm()));
 
     public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
