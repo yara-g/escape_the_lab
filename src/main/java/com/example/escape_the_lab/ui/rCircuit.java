@@ -122,6 +122,9 @@ public class rCircuit {
         hideImage(crack);
         hideImage(body);
         hideImage(placedResistor);
+        hideImage(monologuesL.get(4));
+        hideImage(monologuesL.get(5));
+        hideImage(monologuesL.getLast());
     }
 
     public void start() {
@@ -152,7 +155,6 @@ public class rCircuit {
 
         // event handlers on main screen
         panel.setOnMouseClicked(e -> panelScene());
-        door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
         openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
         head.setOnMouseClicked(e -> inspectHead());
@@ -193,30 +195,28 @@ public class rCircuit {
 
     private void panelScene() {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor);
+        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor, monologuesL.get(4), monologuesL.get(5), monologuesL.getLast());
 
         // all 3 outcomes to attaching a resistor (whether correct or incorrect)
         if (isLedOn) {
             if (player.isSoundOn()) {
                 doorSoundPLayer.seek(new Duration(0));
                 doorSoundPLayer.play();
-                stackPane.getChildren().remove(monologuesL.get(4));
-                stackPane.getChildren().remove(monologuesL.get(5));
-                stackPane.getChildren().add(monologuesL.getLast());
+                showImage(monologuesL.getLast());
+                hideImage(monologuesL.get(4));
+                hideImage(monologuesL.get(5));
             }
             stackPane.getChildren().addAll(ledOn);
         } else if (resTooLow) {
             if (player.isSoundOn()) {
                 shatterSoundPlayer2.seek(new Duration(0));
                 shatterSoundPlayer2.play();
-                stackPane.getChildren().remove(monologuesL.get(5));
-                stackPane.getChildren().add(monologuesL.get(4));
             }
         }
 
         if (resTooHigh) {
-            stackPane.getChildren().remove(monologuesL.get(4));
-            stackPane.getChildren().add(monologuesL.get(5));
+            hideImage(monologuesL.get(4));
+            showImage(monologuesL.get(5));
         }
 
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
@@ -234,7 +234,7 @@ public class rCircuit {
     }
 
     private void inspectHead() {
-        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, monologuesL.get(2), inventoryImage, back);
+        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, inventoryImage, back, monologuesL.get(2));
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> goBack());
@@ -336,6 +336,9 @@ public class rCircuit {
             showImage(res1);
             chosenItem = placeHolder;
             showImage(placedResistor);
+            hideImage(monologuesL.get(4));
+            hideImage(monologuesL.get(5));
+            showImage(monologuesL.getLast());
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
             isLedOn = true;
@@ -344,6 +347,8 @@ public class rCircuit {
         }
         if (chosenItem != null && chosenItem.equals(res2Item)) {
             chosenItem = placeHolder;
+            hideImage(monologuesL.get(4));
+            showImage(monologuesL.get(5));
             overlay.getInventory().removeItem(res2Item);
             overlay.updateInventory();
             panelScene();
@@ -352,6 +357,8 @@ public class rCircuit {
         }
         if (chosenItem != null && chosenItem.equals(res3Item)) {
             chosenItem = placeHolder;
+            showImage(monologuesL.get(4));
+            hideImage(monologuesL.get(5));
             overlay.getInventory().removeItem(res3Item);
             overlay.updateInventory();
             panelScene();
@@ -360,22 +367,16 @@ public class rCircuit {
         }
         if (chosenItem != null && chosenItem.equals(res4Item)) {
             chosenItem = placeHolder;
+            showImage(monologuesL.get(4));
+            hideImage(monologuesL.get(5));
             overlay.getInventory().removeItem(res4Item);
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
             lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
         }
-//
-//        if (lifeManager.getLives() == 0) {
-//            assert chosenItem != null;
-//            chosenItem.getImageView().setMouseTransparent(false);
-//            chosenItem.getImageView().setVisible(true);
-//            overlay.getInventory().removeItem(chosenItem);
-//            overlay.updateInventory();
-//            failLab();
-//        }
     }
+
     /**
      * Extracted repeated method for making an image view visible and clickable.
      */
