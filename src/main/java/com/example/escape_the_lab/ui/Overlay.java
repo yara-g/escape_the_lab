@@ -42,11 +42,6 @@ public class Overlay {
     }
 
     private ImageView createHelpButton() {
-        helpButton.setFitWidth(40);
-        helpButton.setFitHeight(40);
-        helpButton.setLayoutX(890);
-        helpButton.setLayoutY(590);
-
         return helpButton;
     }
 
