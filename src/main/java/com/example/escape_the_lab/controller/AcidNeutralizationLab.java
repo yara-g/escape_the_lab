@@ -103,10 +103,14 @@ public class AcidNeutralizationLab extends Lab {
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
-    private final ImageView monoWalk = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/27.png")).toExternalForm()));
-    private final ImageView monoWalkF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/28.png")).toExternalForm()));
-    private final ImageView monoFell = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/29.png")).toExternalForm()));
-    private final ImageView monoFellF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/30.png")).toExternalForm()));
+    private final ImageView monoWalk = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/27.png")).toExternalForm()));
+    private final ImageView monoWalkF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/28.png")).toExternalForm()));
+    private final ImageView monoFell = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/29.png")).toExternalForm()));
+    private final ImageView monoFellF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/30.png")).toExternalForm()));
+    private final ImageView fail = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFail.png")).toExternalForm()));
+    private final ImageView failF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFailF.png")).toExternalForm()));
+    private final ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/goBack.png")).toExternalForm()));
+    private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
 
     public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
@@ -114,6 +118,21 @@ public class AcidNeutralizationLab extends Lab {
         this.acidNeutralizationLabUI = new rAcidNeutralization(stage);
         this.lifeManager = GameController.getLifeManager();
         this.inventory1 = overlay.getInventory();
+
+        if (Objects.equals(player.getLanguage(), "english")) {
+            monologuesL.clear();
+            monologuesL = monologues;
+        } else {
+            monologuesL.clear();
+            monologuesL = monologuesF;
+        }
+        monologues.addAll(List.of(fail, goBack, monoWalk, monoFell));
+        monologuesF.addAll(List.of(failF, retourner, monoWalkF, monoFellF));
+
+        hideImage(monoWalk);
+        hideImage(monoWalkF);
+        hideImage(monoFell);
+        hideImage(monoFellF);
     }
 
     /**
@@ -210,11 +229,18 @@ public class AcidNeutralizationLab extends Lab {
                 Help.show("This is a special type of neutralization! HCl is a strong acid, it requires 2 different " +
                         "basses to be fully neutralized", helpImage);
             });
+            doorA.setOnMouseClicked(e -> {
+                if (acidFloorA.isVisible()) {
+                    showImage(monologuesL.get(2));
+                } else {
+                    showSuccessScreen();
+                }
+            });
             setupCollectible(pink, pinkTool);
             setupCollectible(yellow, yellowTool);
             noAcid.setVisible(false);
             noAcid.setMouseTransparent(true);
-            arenaPane.getChildren().addAll(backGroundA, acidFloorA, noAcid, doorA, treeA, houseA, hintFlowerA, bigFlowerA, pink, yellow);
+            arenaPane.getChildren().addAll(backGroundA, acidFloorA, noAcid, doorA, treeA, houseA, hintFlowerA, bigFlowerA, pink, yellow, monologuesL.get(2));
             arenaPane.getChildren().addAll(inventory, overlay.getOverlayPane());
             return new Scene(labRoot, 1000, 650);
         } catch (IOException e) {
@@ -275,11 +301,11 @@ public class AcidNeutralizationLab extends Lab {
         Pane layout = new Pane();
         Pane layoutFr = new Pane();
         if (!player.getLanguage().equals("en")) {
-            layoutFr.getChildren().addAll(flowerZ, phSlider, entrer, substanceContainer, inventory, overlay.getOverlayPane(), back);
+            layoutFr.getChildren().addAll(flowerZF, phSlider, entrer, substanceContainer, inventory, overlay.getOverlayPane(), back);
             Scene flowerSceneFr = new Scene(layoutFr, 1000, 650);
             primaryStage.setScene(flowerSceneFr);
         } else {
-            layout.getChildren().addAll(flowerZF, phSlider, enter, substanceContainer, inventory, overlay.getOverlayPane(), back);
+            layout.getChildren().addAll(flowerZ, phSlider, enter, substanceContainer, inventory, overlay.getOverlayPane(), back);
             Scene flowerScene = new Scene(layout, 1000, 650);
             primaryStage.setScene(flowerScene);
         }
@@ -635,13 +661,13 @@ public class AcidNeutralizationLab extends Lab {
      */
     private Scene createCollectionRoomScene() {
         Pane root = new Pane();
-
+        showImage(monologuesL.get(3));
         ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/back.png")).toExternalForm()));
         back.setOnMouseClicked(e -> primaryStage.setScene(createScene()));
 
         setupCollectible(red, redTool);
         setupCollectible(purple, purpleTool);
-        root.getChildren().addAll(houseZA, purple, red, inventory, overlay.getOverlayPane(), back);
+        root.getChildren().addAll(houseZA, purple, red, inventory, overlay.getOverlayPane(), back, monologuesL.get(3));
         return new Scene(root, 1000, 650);
     }
 
@@ -674,5 +700,21 @@ public class AcidNeutralizationLab extends Lab {
         } else if (substanceItem == purpleTool) {
             PurpleImage.setOpacity(1.0);
         }
+    }
+
+    /**
+     * Extracted repeated method for making an image view visible and clickable.
+     */
+    private void showImage(ImageView image) {
+        image.setMouseTransparent(false);
+        image.setVisible(true);
+    }
+
+    /**
+     * Extracted repeated method for making an image view not visible and not clickable.
+     */
+    private void hideImage(ImageView image) {
+        image.setMouseTransparent(true);
+        image.setVisible(false);
     }
 }
