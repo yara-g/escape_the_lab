@@ -210,13 +210,8 @@ public class GameController extends Application {
                 )
         ));
         passwordField.setStyle("-fx-text-fill: black");
-        Button skip = new Button("skip");
         password.setTextFill(Color.RED);
-        vBox.getChildren().addAll(enter, placeholder, skip);
-
-        skip.setOnAction(e -> {
-            primaryStage.setScene(new Scene(root1, 1000, 650));
-        });
+        vBox.getChildren().addAll(enter, placeholder);
 
         enter.setOnAction(e -> {
             String user = usernameInput.getText();

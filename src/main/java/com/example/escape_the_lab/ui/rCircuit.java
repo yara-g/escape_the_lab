@@ -7,6 +7,7 @@ import com.example.escape_the_lab.controller.SpringLab;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.model.Player;
 import javafx.animation.PauseTransition;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -27,6 +28,8 @@ public class rCircuit {
     private final Overlay overlay;
     private Scene mainScene;
     private Item chosenItem;
+    private Group inventoryPane;
+    private Inventory inventory;
     private final Item placeHolder;
     private boolean isLedOn = false;
     private boolean resTooLow = false;
@@ -41,27 +44,26 @@ public class rCircuit {
     // whole room
     ImageView panel = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/paneC.png")).toExternalForm()));
     ImageView mainBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bgC.png")).toExternalForm()));
+    ImageView bgBody = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bgBody.png")).toExternalForm()));
     ImageView glassThing = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/smallC.png")).toExternalForm()));
     ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/doorC.png")).toExternalForm()));
     ImageView openedDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/doorOpenC.png")).toExternalForm()));
     ImageView crack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bigC.png")).toExternalForm()));
     ImageView body = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/bodyC.png")).toExternalForm()));
-    ImageView dialogue3 = new ImageView(new Image(Objects.requireNonNull((getClass().getResource("/images/AAACircuitLab/heavyC.png")).toExternalForm())));
 
     // panel scene
     ImageView panelBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomPaneC.png")).toExternalForm()));
     ImageView note = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/noteC.png")).toExternalForm()));
+    ImageView noteZoomFr = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note-zoomedF.png")).toExternalForm()));
     ImageView noteZoom = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/note-zoomed.png")).toExternalForm()));
-    ImageView ledBroken = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/led-broken.png")).toExternalForm()));
     ImageView head = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/headC.png")).toExternalForm()));
     ImageView ledOn = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/lightC.png")).toExternalForm()));
     ImageView clickableSection = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/placeC.png")).toExternalForm()));
-    ImageView dialogue2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/dialogue2.png")).toExternalForm()));
+    ImageView fils = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/fils.png")).toExternalForm()));
+    ImageView placedResistor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/placedR.png")).toExternalForm()));
 
     // head scene
     ImageView headBG = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/zoomHeadC.png")).toExternalForm()));
-    ImageView dialogue = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/resistorsC.png")).toExternalForm()));
-    ImageView dialogue4 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/sorryC.png")).toExternalForm()));
     ImageView res1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r1.png")).toExternalForm()));
     ImageView res2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r2.png")).toExternalForm()));
     ImageView res3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/r3.png")).toExternalForm()));
@@ -92,6 +94,17 @@ public class rCircuit {
     private final ImageView failF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/gameFailF.png")).toExternalForm()));
     private final ImageView goBack = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/goBack.png")).toExternalForm()));
     private final ImageView retourner = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/retourner.png")).toExternalForm()));
+    ImageView dialogueRes = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/resistorsC.png")).toExternalForm()));
+    ImageView dialogueResF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/1.png")).toExternalForm()));
+    ImageView dialogueSorry = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/sorryC.png")).toExternalForm()));
+    ImageView dialogueSorryF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/2.png")).toExternalForm()));
+    ImageView dialogueStuck = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/3.png")).toExternalForm()));
+    ImageView dialogueStuckF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/4.png")).toExternalForm()));
+    ImageView dialogueHot = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/5.png")).toExternalForm()));
+    ImageView dialogueHotF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/6.png")).toExternalForm()));
+    ImageView dialogueDoor = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/7.png")).toExternalForm()));
+    ImageView dialogueDoorF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAACircuitLab/8.png")).toExternalForm()));
+
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
@@ -100,12 +113,15 @@ public class rCircuit {
         // initialize lab
         this.stage = stage;
         this.overlay = GameController.getOverlay();
+        this.inventory = overlay.getInventory();
+        this.inventoryPane = overlay.getOverlayPane();
         placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
         makeScene();
         chosenItem = placeHolder;
         head.setVisible(false);
         hideImage(crack);
         hideImage(body);
+        hideImage(placedResistor);
     }
 
     public void start() {
@@ -124,21 +140,18 @@ public class rCircuit {
             monologuesL.clear();
             monologuesL = monologuesF;
         }
-        monologues.addAll(List.of(fail, goBack));
-        monologuesF.addAll(List.of(failF, retourner));
+        monologues.addAll(List.of(fail, goBack, dialogueRes, dialogueSorry, dialogueStuck, dialogueHot, dialogueDoor));
+        monologuesF.addAll(List.of(failF, retourner, dialogueResF, dialogueSorryF, dialogueStuckF, dialogueHotF, dialogueDoorF));
 
         Button skipToNext = new Button("Skip to next");
         skipToNext.setTranslateX(-400);
         skipToNext.setTranslateY(-300);
         skipToNext.setMinWidth(90);
         skipToNext.setOnAction(e -> passLab());
-
-        hideImage(dialogue4);
         inventoryImage.setMouseTransparent(true);
 
         // event handlers on main screen
         panel.setOnMouseClicked(e -> panelScene());
-        door.setOnMouseClicked(e -> stackPane.getChildren().add(dialogue3));
         openedDoor.setOnMouseClicked(e -> passLab());
         glassThing.setOnMouseClicked(e -> breakGlass());
         head.setOnMouseClicked(e -> inspectHead());
@@ -149,7 +162,7 @@ public class rCircuit {
         res3Item.getImageView().setOnMouseClicked(e -> chosenItem = res3Item);
         res4Item.getImageView().setOnMouseClicked(e -> chosenItem = res4Item);
 
-        stackPane.getChildren().addAll(mainBG, panel, glassThing, crack, head, inventoryImage, body, skipToNext);
+        stackPane.getChildren().addAll(mainBG, bgBody, body, panel, glassThing, crack, head, inventoryImage, skipToNext);
         // this checks if the door should be open or not
         if (isLedOn) {
             stackPane.getChildren().add(2, openedDoor);
@@ -179,25 +192,30 @@ public class rCircuit {
 
     private void panelScene() {
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection);
+        stackPane.getChildren().addAll(panelBG, note, inventoryImage, back, clickableSection, fils, placedResistor);
 
         // all 3 outcomes to attaching a resistor (whether correct or incorrect)
         if (isLedOn) {
             if (player.isSoundOn()) {
                 doorSoundPLayer.seek(new Duration(0));
                 doorSoundPLayer.play();
+                stackPane.getChildren().remove(monologuesL.get(4));
+                stackPane.getChildren().remove(monologuesL.get(5));
+                stackPane.getChildren().add(monologuesL.getLast());
             }
             stackPane.getChildren().addAll(ledOn);
         } else if (resTooLow) {
             if (player.isSoundOn()) {
                 shatterSoundPlayer2.seek(new Duration(0));
                 shatterSoundPlayer2.play();
+                stackPane.getChildren().remove(monologuesL.get(5));
+                stackPane.getChildren().add(monologuesL.get(4));
             }
-            stackPane.getChildren().add(ledBroken);
         }
 
         if (resTooHigh) {
-            stackPane.getChildren().add(dialogue2);
+            stackPane.getChildren().remove(monologuesL.get(4));
+            stackPane.getChildren().add(monologuesL.get(5));
         }
 
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
@@ -207,7 +225,7 @@ public class rCircuit {
         // this is the little section used to put the resistor in
         clickableSection.setOnMouseClicked(e -> {
             if (chosenItem != placeHolder) {
-                useItem(e);
+                useItem(e, stackPane);
             }
         });
 
@@ -215,40 +233,43 @@ public class rCircuit {
     }
 
     private void inspectHead() {
-        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, inventoryImage, dialogue, dialogue4, back);
+        StackPane stackPane = new StackPane(headBG, res1, res2, res3, res4, monologuesL.get(2), inventoryImage, back);
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> goBack());
 
-
         // all event handlers for collecting the resistors from the head
         res1.setOnMouseClicked(e -> {
-            dialogue.setVisible(false);
-            dialogue4.setVisible(true);
+            stackPane.getChildren().remove(monologuesL.get(2));
+            stackPane.getChildren().remove(monologuesL.get(3));
+            stackPane.getChildren().add(monologuesL.get(3));
             res1.setVisible(false);
             overlay.getInventory().addItem(res1Item);
             overlay.updateInventory();
         });
 
         res2.setOnMouseClicked(e -> {
-            dialogue.setVisible(false);
-            dialogue4.setVisible(true);
+            stackPane.getChildren().remove(monologuesL.get(2));
+            stackPane.getChildren().remove(monologuesL.get(3));
+            stackPane.getChildren().add(monologuesL.get(3));
             res2.setVisible(false);
             overlay.getInventory().addItem(res2Item);
             overlay.updateInventory();
         });
 
         res3.setOnMouseClicked(e -> {
-            dialogue.setVisible(false);
-            dialogue4.setVisible(true);
+            stackPane.getChildren().remove(monologuesL.get(2));
+            stackPane.getChildren().remove(monologuesL.get(3));
+            stackPane.getChildren().add(monologuesL.get(3));
             res3.setVisible(false);
             overlay.getInventory().addItem(res3Item);
             overlay.updateInventory();
         });
 
         res4.setOnMouseClicked(e -> {
-            dialogue.setVisible(false);
-            dialogue4.setVisible(true);
+            stackPane.getChildren().remove(monologuesL.get(2));
+            stackPane.getChildren().remove(monologuesL.get(3));
+            stackPane.getChildren().add(monologuesL.get(3));
             res4.setVisible(false);
             overlay.getInventory().addItem(res4Item);
             overlay.updateInventory();
@@ -259,7 +280,12 @@ public class rCircuit {
 
     // used when user clicks sticky note
     private void readNote() {
-        StackPane stackPane = new StackPane(panelBG, noteZoom, inventoryImage, back);
+        StackPane stackPane;
+        if (player.getLanguage().equals("english")) {
+            stackPane = new StackPane(noteZoom, inventoryImage, back);
+        } else {
+            stackPane = new StackPane(noteZoomFr, inventoryImage, back);
+        }
         Pane pane = new Pane(stackPane, overlay.getOverlayPane());
         Scene currentScene = new Scene(pane);
         back.setOnMouseClicked(e -> panelScene());
@@ -270,13 +296,12 @@ public class rCircuit {
         if (player.isSoundOn()) {
             shatterSoundPlayer.play();
         }
-        head.setVisible(true);
-        head.setMouseTransparent(false);
+        showImage(head);
         body.setVisible(true);
         crack.setVisible(true);
+        hideImage(bgBody);
         stage.setScene(makeScene());
-        glassThing.setVisible(false);
-        glassThing.setMouseTransparent(true);
+        hideImage(glassThing);
     }
 
     // skip to next lab (spring lab)
@@ -305,14 +330,16 @@ public class rCircuit {
         }
     }
 
-    private void useItem(MouseEvent event) {
+    private void useItem(MouseEvent event, StackPane stackPane) {
         if (chosenItem != null && chosenItem.equals(res1Item)) {
             showImage(res1);
             chosenItem = placeHolder;
+            showImage(placedResistor);
             overlay.getInventory().removeItem(res1Item);
             overlay.updateInventory();
             isLedOn = true;
             panelScene();
+            clickableSection.setMouseTransparent(true);
         }
         if (chosenItem != null && chosenItem.equals(res2Item)) {
             chosenItem = placeHolder;
@@ -320,7 +347,7 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
-            lifeManager.kill(overlay.getOverlayPane(), mainBG, placeHolder.getImageView(), stackPane, overlay, goBack, retourner, overlay.getInventory(), stage);
+            lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
         }
         if (chosenItem != null && chosenItem.equals(res3Item)) {
             chosenItem = placeHolder;
@@ -328,7 +355,7 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
-            lifeManager.kill(overlay.getOverlayPane(), mainBG, placeHolder.getImageView(), stackPane, overlay, goBack, retourner, overlay.getInventory(), stage);
+            lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
         }
         if (chosenItem != null && chosenItem.equals(res4Item)) {
             chosenItem = placeHolder;
@@ -336,7 +363,7 @@ public class rCircuit {
             overlay.updateInventory();
             panelScene();
             lifeManager.decreaseLife();
-            lifeManager.kill(overlay.getOverlayPane(), mainBG, placeHolder.getImageView(), stackPane, overlay, goBack, retourner, overlay.getInventory(), stage);
+            lifeManager.kill(inventoryPane, monologuesL.getFirst(), monologuesL.get(1), stackPane, overlay, goBack, retourner, inventory, stage);
         }
 //
 //        if (lifeManager.getLives() == 0) {
