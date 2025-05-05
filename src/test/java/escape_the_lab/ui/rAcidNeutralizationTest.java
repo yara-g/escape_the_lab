@@ -1,0 +1,87 @@
+package escape_the_lab.ui;
+
+//import escape_the_lab.controller.FlameLab;
+////import escape_the_lab.controller.GameController;
+//import javafx.scene.Scene;
+//import javafx.scene.control.Button;
+//import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
+//import javafx.scene.layout.Pane;
+//import javafx.stage.Stage;
+//
+//import java.util.Arrays;
+//import java.util.List;
+//
+//public class rAcidNeutralizationTest {
+//
+//    private Stage stage;
+//    private Pane arenaPane;
+//    private OverlayTest overlay;
+//
+//    // Olivia dropping images delivery :3
+//    private final ImageView backGroundA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bgA.png").toExternalForm()));
+//    private final ImageView treeA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/treeA.png").toExternalForm()));
+//    private final ImageView houseA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/houseA.png").toExternalForm()));
+//    private final ImageView doorA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/doorA.png").toExternalForm()));
+//    private final ImageView bigFlowerA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/bigFlowerA.png").toExternalForm()));
+//    private final ImageView hintFlowerA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/hintFlowerA.png").toExternalForm()));
+//    private final ImageView acidFloorA = new ImageView(new Image(getClass().getResource("/images/AAAAcidLab/acidA.png").toExternalForm()));
+//    private final ImageView inventory = new ImageView(new Image(getClass().getResource("/images/inventory.png").toExternalForm()));
+//    // Overlay order: backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory
+//
+//    public rAcidNeutralizationTest(Stage stage) {
+//        this.stage = stage;
+//        this.overlay = GameController.getOverlay();
+//    }
+//
+//    public Scene getMainScene() {
+//        inventory.setMouseTransparent(true);
+//        Pane root = new Pane();
+//
+//        ImageView acid1 = createSubstance("/images/substance.png", 50, 100);
+//        ImageView acid2 = createSubstance("/images/substance.png", 50, 200);
+//        ImageView base1 = createSubstance("/images/substance.png", 50, 300);
+//
+//        /*
+//         * FOR OLIVIAS LAB TEMPORARY
+//         */
+//        Button b = new Button("Skip");
+//        FlameLab flameLab = new FlameLab();
+//        b.setOnAction(e -> {
+//            flameLab.startLab(stage);
+//        });
+//
+//        arenaPane = new Pane();
+//        arenaPane.setStyle("-fx-border-color: black; -fx-border-width: 2;");
+//        arenaPane.setPrefSize(500, 400);
+//        arenaPane.setLayoutX(300);
+//        arenaPane.setLayoutY(100);
+//
+//        List<ImageView> substances = Arrays.asList(acid1, acid2, base1);
+//        //acidNeutralizationLab.registerSubstances(substances);
+//        inventory.setMouseTransparent(true);
+//
+////        overlay.getHelpButton().setOnMouseClicked(e -> {
+////            Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/helpBtn.png")));
+////            Help.show("This is a special type of neutralization! HCl is a strong acid, it requires 2 different " +
+////                    "basses to be fully neutralized", helpImage);
+////        });
+//
+//        root.getChildren().addAll(backGroundA, acidFloorA, doorA, treeA, houseA, hintFlowerA, bigFlowerA, inventory, acid1, acid2, base1, arenaPane, overlay.getOverlayPane(), b);
+//        return new Scene(root, 1000, 650);
+//    }
+//
+//    private ImageView createSubstance(String imagePath, double x, double y) {
+//        ImageView substance = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
+//        substance.setFitWidth(100);
+//        substance.setFitHeight(100);
+//        substance.setLayoutX(x);
+//        substance.setLayoutY(y);
+//        return substance;
+//    }
+//
+//    public void showMainScene() {
+//        stage.setScene(getMainScene());
+//        stage.show();
+//    }
+//}

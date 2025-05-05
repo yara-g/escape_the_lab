@@ -1,0 +1,41 @@
+/* styles.css */
+.menu-bar {
+    -fx-background-color: black;
+}
+
+.menu-bar .label {
+    -fx-text-fill: red;
+}
+
+.menu-item .label {
+    -fx-text-fill: red;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: red;
+}
+
+.menu:hover,
+.menu:showing,
+.menu:focused {
+    -fx-background-color: transparent;
+}
+
+.menu-item:hover,
+.menu-item:focused,
+.menu-item:showing {
+    -fx-background-color: black !important;
+    -fx-text-fill: red !important;
+}
+
+/* Remove hover highlight from the menu bar itself */
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: transparent;
+}
+
+.context-menu {
+    -fx-background-color: black;
+    -fx-text-fill: red;
+}

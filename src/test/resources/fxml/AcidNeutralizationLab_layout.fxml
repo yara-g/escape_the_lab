@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <Pane fx:id="arenaPane" layoutX="24.0" layoutY="1.0" prefHeight="600.0" prefWidth="618.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="1.0">
+            <children>
+               <ImageView fx:id="arenaBackground" fitHeight="600.0" fitWidth="610.0" layoutX="-6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+            </children>
+         </Pane>
+      </AnchorPane>
+   </center>
+   <right>
+      <GridPane maxWidth="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="192.6666717529297" minHeight="0.0" prefHeight="60.5" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="567.3333377838135" minHeight="10.0" prefHeight="539.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox fx:id="AcidBank" alignment="CENTER" prefHeight="600.0" prefWidth="100.0" GridPane.rowIndex="1" spacing="35.0">
+               <padding>
+                  <Insets top="-100" left="-50" />
+               </padding>
+               <children>
+                  <StackPane fx:id="AcidHome1" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                     <children>
+                        <ImageView fx:id="AcidImage1" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                           <image>
+                              <Image url="@../images/AAAAcidLab/gDropA1.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay1" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                           <children>
+                              <ImageView fx:id="AcidSprite1" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                 <image>
+                                    <Image url="@../images/AAAAcidLab/gDropA1.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome2" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                     <children>
+                        <ImageView fx:id="AcidImage2" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                           <image>
+                              <Image url="@../images/AAAAcidLab/pDropA2.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay2" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                           <children>
+                              <ImageView fx:id="AcidSprite2" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                 <image>
+                                    <Image url="@../images/AAAAcidLab/pDropA2.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome3" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                     <children>
+                        <ImageView fx:id="AcidImage3" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                           <image>
+                              <Image url="@../images/AAAAcidLab/rDropA3.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay3" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                           <children>
+                              <ImageView fx:id="AcidSprite3" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true" >
+                                 <image>
+                                    <Image url="@../images/AAAAcidLab/rDropA3.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome4" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                     <children>
+                        <ImageView fx:id="AcidImage4" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                           <image>
+                              <Image url="@../images/AAAAcidLab/yDropA4.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay4" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                           <children>
+                              <ImageView fx:id="AcidSprite4" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                 <image>
+                                    <Image url="@../images/AAAAcidLab/yDropA4.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="AcidHome5" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                     <children>
+                        <ImageView fx:id="AcidImage5" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                           <image>
+                              <Image url="@../images/AAAAcidLab/puDropA5.png" />
+                           </image>
+                        </ImageView>
+                        <StackPane fx:id="AcidDisplay5" minWidth="60" minHeight="60" prefWidth="60" prefHeight="60" maxWidth="60" maxHeight="60">
+                           <children>
+                              <ImageView fx:id="AcidSprite5" fitHeight="40.0" fitWidth="40.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                 <image>
+                                    <Image url="@../images/AAAAcidLab/puDropA5.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </GridPane>
+   </right>
+</BorderPane>

@@ -31,58 +31,58 @@ public class rSpring {
     private Inventory inventory;
     private Group inventoryPane;
     private LifeManager lifeManager;
-    private boolean isDoorUnlocked = false;
-    private boolean springPlaced = false;
-    private boolean massPlaced = false;
+    public boolean isDoorUnlocked = false;
+    public boolean springPlaced = false;
+    public boolean massPlaced = false;
     private Item placedSpringItem = null;
     private Item placedMassItem = null;
     private Item chosenItem;
     private int order = 0;
     //private ImageView selectedSpring;
     //private ImageView selectedMass;
-    Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
+    public Item placeHolder = new Item("Place Holder", "/images/placeHolder.jpeg");
 
     /// Main scene.
-    ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
-    ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/doorS.png")).toExternalForm()));
-    ImageView mainChair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sofaS.png")).toExternalForm()));
-    ImageView mainDrawer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/tableS.png")).toExternalForm()));
-    ImageView mainShelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelfS.png")).toExternalForm()));
-    ImageView person = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/personS.png")).toExternalForm()));
-    ImageView shadow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shadowS.png")).toExternalForm()));
-    ImageView bgMain = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/bgS.png")).toExternalForm()));
-    ImageView obj1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/obj1S.png")).toExternalForm()));
-    ImageView obj2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/obj2S.png")).toExternalForm()));
+    public ImageView light = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/lightS.png")).toExternalForm()));
+    public ImageView door = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/doorS.png")).toExternalForm()));
+    public ImageView mainChair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sofaS.png")).toExternalForm()));
+    public ImageView mainDrawer = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/tableS.png")).toExternalForm()));
+    public ImageView mainShelves = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shelfS.png")).toExternalForm()));
+    public ImageView person = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/personS.png")).toExternalForm()));
+    public ImageView shadow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/shadowS.png")).toExternalForm()));
+    public ImageView bgMain = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/bgS.png")).toExternalForm()));
+    public ImageView obj1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/obj1S.png")).toExternalForm()));
+    public ImageView obj2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/obj2S.png")).toExternalForm()));
 
     /// Chair scene.
-    ImageView chair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sBgS.png")).toExternalForm()));
-    ImageView chairCover = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sCoverS.png")).toExternalForm()));
-    ImageView spring1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring1S.png")).toExternalForm()));
-    ImageView spring2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring2S.png")).toExternalForm()));  // Correct choice
-    ImageView spring3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring3S.png")).toExternalForm()));
+    public ImageView chair = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sBgS.png")).toExternalForm()));
+    public ImageView chairCover = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sCoverS.png")).toExternalForm()));
+    public ImageView spring1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring1S.png")).toExternalForm()));
+    public ImageView spring2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring2S.png")).toExternalForm()));  // Correct choice
+    public ImageView spring3 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/sSpring3S.png")).toExternalForm()));
 
-    Item spring1Item = new Item("100N/m", "/images/AAASpringLab/sO1.png");
-    Item spring2Item = new Item("200N/m", "/images/AAASpringLab/sO2.png");
-    Item spring3Item = new Item("300N/m", "/images/AAASpringLab/sO3.png");
-    Item mass1Item = new Item("5kg", "/images/AAASpringLab/oO1.png");
-    Item mass2Item = new Item("3kg", "/images/AAASpringLab/oO2.png");
-    Item mass3Item = new Item("4kg", "/images/AAASpringLab/oO3.png");
+    public Item spring1Item = new Item("100N/m", "/images/AAASpringLab/sO1.png");
+    public Item spring2Item = new Item("200N/m", "/images/AAASpringLab/sO2.png");
+    public Item spring3Item = new Item("300N/m", "/images/AAASpringLab/sO3.png");
+    public Item mass1Item = new Item("5kg", "/images/AAASpringLab/oO1.png");
+    public Item mass2Item = new Item("3kg", "/images/AAASpringLab/oO2.png");
+    public Item mass3Item = new Item("4kg", "/images/AAASpringLab/oO3.png");
 
     //lab scene
-    ImageView springStand = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oS.png")).toExternalForm()));
-    ImageView table = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oBgS.png")).toExternalForm()));
-    ImageView obj1Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj1On.png")).toExternalForm()));
-    ImageView obj1High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj1OnW.png")).toExternalForm()));
-    ImageView obj2Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj2On.png")).toExternalForm()));
-    ImageView obj2High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj2OnW.png")).toExternalForm()));
-    ImageView obj3Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj3On.png")).toExternalForm()));
-    ImageView obj3High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj3OnW.png")).toExternalForm()));
-    ImageView springLow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOnW.png")).toExternalForm()));
-    ImageView springHigh = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOn.png")).toExternalForm()));
+    public ImageView springStand = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oS.png")).toExternalForm()));
+    public ImageView table = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oBgS.png")).toExternalForm()));
+    public ImageView obj1Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj1On.png")).toExternalForm()));
+    public ImageView obj1High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj1OnW.png")).toExternalForm()));
+    public ImageView obj2Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj2On.png")).toExternalForm()));
+    public ImageView obj2High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj2OnW.png")).toExternalForm()));
+    public ImageView obj3Low = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj3On.png")).toExternalForm()));
+    public ImageView obj3High = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oObj3OnW.png")).toExternalForm()));
+    public ImageView springLow = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOnW.png")).toExternalForm()));
+    public ImageView springHigh = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAASpringLab/oSpringOn.png")).toExternalForm()));
 
-    List<ImageView> monologues = new ArrayList<>();
-    List<ImageView> monologuesF = new ArrayList<>();
-    List<ImageView> monologuesL = new ArrayList<>();
+    public List<ImageView> monologues = new ArrayList<>();
+    public List<ImageView> monologuesF = new ArrayList<>();
+    public List<ImageView> monologuesL = new ArrayList<>();
 
     /**
      * Constructs an rSpring scene with the given stage and controller.
@@ -396,7 +396,7 @@ public class rSpring {
     /**
      * Extracted repeated method for removing an item from the inventory.
      */
-    private void removeFromInventory(Item tool){
+    public void removeFromInventory(Item tool){
         chosenItem = placeHolder;
         inventory.removeItem(tool);
         overlay.updateInventory();
