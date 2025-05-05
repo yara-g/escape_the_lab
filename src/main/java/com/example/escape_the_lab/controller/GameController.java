@@ -32,6 +32,7 @@ public class GameController extends Application {
     public static final Player player = Player.getLastPlayer(); // reload the same player as last time
     MenuItem soundItem;
     MenuItem passwordItem;
+    MenuItem usernameItem;
     MenuItem exitItem;
     VBox root1;
     static String clickSoundPath = Objects.requireNonNull(GameController.class.getResource("/sounds/click.mp3")).toExternalForm();
@@ -119,6 +120,7 @@ public class GameController extends Application {
         if (player.getLanguage().equals("french")) {
             fileMenu = new Menu("Paramètres");
             passwordItem = new MenuItem("Modifier le mot de passe");
+            usernameItem = new MenuItem("Modifier le nom d'utilisateur");
             exitItem = new MenuItem("Quitter");
             if (player.isSoundOn()) {
                 soundItem = new MenuItem("Son: Oui");
@@ -128,18 +130,24 @@ public class GameController extends Application {
         } else {
             fileMenu = new Menu("Settings");
             exitItem = new MenuItem("Exit");
-            passwordItem = new MenuItem("Change Password");
+            passwordItem = new MenuItem("Change password");
+            usernameItem = new MenuItem("Change username");
             if (player.isSoundOn()) {
                 soundItem = new MenuItem("Sound: On");
             } else {
                 soundItem = new MenuItem("Sound: Off");
             }
         }
-        fileMenu.getItems().addAll(soundItem, passwordItem, exitItem);
+        fileMenu.getItems().addAll(soundItem, passwordItem, usernameItem, exitItem);
 
         passwordItem.setOnAction(e -> {
             playClick();
             changePass();
+        });
+
+        usernameItem.setOnAction(e -> {
+            playClick();
+            changeUser();
         });
 
         soundItem.setOnAction(actionEvent -> {
@@ -318,6 +326,68 @@ public class GameController extends Application {
         }
 
         vBox.getChildren().addAll(pass, passField, update, placeHolder);
+
+        Stage stage1 = new Stage();
+        stage1.setScene(scene1);
+        stage1.show();
+    }
+
+    private void changeUser() {
+        VBox vBox = new VBox();
+        Label placeHolder = new Label("");
+        placeHolder.setStyle("-fx-text-fill: red");
+        Scene scene1 = new Scene(vBox, 300, 300);
+        vBox.setStyle("-fx-background-color: black");
+        Label pass = new Label("Enter new username:");
+        pass.setStyle("-fx-text-fill: red");
+        TextField textField = new TextField();
+        Button update = new Button("UPDATE");
+        update.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
+        update.setStyle("-fx-text-fill: black");
+
+        update.setOnAction(event -> {
+            String newUser = textField.getText();
+            if (player.getLanguage().equals("english")) {
+                if (newUser.isEmpty()) {
+                    placeHolder.setText("Username should not be empty");
+                } else {
+                    player.setUsername(newUser);
+                    placeHolder.setText("Username changed successfully");
+                }
+            } else {
+                if (newUser.isEmpty()) {
+                    placeHolder.setText("Le nom d'utilisateur ne peut pas être vide");
+                } else {
+                    player.setUsername(newUser);
+                    placeHolder.setText("Le nom d'utilisateur a été changé avec succès");
+                }
+            }
+        });
+
+        textField.setBackground(new Background(
+                new BackgroundFill(
+                        Color.RED,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        ));
+        textField.setStyle("-fx-text-fill: black");
+        textField.setMaxWidth(140);
+        vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
+
+        if (player.getLanguage().equals("french")) {
+            pass.setText("Entrez le nouveau nom d'utilisateur:");
+            update.setText("METTRE À JOUR");
+        }
+
+        vBox.getChildren().addAll(pass, textField, update, placeHolder);
 
         Stage stage1 = new Stage();
         stage1.setScene(scene1);

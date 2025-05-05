@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,6 +54,7 @@ public class AcidNeutralizationLab extends Lab {
     Substance substance3;
     Substance substance4;
     Substance substance5;
+    private Group inventoryPane;
     boolean succeedLab = false;
     rAcidNeutralization acidNeutralizationLabUI;
     private LifeManager lifeManager;
@@ -264,11 +266,11 @@ public class AcidNeutralizationLab extends Lab {
         Pane layout = new Pane();
         Pane layoutFr = new Pane();
         if (!player.getLanguage().equals("en")) {
-            layoutFr.getChildren().addAll(flowerZF, phSlider, entrer, substanceContainer, inventory, overlay.getOverlayPane(), back);
+            layoutFr.getChildren().addAll(flowerZ, phSlider, entrer, substanceContainer, inventory, overlay.getOverlayPane(), back);
             Scene flowerSceneFr = new Scene(layoutFr, 1000, 650);
             primaryStage.setScene(flowerSceneFr);
         } else {
-            layout.getChildren().addAll(flowerZ, phSlider, enter, substanceContainer, inventory, overlay.getOverlayPane(), back);
+            layout.getChildren().addAll(flowerZF, phSlider, enter, substanceContainer, inventory, overlay.getOverlayPane(), back);
             Scene flowerScene = new Scene(layout, 1000, 650);
             primaryStage.setScene(flowerScene);
         }
@@ -533,6 +535,7 @@ public class AcidNeutralizationLab extends Lab {
             });
         } else if (droppedSubstances.size() >= 2) {
             showFailedScreen();
+            lifeManager.decreaseLife();
             System.out.println("Incorrect substances! You lose a life.");
         }
     }

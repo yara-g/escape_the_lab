@@ -169,8 +169,15 @@ public class rSpring {
 
         overlay.getHelpButton().setOnMouseClicked(e -> {
             Image helpImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/help/springFormula.png")));
-            Help.show("Select the right spring and mass so the oscillation is just right to reach the button by" +
-                    " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
+            if (player.getLanguage().equals("english")) {
+                Help.show("Select the right spring and mass so the oscillation is just right to reach the button by" +
+                        " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
+            } else {
+                Help.show("Choisissez le bon ressort et la bonne masse pour que l'oscillation atteigne juste le bouton " +
+                        "en correspondant à la fréquence d'oscillation du ressort !\n" + "Utilisez la formule :", helpImage);
+            }
+//            Help.show("Select the right spring and mass so the oscillation is just right to reach the button by" +
+//                    " matching the spring's oscillation frequency!\n" + "Use the formula:", helpImage);
         });
 
         //door.setOnMouseClicked(event -> root.getChildren().add(monologuesL.getFirst()));
