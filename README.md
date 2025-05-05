@@ -41,7 +41,7 @@ In the top left of the screen, there is a setting menu. On the right hand side o
 #### Settings
 There is the choice to turn all sounds off my clicking on the submenu. You can also change your password using the second sub-menu. Change the username using the third sub-menu. Finally, you can quit the game.
 
-## Labs
+### Labs
 In each lab, you are presented with science-related problems. On the top of the right side is the life count, denoted by 3 hearts or less. Below these heart are the 6 allotted inventory spots. Finally, at the bottom, there is a help button that will give you a hint on what to do when you feel stuck.
 To use an item, simply click on it and then click again on the area on which you would like to use the item.
 
