@@ -229,7 +229,7 @@ public class rCircuit {
         // this is the little section used to put the resistor in
         clickableSection.setOnMouseClicked(e -> {
             if (chosenItem != placeHolder) {
-                useItem(e, stackPane);
+                useItem(e, pane, stage);
             }
         });
 

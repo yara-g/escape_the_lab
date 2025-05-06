@@ -103,10 +103,10 @@ public class AcidNeutralizationLab extends Lab {
     List<ImageView> monologues = new ArrayList<>();
     List<ImageView> monologuesF = new ArrayList<>();
     List<ImageView> monologuesL = new ArrayList<>();
-    private final ImageView monoWalk = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/27.png")).toExternalForm()));
-    private final ImageView monoWalkF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/28.png")).toExternalForm()));
-    private final ImageView monoFell = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/29.png")).toExternalForm()));
-    private final ImageView monoFellF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAFlameLab/30.png")).toExternalForm()));
+    private final ImageView monoWalk = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/27.png")).toExternalForm()));
+    private final ImageView monoWalkF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/28.png")).toExternalForm()));
+    private final ImageView monoFell = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/29.png")).toExternalForm()));
+    private final ImageView monoFellF = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/AAAAcidLab/30.png")).toExternalForm()));
 
     public AcidNeutralizationLab(Stage stage) {
         this.primaryStage = stage;
