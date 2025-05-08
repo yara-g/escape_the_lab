@@ -2,7 +2,6 @@ package com.example.escape_the_lab.controller;
 
 import com.example.escape_the_lab.model.Lab;
 import com.example.escape_the_lab.model.SpringModel;
-import com.example.escape_the_lab.ui.Overlay;
 import com.example.escape_the_lab.ui.rSpring;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

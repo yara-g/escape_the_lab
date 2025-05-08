@@ -1,16 +1,12 @@
 package com.example.escape_the_lab.ui;
 
-import com.example.escape_the_lab.controller.GameController;
-import com.example.escape_the_lab.controller.KillPlayer;
-import com.example.escape_the_lab.controller.LifeManager;
-import com.example.escape_the_lab.controller.SpringLab;
+import com.example.escape_the_lab.controller.*;
+import com.example.escape_the_lab.model.Inventory;
 import com.example.escape_the_lab.model.Item;
 import com.example.escape_the_lab.model.Player;
 import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

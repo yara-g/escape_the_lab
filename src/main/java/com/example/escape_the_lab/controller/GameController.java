@@ -1,7 +1,6 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.ui.Inventory;
-import com.example.escape_the_lab.ui.Overlay;
+import com.example.escape_the_lab.model.Inventory;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

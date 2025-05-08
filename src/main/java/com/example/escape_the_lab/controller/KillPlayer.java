@@ -1,6 +1,5 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.ui.Overlay;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

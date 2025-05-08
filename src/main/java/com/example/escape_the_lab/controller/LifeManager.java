@@ -1,7 +1,6 @@
 package com.example.escape_the_lab.controller;
 
-import com.example.escape_the_lab.ui.Inventory;
-import com.example.escape_the_lab.ui.Overlay;
+import com.example.escape_the_lab.model.Inventory;
 import javafx.animation.FadeTransition;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -11,7 +10,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.List;
 import java.util.Objects;
 
 public class LifeManager {

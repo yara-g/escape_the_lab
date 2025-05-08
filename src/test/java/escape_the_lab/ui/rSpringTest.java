@@ -1,21 +1,5 @@
 package escape_the_lab.ui;
 
-import com.example.escape_the_lab.controller.GameController;
-import com.example.escape_the_lab.controller.LifeManager;
-import com.example.escape_the_lab.controller.SpringLab;
-import com.example.escape_the_lab.model.Item;
-import com.example.escape_the_lab.ui.Inventory;
-import com.example.escape_the_lab.ui.Overlay;
-import com.example.escape_the_lab.ui.rSpring;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.CountDownLatch;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class rSpringTest {
 //    private rSpring game;
 //    private SpringLab mockLab;

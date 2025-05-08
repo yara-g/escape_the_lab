@@ -1,11 +1,11 @@
 package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.*;
+import com.example.escape_the_lab.model.Inventory;
 import com.example.escape_the_lab.model.Item;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;

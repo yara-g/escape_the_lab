@@ -2,6 +2,7 @@ package com.example.escape_the_lab.ui;
 
 import com.example.escape_the_lab.controller.FlameLab;
 import com.example.escape_the_lab.controller.GameController;
+import com.example.escape_the_lab.controller.Overlay;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
@@ -10,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class rAcidNeutralization {
 
