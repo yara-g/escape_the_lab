@@ -1,4 +1,6 @@
 # Escape the Lab
+https://youtu.be/y0nZYe-WSYo 
+
 Escape the lab is a JavaFX-based educational "escape the room" game designed to test students' knowledge of science-related concepts taught during their college studies. This interactive game guids players through four labs, each requiring the application of physics and chemistry to solve puzzles through lab form and escape. Simply download the project, open it in your prefered IDE and run! Make sure all dependencies are installed. This will vary depending on the operating system used.
 
 ## Project Objectives
